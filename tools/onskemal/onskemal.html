@@ -1,0 +1,71 @@
+
+  <section class="wish" id="onska" aria-labelledby="wishTitle">
+    <p class="section-label">Önska till Trendspanaren</p>
+    <div class="wish-grid">
+
+      <div class="panel" id="wishPanel">
+        <h3 id="wishTitle">Vad ska vi titta på i morgon?</h3>
+
+        <form id="wishForm" novalidate autocomplete="off">
+          <p class="wish-lead">Föreslå ett tema, en bransch, ett bolag eller en fråga. Ett önskemål väljs varje dag, och svaret hamnar i Trendspanarens avdelning i nästa morgons rapport.</p>
+
+          <fieldset>
+            <legend>Gäller det…</legend>
+            <div class="wish-types">
+              <input type="radio" name="wishType" id="wt1" value="tema" checked><label for="wt1">Tema eller bransch</label>
+              <input type="radio" name="wishType" id="wt2" value="bolag"><label for="wt2">Ett bolag</label>
+              <input type="radio" name="wishType" id="wt3" value="fraga"><label for="wt3">En fråga</label>
+            </div>
+          </fieldset>
+
+          <div class="wish-field">
+            <label for="wishText">Ditt önskemål</label>
+            <textarea id="wishText" maxlength="200" placeholder="T.ex. Vad är hett inom amerikanska REITs just nu?" aria-describedby="wishCount"></textarea>
+            <div class="wish-count" id="wishCount"><span id="wishHint">Minst 10 tecken</span><span id="wishNum">0 / 200</span></div>
+          </div>
+
+          <div class="wish-row">
+            <div class="wish-field">
+              <label for="wishName">Förnamn <span class="opt">(valfritt)</span></label>
+              <input type="text" id="wishName" maxlength="30" placeholder="Visas som ”önskat av …”">
+            </div>
+            <div class="wish-field">
+              <label for="wishMail">E-post <span class="opt">(valfritt)</span></label>
+              <input type="email" id="wishMail" maxlength="80" placeholder="Om du vill ha ett svar direkt">
+            </div>
+          </div>
+
+          <div class="wish-hp" aria-hidden="true"><label>Lämna tomt<input type="text" id="wishWeb" tabindex="-1" autocomplete="off"></label></div>
+
+          <label class="wish-check" for="wishConflict">
+            <input type="checkbox" id="wishConflict">
+            <span>Jag äger aktier i något bolag som önskemålet gäller <span class="opt">(vi redovisar det i så fall)</span></span>
+          </label>
+
+          <div class="wish-actions">
+            <button class="btn" type="submit" id="wishSubmit">Skicka önskemål</button>
+            <span class="wish-msg" id="wishMsg" role="status" aria-live="polite"></span>
+          </div>
+          <p class="wish-fine">Önskemålet och de uppgifter du väljer att fylla i skickas till Golvets ägare via tjänsten Formspree och används bara för att välja och besvara önskemål. Svaret är allmän information och inte personlig rådgivning.</p>
+        </form>
+
+        <div class="wish-done" id="wishDone" hidden>
+          <h4>Tack, önskemålet är mottaget</h4>
+          <p>Så här lyder det:</p>
+          <blockquote class="wish-quote" id="wishEcho"></blockquote>
+          <p id="wishEchoNote">Vi väljer ett önskemål per dag. Blir det ditt står svaret i Trendspanarens avdelning nästa morgon.</p>
+          <button class="btn ghost" type="button" id="wishAgain">Skicka ett till</button>
+        </div>
+      </div>
+
+      <div class="panel wish-side">
+        <h3>Så funkar det</h3>
+        <ol class="wish-steps">
+          <li><b>Du skickar in</b> ett tema, en bransch, ett bolag eller en fråga.</li>
+          <li><b>Vi väljer ett per dag,</b> utifrån vad som är relevant för dagens läge. Vi kan avstå från önskemål som inte går att besvara sakligt.</li>
+          <li><b>Trendspanaren undersöker</b> det med riktiga kursdata och källor. Svaret står under ”Dagens önskemål” i dess avdelning nästa morgon.</li>
+        </ol>
+        <p class="wish-fine">Äger du aktier i bolaget önskemålet gäller, kryssa i rutan så redovisar vi det. Underlag som är tunt eller motstridigt säger vi uttryckligen.</p>
+      </div>
+    </div>
+  </section>

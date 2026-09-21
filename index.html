@@ -506,6 +506,89 @@
     .org-node.feeder .icon-badge{ width:14px !important; height:14px !important; }
     .org-node.feeder .icon-badge svg{ width:8px !important; height:8px !important; }
   }
+
+  /* ---------- önskemål till Trendspanaren (prototyp) ---------- */
+  .wish{ margin-top:32px; }
+  .wish-grid{ display:grid; grid-template-columns:minmax(0,1.25fr) minmax(0,1fr); gap:18px; align-items:start; }
+  .wish .panel{ position:relative; }
+  .wish-badge{
+    font-family:var(--font-mono); font-size:10.5px; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--brass-strong); background:var(--brass-soft); border-radius:99px; padding:2px 9px; white-space:nowrap;
+  }
+  .wish-lead{ margin:0 0 14px; font-size:14px; color:var(--ink-soft); max-width:60ch; }
+  .wish label, .wish legend{ display:block; font-size:12px; font-weight:600; color:var(--ink); margin:0 0 5px; padding:0; }
+  .wish .opt{ font-weight:400; color:var(--ink-faint); }
+  .wish fieldset{ border:0; margin:0 0 14px; padding:0; min-width:0; }
+  .wish textarea, .wish input[type=text], .wish input[type=email]{
+    width:100%; font-family:var(--font-body); font-size:14px; line-height:1.45; padding:9px 11px;
+    border:1px solid var(--line); border-radius:var(--radius-s); background:var(--paper); color:var(--ink);
+  }
+  .wish textarea{ min-height:96px; resize:vertical; }
+  .wish textarea::placeholder, .wish input::placeholder{ color:var(--ink-faint); }
+  .wish textarea:focus, .wish input:focus{ outline:2px solid var(--brass); outline-offset:1px; border-color:var(--brass); }
+  .wish-field{ margin-bottom:14px; }
+  .wish-count{ display:flex; justify-content:space-between; gap:10px; margin-top:4px; font-family:var(--font-mono); font-size:11px; color:var(--ink-faint); }
+  .wish-count .err{ color:var(--down); }
+  .wish-count .over{ color:var(--down); }
+  .wish-types{ display:flex; flex-wrap:wrap; gap:8px; }
+  .wish-types input{ position:absolute; opacity:0; pointer-events:none; }
+  .wish-types label{
+    margin:0; font-weight:500; font-size:13px; padding:6px 13px; border:1px solid var(--line);
+    border-radius:99px; background:var(--paper); color:var(--ink-soft); cursor:pointer;
+  }
+  .wish-types label:hover{ border-color:var(--ink-soft); color:var(--ink); }
+  .wish-types input:checked + label{ background:var(--brass-soft); border-color:var(--brass); color:var(--brass-strong); }
+  .wish-types input:focus-visible + label{ outline:2px solid var(--brass); outline-offset:2px; }
+  .wish-row{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .wish label.wish-check{ display:flex; gap:8px; align-items:flex-start; margin:0 0 14px; font-size:12.5px; font-weight:400; color:var(--ink-soft); }
+  .wish-check input{ margin-top:3px; accent-color:var(--brass); }
+  .wish-hp{ position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
+  .wish-actions{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+  .wish .btn{ padding:10px 16px; font-size:12px; }
+  .wish-msg{ font-size:12.5px; color:var(--ink-soft); }
+  .wish-msg.err{ color:var(--down); }
+  .wish-fine{ margin:12px 0 0; font-size:11.5px; color:var(--ink-faint); line-height:1.45; }
+  .wish-done{ text-align:left; }
+  .wish-done h4{ font-family:var(--font-display); font-size:17px; margin:0 0 6px; }
+  .wish-done p{ margin:0 0 12px; font-size:14px; color:var(--ink-soft); }
+  .wish-quote{
+    margin:0 0 14px; padding:10px 13px; border-left:3px solid var(--brass); background:var(--paper);
+    border-radius:0 var(--radius-s) var(--radius-s) 0; font-size:14px; color:var(--ink);
+  }
+  .wish-side h3{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
+  .wish-list{ list-style:none; margin:0; padding:0; }
+  .wish-item{ display:flex; gap:12px; align-items:flex-start; padding:11px 0; border-top:1px solid var(--line); }
+  .wish-item:first-child{ border-top:0; padding-top:2px; }
+  .wish-vote{
+    flex:none; width:44px; padding:5px 0; text-align:center; border:1px solid var(--line); border-radius:var(--radius-s);
+    background:var(--paper); color:var(--ink-soft); cursor:pointer; font-family:var(--font-mono); font-size:12px; line-height:1.2;
+  }
+  .wish-vote b{ display:block; font-size:14px; color:var(--ink); }
+  .wish-vote:hover{ border-color:var(--ink-soft); }
+  .wish-vote[aria-pressed=true]{ background:var(--brass-soft); border-color:var(--brass); color:var(--brass-strong); }
+  .wish-vote[aria-pressed=true] b{ color:var(--brass-strong); }
+  .wish-item-body{ min-width:0; }
+  .wish-item-body p{ margin:0; font-size:13.5px; color:var(--ink); }
+  .wish-meta{ margin-top:2px; font-family:var(--font-mono); font-size:11px; color:var(--ink-faint); }
+  .wish-status{ display:inline-block; padding:0 7px; border-radius:99px; border:1px solid var(--line); margin-right:6px; }
+  .wish-status.next{ color:var(--up); border-color:var(--up); }
+  .wish-today{ margin-top:18px; }
+  .wish-today .panel{ border-left:3px solid var(--brass); }
+  .wish-today h3{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .wish-today p{ margin:0 0 8px; font-size:14px; color:var(--ink-soft); }
+  .wish-today p:last-child{ margin-bottom:0; }
+  .wish-today p b{ color:var(--ink); }
+  @media (max-width:820px){
+    .wish-grid{ grid-template-columns:1fr; }
+  }
+  @media (max-width:480px){
+    .wish-row{ grid-template-columns:1fr; }
+    .wish .btn{ width:100%; }
+  }
+  .wish-steps{ margin:0 0 12px; padding:0 0 0 20px; font-size:13.5px; color:var(--ink-soft); }
+  .wish-steps li{ margin:0 0 10px; padding-left:4px; }
+  .wish-steps li::marker{ font-family:var(--font-mono); color:var(--brass-strong); }
+  .wish-steps b{ color:var(--ink); }
 </style>
 
 <div class="wrap">
@@ -750,6 +833,77 @@ Utöver casen: Trump-Xi-mötet 24/9 är veckans mest konkreta binära riskhände
       </section>
   </div>
 
+
+  <section class="wish" id="onska" aria-labelledby="wishTitle">
+    <p class="section-label">Önska till Trendspanaren</p>
+    <div class="wish-grid">
+
+      <div class="panel" id="wishPanel">
+        <h3 id="wishTitle">Vad ska vi titta på i morgon?</h3>
+
+        <form id="wishForm" novalidate autocomplete="off">
+          <p class="wish-lead">Föreslå ett tema, en bransch, ett bolag eller en fråga. Ett önskemål väljs varje dag, och svaret hamnar i Trendspanarens avdelning i nästa morgons rapport.</p>
+
+          <fieldset>
+            <legend>Gäller det…</legend>
+            <div class="wish-types">
+              <input type="radio" name="wishType" id="wt1" value="tema" checked><label for="wt1">Tema eller bransch</label>
+              <input type="radio" name="wishType" id="wt2" value="bolag"><label for="wt2">Ett bolag</label>
+              <input type="radio" name="wishType" id="wt3" value="fraga"><label for="wt3">En fråga</label>
+            </div>
+          </fieldset>
+
+          <div class="wish-field">
+            <label for="wishText">Ditt önskemål</label>
+            <textarea id="wishText" maxlength="200" placeholder="T.ex. Vad är hett inom amerikanska REITs just nu?" aria-describedby="wishCount"></textarea>
+            <div class="wish-count" id="wishCount"><span id="wishHint">Minst 10 tecken</span><span id="wishNum">0 / 200</span></div>
+          </div>
+
+          <div class="wish-row">
+            <div class="wish-field">
+              <label for="wishName">Förnamn <span class="opt">(valfritt)</span></label>
+              <input type="text" id="wishName" maxlength="30" placeholder="Visas som ”önskat av …”">
+            </div>
+            <div class="wish-field">
+              <label for="wishMail">E-post <span class="opt">(valfritt)</span></label>
+              <input type="email" id="wishMail" maxlength="80" placeholder="Om du vill ha ett svar direkt">
+            </div>
+          </div>
+
+          <div class="wish-hp" aria-hidden="true"><label>Lämna tomt<input type="text" id="wishWeb" tabindex="-1" autocomplete="off"></label></div>
+
+          <label class="wish-check" for="wishConflict">
+            <input type="checkbox" id="wishConflict">
+            <span>Jag äger aktier i något bolag som önskemålet gäller <span class="opt">(vi redovisar det i så fall)</span></span>
+          </label>
+
+          <div class="wish-actions">
+            <button class="btn" type="submit" id="wishSubmit">Skicka önskemål</button>
+            <span class="wish-msg" id="wishMsg" role="status" aria-live="polite"></span>
+          </div>
+          <p class="wish-fine">Önskemålet och de uppgifter du väljer att fylla i skickas till Golvets ägare via tjänsten Formspree och används bara för att välja och besvara önskemål. Svaret är allmän information och inte personlig rådgivning.</p>
+        </form>
+
+        <div class="wish-done" id="wishDone" hidden>
+          <h4>Tack, önskemålet är mottaget</h4>
+          <p>Så här lyder det:</p>
+          <blockquote class="wish-quote" id="wishEcho"></blockquote>
+          <p id="wishEchoNote">Vi väljer ett önskemål per dag. Blir det ditt står svaret i Trendspanarens avdelning nästa morgon.</p>
+          <button class="btn ghost" type="button" id="wishAgain">Skicka ett till</button>
+        </div>
+      </div>
+
+      <div class="panel wish-side">
+        <h3>Så funkar det</h3>
+        <ol class="wish-steps">
+          <li><b>Du skickar in</b> ett tema, en bransch, ett bolag eller en fråga.</li>
+          <li><b>Vi väljer ett per dag,</b> utifrån vad som är relevant för dagens läge. Vi kan avstå från önskemål som inte går att besvara sakligt.</li>
+          <li><b>Trendspanaren undersöker</b> det med riktiga kursdata och källor. Svaret står under ”Dagens önskemål” i dess avdelning nästa morgon.</li>
+        </ol>
+        <p class="wish-fine">Äger du aktier i bolaget önskemålet gäller, kryssa i rutan så redovisar vi det. Underlag som är tunt eller motstridigt säger vi uttryckligen.</p>
+      </div>
+    </div>
+  </section>
   </div>
 
 
@@ -1341,4 +1495,105 @@ Utöver casen: Trump-Xi-mötet 24/9 är veckans mest konkreta binära riskhände
 })();
 </script>
 
+
+<script>
+(function(){
+  var WISH_ENDPOINT = "https://formspree.io/f/mnpndddz";
+  var MIN = 10, MAX = 200;
+  var LS_LAST = "golvet_wish_last";
+
+  var form = document.getElementById("wishForm");
+  if (!form) return;
+  var text = document.getElementById("wishText");
+  var num = document.getElementById("wishNum");
+  var hint = document.getElementById("wishHint");
+  var msg = document.getElementById("wishMsg");
+  var submit = document.getElementById("wishSubmit");
+  var done = document.getElementById("wishDone");
+  var echo = document.getElementById("wishEcho");
+
+  function sentRecently(){
+    try { return Date.now() - Number(localStorage.getItem(LS_LAST) || 0) < 30000; } catch (e) { return false; }
+  }
+  function markSent(){
+    try { localStorage.setItem(LS_LAST, String(Date.now())); } catch (e) {}
+  }
+
+  function clean(s){
+    var o = "";
+    for (var k = 0; k < s.length; k++) {
+      var c = s.charCodeAt(k);
+      o += (c < 32 || c === 127) ? " " : s.charAt(k);
+    }
+    return o.replace(/ +/g, " ").trim();
+  }
+
+  function updateCount(){
+    var n = clean(text.value).length;
+    num.textContent = n + " / " + MAX;
+    num.className = n > MAX ? "over" : "";
+    hint.textContent = n < MIN ? "Minst " + MIN + " tecken" : "";
+  }
+  text.addEventListener("input", function(){ msg.textContent = ""; msg.className = "wish-msg"; updateCount(); });
+
+  function fail(t, field){
+    msg.textContent = t;
+    msg.className = "wish-msg err";
+    (field || text).focus();
+  }
+
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    if (document.getElementById("wishWeb").value) return; // botfälla
+    if (sentRecently()) return fail("Vänta en liten stund innan du skickar nästa.");
+    var t = clean(text.value);
+    if (t.length < MIN) return fail("Skriv lite mer, minst " + MIN + " tecken.");
+    if (t.length > MAX) return fail("Det blev för långt, högst " + MAX + " tecken.");
+    var mailEl = document.getElementById("wishMail");
+    var mail = mailEl.value.trim();
+    if (mail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)) return fail("E-postadressen ser inte riktig ut.", mailEl);
+    var name = clean(document.getElementById("wishName").value).slice(0, 30);
+    var payload = {
+      _subject: "Golvet: nytt önskemål",
+      text: t,
+      type: (form.querySelector("input[name=wishType]:checked") || {}).value || "tema",
+      name: name,
+      email: mail,
+      owns: document.getElementById("wishConflict").checked,
+      sent: new Date().toISOString()
+    };
+
+    submit.disabled = true;
+    msg.textContent = "Skickar…";
+    msg.className = "wish-msg";
+
+    fetch(WISH_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify(payload)
+    }).then(function(r){
+      if (!r.ok) throw new Error("http " + r.status);
+      markSent();
+      echo.textContent = t + (payload.owns ? "  (du har uppgett att du äger aktier i bolaget)" : "");
+      form.hidden = true;
+      done.hidden = false;
+    }).catch(function(){
+      fail("Det gick inte att skicka just nu. Försök igen om en stund.");
+    }).then(function(){
+      submit.disabled = false;
+    });
+  });
+
+  document.getElementById("wishAgain").addEventListener("click", function(){
+    form.reset();
+    updateCount();
+    msg.textContent = "";
+    form.hidden = false;
+    done.hidden = true;
+    text.focus();
+  });
+
+  updateCount();
+})();
+</script>
 </body></html>
