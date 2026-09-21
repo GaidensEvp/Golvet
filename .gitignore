@@ -1,0 +1,5 @@
+golvet_a.html
+golvet_b.html
+*.private.*
+check*.js
+/tmp/
