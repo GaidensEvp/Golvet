@@ -2,7 +2,7 @@
 <script>
 (function(){
   // Prototyp: utan WISH_ENDPOINT sparas allt bara i den här webbläsaren (localStorage).
-  var WISH_ENDPOINT = "";
+  var WISH_ENDPOINT = "https://formspree.io/f/mnpndddz";
   var MIN = 10, MAX = 200;
   var LS_VOTES = "golvet_wish_votes", LS_OWN = "golvet_wish_own";
 
@@ -114,6 +114,7 @@
     }
     var name = clean(document.getElementById("wishName").value).slice(0, 30);
     var payload = {
+      _subject: "Golvet: nytt önskemål",
       text: t,
       type: (form.querySelector("input[name=wishType]:checked") || {}).value || "tema",
       name: name,
@@ -127,7 +128,7 @@
     msg.className = "wish-msg";
 
     var send = WISH_ENDPOINT
-      ? fetch(WISH_ENDPOINT, { method:"POST", headers:{ "Content-Type":"application/json" }, body:JSON.stringify(payload) })
+      ? fetch(WISH_ENDPOINT, { method:"POST", headers:{ "Content-Type":"application/json", "Accept":"application/json" }, body:JSON.stringify(payload) })
           .then(function(r){ if (!r.ok) throw new Error("http " + r.status); })
       : Promise.resolve();
 
@@ -139,7 +140,7 @@
       save(LS_VOTES, votes);
       echo.textContent = t + (payload.owns ? "  (du har uppgett att du äger aktier i bolaget)" : "");
       echoNote.textContent = WISH_ENDPOINT
-        ? "Det är skickat. Tryck på pilen vid önskemål du själv vill ha besvarade."
+        ? "Det är skickat till oss. Röstlistan här bredvid är än så länge bara exempel, men du kan prova att rösta."
         : "Det här är en prototyp: önskemålet sparas bara i din webbläsare, och inget har skickats till någon. Det syns bland exemplen här bredvid.";
       form.hidden = true;
       done.hidden = false;
