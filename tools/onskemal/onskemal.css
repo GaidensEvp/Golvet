@@ -77,3 +77,7 @@
     .wish-row{ grid-template-columns:1fr; }
     .wish .btn{ width:100%; }
   }
+  .wish-steps{ margin:0 0 12px; padding:0 0 0 20px; font-size:13.5px; color:var(--ink-soft); }
+  .wish-steps li{ margin:0 0 10px; padding-left:4px; }
+  .wish-steps li::marker{ font-family:var(--font-mono); color:var(--brass-strong); }
+  .wish-steps b{ color:var(--ink); }

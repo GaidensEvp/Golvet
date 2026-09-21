@@ -1,8 +1,9 @@
 """Lägger önskemålsblocket (Trendspanaren) ovanpå den genererade sidan.
 
-Användning: python3 tools/add_onskemal.py <index.html> <prototyp.html>
-Läser index.html (utdata från make_static.py) och skriver en ny fil, så att den
-dagliga sidan inte påverkas. Avbryter med felkod om ett ankare saknas.
+Användning: python3 tools/add_onskemal.py <index.html> <index.html>
+Läser första filen och skriver den andra (får vara samma fil). Kör alltid EFTER
+make_static.py, som skapar sidan på nytt varje dag. Avbryter med felkod om ett
+ankare saknas eller om blocket redan finns.
 """
 import os
 import sys
@@ -15,24 +16,21 @@ def read(name):
     return open(os.path.join(here, name), encoding="utf-8").read()
 
 
-def insert(text, anchor, block, before=True):
+def insert_before(text, anchor, block):
     if text.count(anchor) != 1:
-        raise SystemExit("ankare hittades inte exakt en gång: " + anchor[:60].replace("\n", "\\n"))
-    return text.replace(anchor, block + anchor if before else anchor + block)
+        raise SystemExit("ankare hittades inte exakt en gång: " + anchor[:60].replace("\n", "\n"))
+    return text.replace(anchor, block + anchor)
 
 
 h = open(src, encoding="utf-8").read()
-h = insert(h, "<html lang=\"sv\"><head>", "", before=False)
-h = h.replace("<html lang=\"sv\"><head>", "<html lang=\"sv\"><head><meta name=\"robots\" content=\"noindex,nofollow\">", 1)
-if "<title>Golvet</title>" not in h:
-    raise SystemExit("titeln saknas")
-h = h.replace("<title>Golvet</title>", "<title>Golvet (prototyp)</title>", 1)
-h = insert(h, "</style>\n\n<div class=\"wrap\">", read("onskemal.css"))
+if 'id="wishForm"' in h:
+    raise SystemExit("önskemålsblocket finns redan i sidan")
+h = insert_before(h, "</style>\n\n<div class=\"wrap\">", read("onskemal.css"))
 # efter lower-grid, innan Skrivbordsvyn stänger
-h = insert(h, "  </div>\n\n\n  <div id=\"viewOrg\"", read("onskemal.html"))
-h = insert(h, "</body></html>", read("onskemal.js"))
+h = insert_before(h, "  </div>\n\n\n  <div id=\"viewOrg\"", read("onskemal.html"))
+h = insert_before(h, "</body></html>", read("onskemal.js"))
 
-for needed in ('id="wishForm"', "golvet_wish_votes", ".wish-grid"):
+for needed in ('id="wishForm"', "formspree.io/f/", ".wish-grid"):
     if needed not in h:
         raise SystemExit("saknas efter injektion: " + needed)
 open(dst, "w", encoding="utf-8", newline="\n").write(h)
