@@ -1,0 +1,79 @@
+
+  <section class="wish" id="wish" aria-labelledby="wishTitle">
+    <p class="section-label">Önska till Trendspanaren</p>
+    <div class="wish-grid">
+
+      <div class="panel" id="wishPanel">
+        <h3 id="wishTitle" style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
+          Vad ska vi titta på i morgon?
+          <span class="wish-badge" title="Inget skickas iväg än — det här är en förhandsvisning">Prototyp</span>
+        </h3>
+
+        <form id="wishForm" novalidate autocomplete="off">
+          <p class="wish-lead">Föreslå ett tema, en bransch eller en fråga. Ett önskemål väljs varje dag, och svaret hamnar i Trendspanarens avdelning i nästa morgons rapport.</p>
+
+          <fieldset>
+            <legend>Gäller det…</legend>
+            <div class="wish-types">
+              <input type="radio" name="wishType" id="wt1" value="tema" checked><label for="wt1">Tema eller bransch</label>
+              <input type="radio" name="wishType" id="wt2" value="bolag"><label for="wt2">Ett bolag</label>
+              <input type="radio" name="wishType" id="wt3" value="fraga"><label for="wt3">En fråga</label>
+            </div>
+          </fieldset>
+
+          <div class="wish-field">
+            <label for="wishText">Ditt önskemål</label>
+            <textarea id="wishText" maxlength="200" placeholder="T.ex. Vad är hett inom amerikanska REITs just nu?" aria-describedby="wishCount"></textarea>
+            <div class="wish-count" id="wishCount"><span id="wishHint">Minst 10 tecken</span><span id="wishNum">0 / 200</span></div>
+          </div>
+
+          <div class="wish-row">
+            <div class="wish-field">
+              <label for="wishName">Förnamn <span class="opt">(valfritt)</span></label>
+              <input type="text" id="wishName" maxlength="30" placeholder="Visas som ”önskat av …”">
+            </div>
+            <div class="wish-field">
+              <label for="wishMail">E-post <span class="opt">(valfritt)</span></label>
+              <input type="email" id="wishMail" maxlength="80" placeholder="För att få veta när det besvarats">
+            </div>
+          </div>
+
+          <div class="wish-hp" aria-hidden="true"><label>Lämna tomt<input type="text" id="wishWeb" tabindex="-1" autocomplete="off"></label></div>
+
+          <label class="wish-check" for="wishConflict">
+            <input type="checkbox" id="wishConflict">
+            <span>Jag äger aktier i något bolag som önskemålet gäller <span class="opt">(vi redovisar det i så fall)</span></span>
+          </label>
+
+          <div class="wish-actions">
+            <button class="btn" type="submit" id="wishSubmit">Skicka önskemål</button>
+            <span class="wish-msg" id="wishMsg" role="status" aria-live="polite"></span>
+          </div>
+          <p class="wish-fine">Svaret är allmän information och inte personlig rådgivning. Vi väljer önskemål efter hur många som vill ha dem och efter vad som är relevant för dagen, och vi kan avstå från att besvara ett önskemål. Din e-postadress används inte till något annat.</p>
+        </form>
+
+        <div class="wish-done" id="wishDone" hidden>
+          <h4>Tack, önskemålet är mottaget</h4>
+          <p>Så här lyder det:</p>
+          <blockquote class="wish-quote" id="wishEcho"></blockquote>
+          <p id="wishEchoNote">Det hamnar bland de populära önskemålen här bredvid. Tryck på pilen på det du helst vill ha besvarat.</p>
+          <button class="btn ghost" type="button" id="wishAgain">Skicka ett till</button>
+        </div>
+      </div>
+
+      <div class="panel wish-side">
+        <h3>Populära önskemål <span class="wish-badge">Exempel</span></h3>
+        <ul class="wish-list" id="wishList"></ul>
+        <p class="wish-fine">Rösta på det du vill se. Önskemålet med flest röster (och som passar dagens bevakning) besvaras nästa morgon.</p>
+      </div>
+    </div>
+
+    <div class="wish-today">
+      <p class="section-label">Så visas ett besvarat önskemål</p>
+      <div class="panel">
+        <h3>Dagens önskemål <span class="wish-badge">Exempel</span></h3>
+        <p><b>Önskat av en medlem:</b> ”Vad är hett inom amerikanska REITs just nu?”</p>
+        <p>Här hamnar Trendspanarens svar, med riktiga kursdata och källor, lika sakligt som resten av rapporten. Har vi ägarintressen eller är underlaget tunt, står det uttryckligen.</p>
+      </div>
+    </div>
+  </section>
