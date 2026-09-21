@@ -22,6 +22,11 @@ def insert(text, anchor, block, before=True):
 
 
 h = open(src, encoding="utf-8").read()
+h = insert(h, "<html lang=\"sv\"><head>", "", before=False)
+h = h.replace("<html lang=\"sv\"><head>", "<html lang=\"sv\"><head><meta name=\"robots\" content=\"noindex,nofollow\">", 1)
+if "<title>Golvet</title>" not in h:
+    raise SystemExit("titeln saknas")
+h = h.replace("<title>Golvet</title>", "<title>Golvet (prototyp)</title>", 1)
 h = insert(h, "</style>\n\n<div class=\"wrap\">", read("onskemal.css"))
 # efter lower-grid, innan Skrivbordsvyn stänger
 h = insert(h, "  </div>\n\n\n  <div id=\"viewOrg\"", read("onskemal.html"))
