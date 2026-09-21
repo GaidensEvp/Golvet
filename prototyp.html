@@ -1,0 +1,1668 @@
+<!doctype html><html lang="sv"><head><meta name="robots" content="noindex,nofollow"><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><title>Golvet (prototyp)</title><meta name="description" content="AI-analysdesk som bevakar världsläget och föreslår idéer. Delad läsvy."><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%88%3C/text%3E%3C/svg%3E"></head><body>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --paper:#E6E5D3;
+    --paper-2:#F2F1E5;
+    --ink:#1B2420;
+    --ink-soft:#54604E;
+    --ink-faint:#8B9480;
+    --line:#C7CAAF;
+    --desk:#1F2E28;
+    --desk-2:#26372F;
+    --desk-ink:#ECE8D6;
+    --desk-ink-soft:#B7BFA9;
+    --desk-line:#38493F;
+    --brass:#8F6A1B;
+    --brass-strong:#6E5114;
+    --brass-soft:#E7D6A6;
+    --up:#2E7D4A;
+    --down:#B23A32;
+    --info:#3E5C86;
+    --shadow:0 1px 2px rgba(27,36,32,.08), 0 10px 24px -14px rgba(27,36,32,.28);
+    --radius-s:6px;
+    --radius-m:12px;
+    --font-display:'Fraunces', Georgia, serif;
+    --font-body:'Work Sans', system-ui, -apple-system, sans-serif;
+    --font-mono:'IBM Plex Mono', ui-monospace, 'Courier New', monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#13160E;
+      --paper-2:#1A1E14;
+      --ink:#E7E4D2;
+      --ink-soft:#AEB39C;
+      --ink-faint:#6E7362;
+      --line:#2B3024;
+      --desk:#171E17;
+      --desk-2:#1E2721;
+      --desk-ink:#EFEBD8;
+      --desk-ink-soft:#9BA48D;
+      --desk-line:#374035;
+      --brass:#D9A53F;
+      --brass-strong:#EFC46B;
+      --brass-soft:#3B2E14;
+      --up:#4CAF6E;
+      --down:#E2645F;
+      --info:#84A3D6;
+      --shadow:0 1px 2px rgba(0,0,0,.5), 0 12px 28px -16px rgba(0,0,0,.7);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#13160E;
+    --paper-2:#1A1E14;
+    --ink:#E7E4D2;
+    --ink-soft:#AEB39C;
+    --ink-faint:#6E7362;
+    --line:#2B3024;
+    --desk:#171E17;
+    --desk-2:#1E2721;
+    --desk-ink:#EFEBD8;
+    --desk-ink-soft:#9BA48D;
+    --desk-line:#374035;
+    --brass:#D9A53F;
+    --brass-strong:#EFC46B;
+    --brass-soft:#3B2E14;
+    --up:#4CAF6E;
+    --down:#E2645F;
+    --info:#84A3D6;
+    --shadow:0 1px 2px rgba(0,0,0,.5), 0 12px 28px -16px rgba(0,0,0,.7);
+  }
+
+  *{ box-sizing:border-box; }
+  html{ text-size-adjust:100%; }
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--font-body);
+    font-size:15px;
+    line-height:1.5;
+  }
+  .wrap{ max-width:1180px; margin:0 auto; padding:22px 22px 70px; }
+  h1,h2,h3{ font-family:var(--font-display); margin:0; text-wrap:balance; }
+  a{ color:inherit; }
+  button{ font-family:var(--font-body); }
+  ::selection{ background:var(--brass-soft); color:var(--ink); }
+  :focus-visible{ outline:2px solid var(--brass); outline-offset:2px; }
+
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:.09em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+  }
+  .section-label{
+    font-family:var(--font-mono);
+    font-size:12px;
+    letter-spacing:.07em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin:0 0 14px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .section-label::after{ content:""; flex:1; height:1px; background:var(--line); }
+
+  /* ---------- masthead ---------- */
+  .masthead{ padding-top:6px; }
+  .masthead-top{
+    display:flex; justify-content:space-between; align-items:flex-end; gap:16px;
+    flex-wrap:wrap;
+    border-bottom:1px solid var(--line);
+    padding-bottom:16px;
+  }
+  .brand{ display:flex; align-items:center; gap:14px; }
+  .brand svg{ width:38px; height:38px; color:var(--brass); flex-shrink:0; }
+  .brand h1{ font-size:32px; font-weight:600; letter-spacing:-.01em; }
+  .brand .tagline{ margin:2px 0 0; font-size:13px; color:var(--ink-soft); }
+  .session-meta{ text-align:right; display:flex; flex-direction:column; gap:6px; align-items:flex-end; }
+  .session-meta .date{ font-family:var(--font-mono); font-size:12.5px; color:var(--ink-soft); }
+  .status-pill{
+    font-family:var(--font-mono); font-size:11px; letter-spacing:.04em;
+    padding:3px 9px; border-radius:999px; border:1px solid var(--line);
+    color:var(--ink-soft); display:inline-flex; align-items:center; gap:6px;
+  }
+  .status-pill .dot{ width:6px; height:6px; border-radius:50%; background:var(--ink-faint); }
+  .status-pill.live .dot{ background:var(--up); }
+  .status-pill.offline .dot{ background:var(--down); }
+
+  .portfolio-strip{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+    background:var(--line); border:1px solid var(--line); border-radius:var(--radius-s);
+    margin-top:16px; overflow:hidden;
+  }
+  .ps-cell{ background:var(--paper-2); padding:12px 16px; }
+  .ps-cell .k{ font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-faint); }
+  .ps-cell .v{ font-family:var(--font-mono); font-size:19px; font-variant-numeric:tabular-nums; margin-top:3px; }
+
+  /* ---------- ticker ---------- */
+  .ticker{
+    margin-top:18px; border-top:1px solid var(--desk-line); border-bottom:1px solid var(--desk-line);
+    background:var(--desk); overflow:hidden; white-space:nowrap;
+  }
+  .ticker-track{
+    display:inline-flex; align-items:center; padding:9px 0;
+    animation:scroll-left 42s linear infinite;
+  }
+  @keyframes scroll-left{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+  @media (prefers-reduced-motion:reduce){ .ticker-track{ animation:none; } .ticker{ overflow-x:auto; } }
+  .ticker-item{
+    font-family:var(--font-mono); font-size:12.5px; color:var(--desk-ink-soft);
+    padding:0 22px; border-right:1px solid var(--desk-line);
+  }
+  .ticker-item b{ color:var(--desk-ink); font-weight:600; }
+
+  /* ---------- desks ---------- */
+  .desks{ margin-top:34px; }
+  .desk-list{
+    display:flex; flex-direction:column; background:var(--desk); border:1px solid var(--desk-line);
+    border-radius:var(--radius-m); box-shadow:var(--shadow); overflow:hidden;
+  }
+  .desk-item{ border-top:1px solid var(--desk-line); }
+  .desk-item:first-child{ border-top:none; }
+  .desk-item > summary{
+    list-style:none; cursor:pointer; display:flex; align-items:center; gap:11px;
+    padding:14px 16px; color:var(--desk-ink);
+  }
+  .desk-item > summary::-webkit-details-marker{ display:none; }
+  .desk-item > summary svg.role-icon{ width:18px; height:18px; color:var(--brass-strong); flex-shrink:0; }
+  .desk-role{ font-size:13.5px; font-weight:600; flex:1; }
+  .desk-output{ font-size:13px; color:var(--desk-ink-soft); line-height:1.55; margin:0; }
+  .desk-status{
+    font-family:var(--font-mono); font-size:10.5px; letter-spacing:.03em; text-transform:uppercase;
+    color:var(--brass-strong); margin:0; display:flex; align-items:center; gap:6px; white-space:nowrap; flex-shrink:0;
+  }
+  .desk-status .dot{ width:5px; height:5px; border-radius:50%; background:var(--up); }
+  .desk-item > summary svg.chevron{
+    width:14px; height:14px; color:var(--desk-ink-soft); flex-shrink:0; transition:transform .2s ease;
+  }
+  .desk-item[open] > summary svg.chevron{ transform:rotate(180deg); }
+  .desk-item[open] > summary{ border-bottom:1px solid var(--desk-line); }
+  .desk-item-body{ padding:13px 16px 16px 45px; display:flex; flex-direction:column; gap:6px; }
+  .desk-status-full{
+    font-family:var(--font-mono); font-size:10.5px; letter-spacing:.03em; text-transform:uppercase;
+    color:var(--brass-strong); margin:0;
+  }
+  @media (prefers-reduced-motion:no-preference){
+    .desk-item-body{ animation:deskItemIn .2s ease; }
+  }
+  @keyframes deskItemIn{ from{ opacity:0; } to{ opacity:1; } }
+
+  /* ---------- main grid ---------- */
+  .orderbook{ margin-top:36px; }
+  .lower-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:18px; margin-top:32px; align-items:start; }
+
+  .order-list{ display:flex; flex-direction:column; gap:12px; }
+  .order-row{
+    background:var(--paper-2); border:1px solid var(--line); border-radius:var(--radius-m);
+    padding:16px 18px; display:grid; grid-template-columns:150px 1fr; gap:18px;
+  }
+  .order-id .ticker-sym{ font-family:var(--font-mono); font-size:19px; font-weight:600; }
+  .order-id .company{ font-size:12.5px; color:var(--ink-soft); margin-top:2px; }
+  .order-id .exch{ font-size:10.5px; color:var(--ink-faint); font-family:var(--font-mono); margin-top:6px; }
+  .order-id{ min-width:0; }
+  .trend{ display:flex; align-items:center; gap:6px; margin-top:10px; }
+  .trend svg{ width:56px; height:20px; flex-shrink:0; overflow:visible; }
+  .trend-badge{
+    display:inline-flex; align-items:center; gap:3px; font-family:var(--font-mono); font-size:11px;
+    font-weight:600; font-variant-numeric:tabular-nums;
+  }
+  .trend-badge.pos{ color:var(--up); }
+  .trend-badge.neg{ color:var(--down); }
+  .trend-badge svg{ width:9px; height:9px; }
+  .trend-note{ font-size:10px; color:var(--ink-faint); margin-top:3px; }
+  .badges{ display:flex; flex-wrap:wrap; gap:6px; margin-top:9px; }
+  .pill{
+    font-family:var(--font-mono); font-size:10.5px; letter-spacing:.02em; padding:2.5px 8px;
+    border-radius:999px; border:1px solid var(--line); color:var(--ink-soft);
+    white-space:normal; word-break:break-word; max-width:100%;
+  }
+  .pill.theme{ color:var(--info); border-color:var(--info); }
+  .pill.conv-hog{ background:var(--brass); color:#fff; border-color:var(--brass); }
+  .pill.conv-medhog{ color:var(--brass-strong); border-color:var(--brass); }
+  .pill.conv-med{ color:var(--ink-soft); }
+  .pill.horizon{ color:var(--ink-soft); border-color:var(--line); }
+  .pill.sent-pos{ color:var(--up); border-color:var(--up); }
+  .pill.sent-neg{ color:var(--down); border-color:var(--down); }
+  .pill.sent-neu{ color:var(--ink-soft); border-color:var(--line); }
+  .order-body p{ margin:0; font-size:13.5px; line-height:1.55; }
+  .order-body .thesis{ margin-bottom:0; }
+  .order-more{ margin-top:12px; }
+  .order-more > summary{
+    list-style:none; cursor:pointer; display:inline-flex; align-items:center; gap:6px;
+    padding:5px 11px 5px 10px; border:1px solid var(--line); border-radius:999px;
+    font-family:var(--font-mono); font-size:11px; letter-spacing:.02em;
+    color:var(--ink-soft); background:transparent;
+    transition:background .15s ease, border-color .15s ease, color .15s ease;
+  }
+  .order-more > summary::-webkit-details-marker{ display:none; }
+  .order-more > summary:hover{ border-color:var(--brass); color:var(--ink); }
+  .order-more > summary:focus-visible{ outline:2px solid var(--brass); outline-offset:2px; }
+  .order-more > summary svg{ width:10px; height:10px; flex-shrink:0; transition:transform .2s ease; }
+  .order-more[open] > summary{ background:var(--paper); border-color:var(--brass); color:var(--ink); }
+  .order-more[open] > summary svg{ transform:rotate(180deg); }
+  .order-more-body{
+    margin-top:11px; padding-top:11px; border-top:1px dashed var(--line);
+    display:flex; flex-direction:column; gap:2px;
+  }
+  @media (prefers-reduced-motion:no-preference){
+    .order-more-body{ animation:deskItemIn .2s ease; }
+  }
+  .order-body .risk{
+    margin-top:9px; font-size:12px; color:var(--ink-soft); border-left:2px solid var(--down);
+    padding-left:9px; font-style:italic;
+  }
+  .order-body .meta-line{ margin-top:7px; font-size:12px; color:var(--ink-soft); line-height:1.5; }
+  .order-body .meta-line b{ color:var(--ink); }
+  .order-body .meta-line .sent-pos{ color:var(--up); font-weight:600; }
+  .order-body .meta-line .sent-neg{ color:var(--down); font-weight:600; }
+  .order-body .meta-line .sent-neu{ color:var(--ink-soft); font-weight:600; }
+  .order-body .align-line{
+    margin-top:9px; font-size:12px; color:var(--ink-soft); line-height:1.5;
+    background:var(--paper); border-radius:6px; padding:7px 10px; display:flex; gap:7px; align-items:flex-start;
+  }
+  .order-body .align-line svg{ width:14px; height:14px; flex-shrink:0; margin-top:1px; }
+  .order-body .align-line.match svg{ color:var(--up); }
+  .order-body .align-line.mismatch svg{ color:var(--down); }
+  .order-body .align-line.partial svg{ color:var(--ink-faint); }
+  .order-body .align-line b{ color:var(--ink); }
+  .order-body .src{ margin-top:8px; font-size:11px; color:var(--ink-faint); font-family:var(--font-mono); }
+  .buy-box{ display:flex; flex-direction:column; gap:7px; justify-content:flex-start; }
+  .buy-row{ display:flex; gap:6px; }
+  .buy-row input{
+    width:100%; font-family:var(--font-mono); font-size:12.5px; padding:7px 8px;
+    border:1px solid var(--line); border-radius:var(--radius-s); background:var(--paper); color:var(--ink);
+  }
+  .buy-row label{ font-size:10px; color:var(--ink-faint); display:block; margin-bottom:2px; }
+  .btn{
+    font-family:var(--font-mono); font-size:11.5px; letter-spacing:.03em; text-transform:uppercase;
+    padding:8px 10px; border-radius:var(--radius-s); border:1px solid var(--brass); background:var(--brass);
+    color:#fff; cursor:pointer; text-align:center;
+  }
+  .btn:hover{ background:var(--brass-strong); border-color:var(--brass-strong); }
+  .btn.ghost{ background:transparent; color:var(--ink-soft); border-color:var(--line); }
+  .btn.ghost:hover{ color:var(--ink); border-color:var(--ink-soft); }
+  .btn:disabled{ opacity:.45; cursor:not-allowed; }
+  .buy-msg{ font-size:11px; font-family:var(--font-mono); min-height:14px; }
+  .buy-msg.err{ color:var(--down); }
+  .buy-msg.ok{ color:var(--up); }
+
+  /* ---------- portfolio view ---------- */
+  .portfolio-grid{ display:grid; grid-template-columns:1fr 1fr; gap:22px; align-items:start; max-width:900px; }
+  @media (max-width:720px){
+    .portfolio-grid{ grid-template-columns:1fr; }
+  }
+
+  /* ---------- sidebar panels ---------- */
+  .panel{
+    background:var(--paper-2); border:1px solid var(--line); border-radius:var(--radius-m); padding:16px 18px;
+  }
+  .panel h3{ font-size:14.5px; font-weight:600; margin-bottom:11px; }
+  .cash-line{ display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:13px; padding:5px 0; }
+  .cash-line span:last-child{ font-variant-numeric:tabular-nums; }
+  .pos-row{ border-top:1px solid var(--line); padding:9px 0; }
+  .pos-head{ display:flex; justify-content:space-between; align-items:baseline; }
+  .pos-head .sym{ font-family:var(--font-mono); font-weight:600; font-size:13px; }
+  .pos-head .qty{ font-family:var(--font-mono); font-size:11.5px; color:var(--ink-soft); }
+  .pos-meta{ font-size:11px; color:var(--ink-faint); margin-top:2px; }
+  .sell-row{ display:flex; gap:6px; margin-top:7px; }
+  .sell-row input{
+    width:80px; font-family:var(--font-mono); font-size:11.5px; padding:5px 7px;
+    border:1px solid var(--line); border-radius:var(--radius-s); background:var(--paper); color:var(--ink);
+  }
+  .empty-note{ font-size:12.5px; color:var(--ink-faint); font-style:italic; }
+
+  .holding-add{ display:flex; gap:6px; margin-bottom:10px; }
+  .holding-add input{
+    font-family:var(--font-mono); font-size:12px; padding:6px 7px;
+    border:1px solid var(--line); border-radius:var(--radius-s); background:var(--paper); color:var(--ink);
+  }
+  .holding-add input.hq-ticker{ flex:1; min-width:0; }
+  .holding-add input.hq-qty{ width:52px; flex-shrink:0; }
+  .holding-row-item{ border-top:1px solid var(--line); padding:8px 0; display:flex; justify-content:space-between; gap:8px; align-items:flex-start; }
+  .holding-row-item:first-child{ border-top:none; padding-top:0; }
+  .holding-row-item .hi-main .sym{ font-family:var(--font-mono); font-weight:600; font-size:13px; }
+  .holding-row-item .hi-main .qty{ font-family:var(--font-mono); font-size:11.5px; color:var(--ink-soft); margin-left:6px; }
+  .holding-row-item .hi-note{ font-size:11.5px; color:var(--ink-soft); margin-top:3px; line-height:1.4; }
+  .holding-row-item .hi-note.pending{ color:var(--ink-faint); font-style:italic; }
+  .verdict-badge{
+    display:inline-block; font-family:var(--font-mono); font-size:10px; letter-spacing:.03em; text-transform:uppercase;
+    padding:2px 7px; border-radius:999px; font-weight:600; margin-left:6px;
+  }
+  .verdict-badge.behall{ background:var(--paper); color:var(--ink-soft); border:1px solid var(--line); }
+  .verdict-badge.salj{ background:var(--down); color:#fff; }
+  .verdict-badge.kopmer{ background:var(--up); color:#fff; }
+  .holding-row-item .hi-del{
+    background:none; border:none; color:var(--ink-faint); cursor:pointer; font-size:15px; line-height:1; padding:2px 4px; flex-shrink:0;
+  }
+  .holding-row-item .hi-del:hover{ color:var(--down); }
+
+  .watch-item{ border-top:1px solid var(--line); padding:10px 0; }
+  .watch-item:first-child{ border-top:none; padding-top:0; }
+  .watch-head{ display:flex; justify-content:space-between; align-items:baseline; }
+  .watch-head .sym{ font-family:var(--font-mono); font-weight:600; font-size:13px; }
+  .watch-head .flag{ font-size:10px; font-family:var(--font-mono); color:var(--info); text-transform:uppercase; }
+  .watch-item p{ margin:5px 0 0; font-size:12.5px; color:var(--ink-soft); line-height:1.5; }
+
+  .macro-item{ display:flex; gap:9px; padding:9px 0; border-top:1px solid var(--line); }
+  .macro-item:first-child{ border-top:none; padding-top:0; }
+  .macro-item svg{ width:15px; height:15px; color:var(--down); flex-shrink:0; margin-top:2px; }
+  .macro-item p{ margin:0; font-size:12.5px; line-height:1.5; color:var(--ink-soft); }
+  .macro-item b{ color:var(--ink); }
+
+  .hist-row{ display:flex; align-items:center; justify-content:space-between; gap:8px; border-top:1px solid var(--line); padding:8px 0; }
+  .hist-row:first-child{ border-top:none; padding-top:0; }
+  .hist-left{ display:flex; flex-direction:column; }
+  .hist-left .sym{ font-family:var(--font-mono); font-size:12.5px; font-weight:600; }
+  .hist-left .date{ font-size:10.5px; color:var(--ink-faint); font-family:var(--font-mono); }
+  .hist-actions{ display:flex; gap:4px; }
+  .hist-btn{
+    font-family:var(--font-mono); font-size:9.5px; padding:3px 6px; border-radius:5px;
+    border:1px solid var(--line); background:transparent; color:var(--ink-faint); cursor:pointer; text-transform:uppercase;
+  }
+  .hist-btn.active-hit{ background:var(--up); color:#fff; border-color:var(--up); }
+  .hist-btn.active-miss{ background:var(--down); color:#fff; border-color:var(--down); }
+  .hist-btn.active-pending{ background:var(--info); color:#fff; border-color:var(--info); }
+
+  footer{ margin-top:44px; border-top:1px solid var(--line); padding-top:16px; }
+  footer p{ font-size:11.5px; color:var(--ink-faint); line-height:1.6; max-width:900px; }
+
+  @media (max-width:900px){
+    .lower-grid{ grid-template-columns:1fr; }
+    .portfolio-strip{ grid-template-columns:repeat(2,1fr); }
+  }
+  @media (max-width:600px){
+    .order-row{ grid-template-columns:1fr; }
+    .masthead-top{ align-items:flex-start; }
+    .session-meta{ align-items:flex-start; text-align:left; }
+    .desk-item > summary .desk-status{ display:none; }
+    .desk-item-body{ padding-left:16px; }
+  }
+
+  /* ---------- tabs ---------- */
+  .tabs{ display:flex; gap:6px; margin-top:20px; }
+  .tab-btn{
+    font-family:var(--font-mono); font-size:11.5px; letter-spacing:.04em; text-transform:uppercase;
+    padding:9px 16px 8px; border:1px solid var(--line); border-bottom:none; border-radius:8px 8px 0 0;
+    background:var(--paper); color:var(--ink-faint); cursor:pointer; position:relative; top:1px;
+  }
+  .tab-btn.active{ background:var(--paper-2); color:var(--ink); }
+  .tab-btn:not(.active):hover{ color:var(--ink-soft); }
+
+  /* ---------- organisation ---------- */
+  .org-view{
+    border:1px solid var(--line); border-top:none; background:var(--paper-2);
+    border-radius:0 0 var(--radius-m) var(--radius-m); padding:26px 26px 32px;
+  }
+  .org-intro{ font-size:13.5px; color:var(--ink-soft); max-width:660px; margin:0 0 26px; line-height:1.55; }
+
+  .holding-row{ display:flex; align-items:center; gap:20px; flex-wrap:wrap; margin-bottom:32px; }
+  .holding-mark{ display:flex; align-items:center; gap:9px; font-family:var(--font-display); font-size:19px; font-weight:600; }
+  .holding-mark svg{ width:24px; height:24px; color:var(--brass); }
+  .holding-arrow{ color:var(--ink-faint); font-size:18px; }
+  .bolag-row{ display:flex; gap:14px; flex-wrap:wrap; }
+  .bolag-card{
+    width:180px; padding:14px 16px; border-radius:var(--radius-m); border:1px solid var(--line);
+    background:var(--paper); cursor:pointer; transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+  }
+  .bolag-card:hover{ transform:translateY(-2px); box-shadow:var(--shadow); }
+  .bolag-card.open{ border-color:var(--brass); box-shadow:var(--shadow); }
+  .bolag-card .name{ font-weight:600; font-size:14px; }
+  .bolag-card .meta{ font-size:11px; color:var(--ink-faint); margin-top:4px; font-family:var(--font-mono); }
+  .bolag-card .chevron{ width:16px; height:16px; color:var(--ink-faint); flex-shrink:0; transition:transform .3s ease, color .2s ease; }
+  .bolag-card.open .chevron{ transform:rotate(180deg); color:var(--brass); }
+  .bolag-card.ghost{
+    border-style:dashed; cursor:not-allowed; opacity:.6; flex-direction:column;
+    align-items:center; justify-content:center; gap:6px; text-align:center;
+  }
+  .bolag-card.ghost:hover{ transform:none; box-shadow:none; }
+  .bolag-card.ghost svg{ width:16px; height:16px; color:var(--ink-faint); }
+  .bolag-card.ghost .name{ font-weight:500; font-size:12px; color:var(--ink-faint); }
+
+  .org-diagram{ position:relative; width:100%; max-width:740px; margin:26px auto 0; padding:34px 10px 10px; isolation:isolate; }
+  .org-diagram::before{
+    content:""; position:absolute; inset:0; z-index:-1; border-radius:var(--radius-m);
+    background:
+      radial-gradient(ellipse 70% 55% at 50% 8%, var(--brass-soft) 0%, transparent 62%),
+      linear-gradient(var(--line) 1px, transparent 1px) 0 0/36px 36px,
+      linear-gradient(90deg, var(--line) 1px, transparent 1px) 0 0/36px 36px;
+    opacity:.4;
+    -webkit-mask-image: radial-gradient(ellipse 60% 60% at 50% 45%, black 45%, transparent 92%);
+    mask-image: radial-gradient(ellipse 60% 60% at 50% 45%, black 45%, transparent 92%);
+  }
+  .org-diagram svg{ width:100%; height:auto; display:block; }
+  .org-line{ stroke-dashoffset:0; }
+  .org-node{
+    position:absolute; width:182px; padding:11px 13px; border-radius:var(--radius-m);
+    background:var(--desk); color:var(--desk-ink); border:1px solid var(--desk-line);
+    box-shadow:var(--shadow); cursor:pointer; text-align:left; transform:translate(-50%,-50%);
+    font-family:var(--font-body); opacity:1;
+  }
+  .org-node.you{
+    background:var(--brass-soft); color:var(--ink); border-color:var(--brass);
+    box-shadow:var(--shadow), 0 0 0 5px var(--brass-soft);
+  }
+  .org-node:hover, .org-node.active{ outline:2px solid var(--brass); outline-offset:2px; }
+  .org-node .head{ display:flex; align-items:center; gap:8px; }
+  .org-node .icon-badge{
+    width:25px; height:25px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    background:var(--desk-2); flex-shrink:0;
+  }
+  .org-node.you .icon-badge{ background:var(--brass); }
+  .org-node.you .icon-badge svg{ color:#fff; }
+  .org-node svg{ width:13px; height:13px; color:var(--brass-strong); flex-shrink:0; }
+  .org-node.feeder{ width:128px; }
+  .org-node .role{ font-size:12.5px; font-weight:600; }
+  .org-node .blurb{ font-size:10.5px; color:var(--desk-ink-soft); margin-top:4px; line-height:1.4; }
+  .org-node.you .blurb{ color:var(--ink-soft); }
+
+  @media (prefers-reduced-motion:no-preference){
+    .org-line{ stroke-dasharray:1; stroke-dashoffset:1; animation:orgLineIn .55s ease forwards; }
+    .org-node{ animation:orgNodeIn .5s ease backwards; }
+  }
+  @keyframes orgLineIn{ to{ stroke-dashoffset:0; } }
+  @keyframes orgNodeIn{
+    from{ opacity:0; transform:translate(-50%,-50%) translateY(10px) scale(.92); }
+    to{ opacity:1; transform:translate(-50%,-50%) translateY(0) scale(1); }
+  }
+
+  .org-drawer{
+    margin-top:22px; border-top:2px solid var(--brass); background:var(--paper);
+    border-radius:0 0 var(--radius-m) var(--radius-m); padding:18px 20px; box-shadow:var(--shadow); max-width:740px; margin-left:auto; margin-right:auto;
+  }
+  @media (prefers-reduced-motion:no-preference){
+    .org-drawer.anim-in{ animation:orgFadeUp .3s ease; }
+  }
+  @keyframes orgFadeUp{ from{ opacity:0; transform:translateY(8px); } to{ opacity:1; transform:translateY(0); } }
+  .org-drawer .drawer-head{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+  .org-drawer h4{ font-size:16px; font-weight:600; }
+  .org-drawer .close-drawer{ background:none; border:none; color:var(--ink-faint); font-size:20px; cursor:pointer; line-height:1; padding:0 4px; }
+  .org-drawer .blurb-line{ margin:8px 0 0; font-size:12.5px; color:var(--ink-soft); }
+  .org-drawer .flow-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:14px; }
+  .org-drawer .flow-col .k{ font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-faint); margin-bottom:5px; }
+  .org-drawer .flow-col ul{ margin:0; padding-left:16px; font-size:12.5px; color:var(--ink-soft); }
+  .org-drawer .status-line{ margin-top:14px; font-family:var(--font-mono); font-size:10.5px; letter-spacing:.03em; text-transform:uppercase; color:var(--brass-strong); }
+  .org-drawer .output-box{ margin-top:8px; font-size:13px; line-height:1.55; background:var(--paper-2); border-left:2px solid var(--brass); padding:10px 12px; border-radius:0 6px 6px 0; }
+
+  @media (max-width:760px){
+    .org-node:not(.feeder){ width:164px; }
+  }
+  @media (max-width:640px){
+    .org-node{ width:132px; padding:8px 9px; }
+    .org-node:not(.feeder){ width:104px; padding:7px 8px; }
+    .org-node:not(.feeder) .icon-badge{ display:none; }
+    .org-node .role{ font-size:10.5px; }
+    .org-node .blurb{ display:none; }
+    .org-drawer .flow-grid{ grid-template-columns:1fr; }
+  }
+  @media (max-width:480px){
+    .org-node:not(.feeder){ width:84px; padding:6px; }
+    .org-node:not(.feeder) .role{ font-size:9px; overflow-wrap:anywhere; }
+    .org-node.feeder{ width:58px !important; padding:4px 5px !important; }
+    .org-node.feeder .role{ font-size:6.5px !important; line-height:1.1; }
+    .org-node.feeder .icon-badge{ width:14px !important; height:14px !important; }
+    .org-node.feeder .icon-badge svg{ width:8px !important; height:8px !important; }
+  }
+
+  /* ---------- önskemål till Trendspanaren (prototyp) ---------- */
+  .wish{ margin-top:32px; }
+  .wish-grid{ display:grid; grid-template-columns:minmax(0,1.25fr) minmax(0,1fr); gap:18px; align-items:start; }
+  .wish .panel{ position:relative; }
+  .wish-badge{
+    font-family:var(--font-mono); font-size:10.5px; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--brass-strong); background:var(--brass-soft); border-radius:99px; padding:2px 9px; white-space:nowrap;
+  }
+  .wish-lead{ margin:0 0 14px; font-size:14px; color:var(--ink-soft); max-width:60ch; }
+  .wish label, .wish legend{ display:block; font-size:12px; font-weight:600; color:var(--ink); margin:0 0 5px; padding:0; }
+  .wish .opt{ font-weight:400; color:var(--ink-faint); }
+  .wish fieldset{ border:0; margin:0 0 14px; padding:0; min-width:0; }
+  .wish textarea, .wish input[type=text], .wish input[type=email]{
+    width:100%; font-family:var(--font-body); font-size:14px; line-height:1.45; padding:9px 11px;
+    border:1px solid var(--line); border-radius:var(--radius-s); background:var(--paper); color:var(--ink);
+  }
+  .wish textarea{ min-height:96px; resize:vertical; }
+  .wish textarea::placeholder, .wish input::placeholder{ color:var(--ink-faint); }
+  .wish textarea:focus, .wish input:focus{ outline:2px solid var(--brass); outline-offset:1px; border-color:var(--brass); }
+  .wish-field{ margin-bottom:14px; }
+  .wish-count{ display:flex; justify-content:space-between; gap:10px; margin-top:4px; font-family:var(--font-mono); font-size:11px; color:var(--ink-faint); }
+  .wish-count .err{ color:var(--down); }
+  .wish-count .over{ color:var(--down); }
+  .wish-types{ display:flex; flex-wrap:wrap; gap:8px; }
+  .wish-types input{ position:absolute; opacity:0; pointer-events:none; }
+  .wish-types label{
+    margin:0; font-weight:500; font-size:13px; padding:6px 13px; border:1px solid var(--line);
+    border-radius:99px; background:var(--paper); color:var(--ink-soft); cursor:pointer;
+  }
+  .wish-types label:hover{ border-color:var(--ink-soft); color:var(--ink); }
+  .wish-types input:checked + label{ background:var(--brass-soft); border-color:var(--brass); color:var(--brass-strong); }
+  .wish-types input:focus-visible + label{ outline:2px solid var(--brass); outline-offset:2px; }
+  .wish-row{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .wish label.wish-check{ display:flex; gap:8px; align-items:flex-start; margin:0 0 14px; font-size:12.5px; font-weight:400; color:var(--ink-soft); }
+  .wish-check input{ margin-top:3px; accent-color:var(--brass); }
+  .wish-hp{ position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
+  .wish-actions{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+  .wish .btn{ padding:10px 16px; font-size:12px; }
+  .wish-msg{ font-size:12.5px; color:var(--ink-soft); }
+  .wish-msg.err{ color:var(--down); }
+  .wish-fine{ margin:12px 0 0; font-size:11.5px; color:var(--ink-faint); line-height:1.45; }
+  .wish-done{ text-align:left; }
+  .wish-done h4{ font-family:var(--font-display); font-size:17px; margin:0 0 6px; }
+  .wish-done p{ margin:0 0 12px; font-size:14px; color:var(--ink-soft); }
+  .wish-quote{
+    margin:0 0 14px; padding:10px 13px; border-left:3px solid var(--brass); background:var(--paper);
+    border-radius:0 var(--radius-s) var(--radius-s) 0; font-size:14px; color:var(--ink);
+  }
+  .wish-side h3{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
+  .wish-list{ list-style:none; margin:0; padding:0; }
+  .wish-item{ display:flex; gap:12px; align-items:flex-start; padding:11px 0; border-top:1px solid var(--line); }
+  .wish-item:first-child{ border-top:0; padding-top:2px; }
+  .wish-vote{
+    flex:none; width:44px; padding:5px 0; text-align:center; border:1px solid var(--line); border-radius:var(--radius-s);
+    background:var(--paper); color:var(--ink-soft); cursor:pointer; font-family:var(--font-mono); font-size:12px; line-height:1.2;
+  }
+  .wish-vote b{ display:block; font-size:14px; color:var(--ink); }
+  .wish-vote:hover{ border-color:var(--ink-soft); }
+  .wish-vote[aria-pressed=true]{ background:var(--brass-soft); border-color:var(--brass); color:var(--brass-strong); }
+  .wish-vote[aria-pressed=true] b{ color:var(--brass-strong); }
+  .wish-item-body{ min-width:0; }
+  .wish-item-body p{ margin:0; font-size:13.5px; color:var(--ink); }
+  .wish-meta{ margin-top:2px; font-family:var(--font-mono); font-size:11px; color:var(--ink-faint); }
+  .wish-status{ display:inline-block; padding:0 7px; border-radius:99px; border:1px solid var(--line); margin-right:6px; }
+  .wish-status.next{ color:var(--up); border-color:var(--up); }
+  .wish-today{ margin-top:18px; }
+  .wish-today .panel{ border-left:3px solid var(--brass); }
+  .wish-today h3{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .wish-today p{ margin:0 0 8px; font-size:14px; color:var(--ink-soft); }
+  .wish-today p:last-child{ margin-bottom:0; }
+  .wish-today p b{ color:var(--ink); }
+  @media (max-width:820px){
+    .wish-grid{ grid-template-columns:1fr; }
+  }
+  @media (max-width:480px){
+    .wish-row{ grid-template-columns:1fr; }
+    .wish .btn{ width:100%; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="masthead-top">
+      <div class="brand">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="18" height="18" rx="1.5"/><line x1="3" y1="11" x2="21" y2="11"/><line x1="3" y1="16" x2="21" y2="16"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
+        <div>
+          <h1>Golvet</h1>
+          <p class="tagline">AI-analysdesk — bevakar världsläget och föreslår idéer. Delad läsvy, utan privata innehav.</p>
+        </div>
+      </div>
+      <div class="session-meta">
+        <span class="date">Måndag 21 september 2026 · vecka 39</span>
+      </div>
+    </div>
+    <div class="portfolio-strip" style="grid-template-columns:1fr; max-width:180px;">
+      <div class="ps-cell"><div class="k">Idéer idag</div><div class="v">10</div></div>
+    </div>
+  </header>
+
+  <div class="tabs">
+    <button class="tab-btn active" id="tabDeskBtn" type="button">Skrivbordet</button>
+    <button class="tab-btn" id="tabOrgBtn" type="button">Organisationen</button>
+  </div>
+
+  <div id="viewDesk">
+
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track" id="tickerTrack"></div>
+  </div>
+
+  <section class="desks">
+    <p class="section-label">Dagens skift</p>
+    <div class="desk-list">
+      <details class="desk-item">
+        <summary>
+          <svg class="role-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 12 L17.5 7.5"/><path d="M12 3.5 A8.5 8.5 0 0 1 20.5 12"/></svg>
+          <span class="desk-role">Trendspanare</span>
+          <span class="desk-status"><span class="dot"></span>Klar</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="desk-item-body">
+          <p class="desk-output">Veckans klart största tema är USA-Kina-toppmötet: Xi Jinping besöker Washington torsdag 24/9, det andra mötet mellan honom och Trump i år, med tullvapenvilan (ingicks i Busan 30/10 2025, ettårig) som huvudfråga — den löper ut redan 10/11, bara fem veckor efter mötet. Xi väntas ta med sig ledande personer från bland annat Alibaba och Tencent, och marknaden har redan börjat positionera sig i både kinesiska tech-ADR:er och exportkänsliga halvledare. Näst störst är den fortsatta AI-halvledarvolatiliteten: halvledarindexet föll hela 5,9% på en enda dag (14/9) sedan flera tunga branschprofiler efterlyst en AI-inbromsning, innan sektorn återhämtade sig efter att Nvidias vd Jensen Huang (17/9) sagt att kretsleveranserna väntas fördubblas 2027. Samma vecka gick Arista Networks in i S&amp;P 100 (21/9, idag), och Micron rapporterar sitt fiskala Q4 redan 30/9 — ett nära nyckeltest för hela minnesprisboomen. Ett tredje, färskare spår är regleringsmotvind mot AI-datacenter: tre delstater (Oregon, Connecticut, New Hampshire) har inom loppet av tre veckor skärpt sin hållning, med hänvisning till el- och vattenförbrukning. Iran/Hormuz-tankerkriget mellan USA och Iran fortsätter i bakgrunden som en olöst geopolitisk riskfaktor för oljepriset.</p>
+          <p class="desk-status-full">Uppdaterad idag</p>
+        </div>
+      </details>
+      <details class="desk-item">
+        <summary>
+          <svg class="role-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="17" r="1.4"/><path d="M8.3 17a3.7 3.7 0 0 1 7.4 0"/><path d="M5.3 17a6.7 6.7 0 0 1 13.4 0"/><line x1="12" y1="4" x2="12" y2="8.3"/></svg>
+          <span class="desk-role">Nyhetsspanare</span>
+          <span class="desk-status"><span class="dot"></span>Klar</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="desk-item-body">
+          <p class="desk-output">USA-Kina-toppmötet dominerar veckans agenda. Trump tar emot Xi Jinping i Washington torsdag 24/9 — det andra mötet mellan de två i år — med tullar, Taiwan och AI på dagordningen. Kärnfrågan är om tullvapenvilan från Busan (ingicks 30/10 2025, ettårig) förlängs innan den löper ut 10/11, bara fem veckor efter mötet. Analytiker (bl.a. Saxo Bank) ser ett "begränsat" utfall — något inkrementellt utan genombrott kring halvledare och sällsynta jordar — som mest sannolikt, men ett positivt utfall (förlängd vapenvila, tullundantag) skulle gynna kinesiska tech-ADR:er, halvledare och industribolag, medan ett negativt utfall (nya tullhot, skärpta teknikrestriktioner) skulle stärka dollarn och höja volatiliteten. Amerikanska sällsynta jordar-aktier föll redan 4–5% i förra veckan på spekulation om ett töväder som minskar premien för västlig alternativförsörjning.
+
+AI-halvledarvolatiliteten har en tydlig utlösare: Philadelphia semiconductor-index (SOX) föll 5,9% måndagen 14/9 — sektorns sämsta dag sedan tidig juli — sedan flera tunga AI-branschprofiler helgen innan efterlyst en inbromsning av utvecklingstempot. Nvidia föll cirka 3,4%, Micron drygt 5%, Marvell över 7% och Intel cirka 6% den dagen. Sektorn återhämtade sig snabbt sedan Nvidias vd Jensen Huang vid ett event i Skottland (17/9) tillbakavisat oron och sagt att Nvidia väntar sig att dubbla sina chipleveranser nästa år. Samma vecka, idag (21/9), gick Arista Networks in i S&amp;P 100 i kvartalsrebalanseringen (tillsammans med Dell, Palo Alto Networks och SanDisk); aktien är upp cirka 45% i år. Nästa stora datapunkt är Micron, som rapporterar sitt fiskala Q4 onsdag 30/9.
+
+En tredje, färskare tråd är delstatlig reglering mot AI-datacenter. Oregons guvernör beslutade 8/9 att frysa alla arrenden och tillståndsärenden för datacenter på delstatligt ägd mark till 1/7 2027. Connecticuts guvernör har sagt att delstaten "inte kommer att hysa massiva AI-datacenter" (med undantag för mindre, självförsörjda anläggningar), och New Hampshires guvernör driver ett flerårigt moratorium som delstatens republikanska senatsledning ställde sig bakom 18/9. Ett eventuellt moratorium träder tidigast i kraft 2027, men den politiska riktningen — tre delstater med skärpt hållning inom loppet av tre veckor — är i sig en ny riskfaktor för datacenterbyggtakten.
+
+Iran/Hormuz-tankerkriget mellan USA och Iran fortsätter, med senast bekräftade uppgifter (kring 2–6/9) om ömsesidiga attacker mot oljetankfartyg och en uttalad amerikansk "tanker for tanker"-policy; ingen bekräftad de-eskalering har kunnat verifieras för de allra senaste dagarna. Kopplingen till penningpolitiken är tydlig: Fed höjde styrräntan 25 punkter till 3,75–4,00% den 16/9 uttryckligen driven av oljepris- och inflationsoro, med 16 av 18 ledamöter som ser ytterligare en höjning i år. Riksbanken väntas hålla styrräntan oförändrad på 1,75% vid sitt besked — som infaller samma dag som Trump-Xi-mötet, torsdag 24/9.
+
+Bevaka framför allt: (1) utfallet av Trump-Xi-mötet 24/9 och reaktionen i halvledare/Kina-ADR:er, (2) Riksbankens räntebesked samma dag, och (3) Micron-rapporten 30/9 som första stora test av minnesprisboomen efter veckans volatilitet.</p>
+          <p class="desk-status-full">Uppdaterad idag — Trump-Xi-mötet 24/9 i fokus, chipvolatiliteten efter 14/9-raset fortsatt känslig</p>
+        </div>
+      </details>
+      <details class="desk-item">
+        <summary>
+          <svg class="role-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="20" x2="20" y2="20"/><rect x="6" y="13" width="3" height="7"/><rect x="11" y="9" width="3" height="11"/><rect x="16" y="5" width="3" height="15"/></svg>
+          <span class="desk-role">Bolag &amp; Analytiker-desk</span>
+          <span class="desk-status"><span class="dot"></span>Klar</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="desk-item-body">
+          <p class="desk-output">Arista Networks gick in i S&amp;P 100 vid börsöppning idag (21/9), tillsammans med Dell, Palo Alto Networks och SanDisk. Q2-rapporten slog förväntningarna (EPS 1,02 dollar mot väntat 0,89, omsättning +37,7% å/å), och aktien är upp cirka 45% i år — ett direkt, konkret exempel på hur AI-datacenterinfrastruktur hänger ihop med dagens toppmötes- och volatilitetsteman. Nvidia-vd Jensen Huang sa i Skottland (17/9) att kretsförsäljningen väntas fördubblas 2027, med minst 1 000 md dollar i intäkter från nästa generations Vera Rubin-plattform; AWS uppges planera ytterligare 2 miljoner Nvidia-GPU:er 2027–2028. Analytikerbilden i riktkurser spretar dock (Morgan Stanley 288 dollar, bredare panel snitt 319–329 dollar).
+
+Broadcom har fått kraftiga riktkurshöjningar efter en starkt mottagen Q3-rapport (AI-intäkter +221% å/å): Cantor Fitzgerald och Rosenblatt till 600 dollar, BMO till 575 dollar, Morgan Stanley till 505 dollar. Marvell har stigit kraftigt sedan förra veckan (243,39 dollar, upp från 221,63) efter att Piper Sandler inlett bevakning med Buy och 270 dollars mål. Micron guidar själv 50,0 md dollar i omsättning för fiskalt Q4 (rapport 30/9), medan Goldman Sachs (trots Hold-rating) ligger ännu högre i sin egen prognos.
+
+Taiwan Semiconductor är i fokus inför toppmötet: Trump har på nytt lyft frågan om hemflyttad chiptillverkning och höjda tullar strax före Xis besök, och handelsminister Lutnick sa 2/9 att administrationen utformar undantag för bolag som tillverkar i USA — TSMC har redan åtagit 265 md dollar till Arizona. Needham höjde riktkursen till 530 dollar. ASML höjde sin 2026-omsättningsprognos till 43–45 md euro, men brottas samtidigt med skärpt Kina-exportrisk (det föreslagna MATCH Act-förbudet mot DUV-export till Kina). Alibaba är den tydligaste direkta Kina-handelsspelet: Xi väntas ta med ledande personer från bolaget till toppmötet, och BofA höjde riktkursen till 175 dollar.
+
+Intel fortsätter sin turnaround-story: foundry-intäkterna växte 31% i Q2, bolaget är partner till det 25 md dollar stora Terafab-projektet med Tesla/SpaceX, och SK Hynix förhandlar om att för första gången tillverka minneskretsar i USA hos Intel. Analytikerbilden är dock splittrad — Mizuho sänkte till 92 dollar (Hold) medan Tigress höjde till 145 dollar. AMD:s datacenterintäkter steg 107% å/å; Microsoft driftsätter AMD:s Helios-plattform på Azure från H2 2026, och Anthropic har tecknat ett AI-infrastrukturavtal med bolaget — Raymond James uppgraderade till Strong Buy med 641 dollars mål.
+
+Sammanfattningsvis: en bred, fortsatt stark AI-infrastrukturstory över hela kedjan (nätverk, GPU, minne, foundry, litografi), men med en genuint ny binär osäkerhet inför Trump-Xi-mötet 24/9 som särskilt påverkar TSM, ASML och Alibaba, och som förtjänar en ärlig avvägning snarare än att räknas som brus.</p>
+          <p class="desk-status-full">Uppdaterad idag — Arista i S&amp;P 100, Trump-Xi-mötet 24/9 påverkar TSM/ASML/BABA direkt</p>
+        </div>
+      </details>
+      <details class="desk-item">
+        <summary>
+          <svg class="role-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 17 9 10 13 14 21 5"/><polyline points="15 5 21 5 21 11"/></svg>
+          <span class="desk-role">Kursanalytiker</span>
+          <span class="desk-status"><span class="dot"></span>Klar</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="desk-item-body">
+          <p class="desk-output" id="chartDeskOutput">VIKTIGT: direkt datafeed (Yahoo Finance-typ realtidskällor) var otillgänglig vid dagens körning — nivåerna nedan är hämtade via nyhets-/marknadsrecap-sökningar och daterade individuellt. Där en siffra inte gick att bekräfta med källa och datum anges den uttryckligen som uppskattning.
+
+Bland dagens kandidater: Arista Networks 199,85 dollar (20/9). Nvidia 222,27 dollar (20/9). Broadcom 357,61 dollar (20/9). Marvell 243,39 dollar (20/9) — upp kraftigt från 221,63 dollar (15/9), en uppgång på nästan 10% på en vecka. Micron uppges till cirka 1 017,79 dollar (20/9), men denna nivå är ovanligt hög relativt historiska spann och kunde INTE oberoende verifieras — behandla som osäker tills bekräftad. Taiwan Semiconductor 434,67 dollar (20/9), ned cirka 2,2% på veckobasis. ASML 1 446,00 euro (20/9), i stort sett oförändrad mot föregående stängning. Alibaba 113,24 dollar (20/9), oförändrad på dagen, ned cirka 31% i år. Intel 109,09 dollar (20/9). AMD stängde på 557,42 dollar idag (21/9), inom dagsintervallet 541,54–559,91.</p>
+          <p class="desk-status-full">Uppdaterad idag — Marvell +10% på en vecka, direktkursflöde otillgängligt idag</p>
+        </div>
+      </details>
+      <details class="desk-item">
+        <summary>
+          <svg class="role-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="4" x2="6" y2="20"/><rect x="4" y="9" width="4" height="6"/><line x1="12" y1="2" x2="12" y2="22"/><rect x="10" y="6" width="4" height="10"/><line x1="18" y1="6" x2="18" y2="18"/><rect x="16" y="10" width="4" height="5"/></svg>
+          <span class="desk-role">Teknisk analytiker</span>
+          <span class="desk-status"><span class="dot"></span>Klar</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="desk-item-body">
+          <p class="desk-output" id="technicalDeskOutput">Arista Networks visar en tidshorisontkonflikt: RSI 58–64 (neutral till svagt köp), Barchart/ChartMill ger Strong Buy (7/0, 9/10), men TradingView ger paradoxalt Sälj på dagssikt trots Köp på vecka/månad. Nvidia är genuint delad mellan källor: RSI antingen ~53 (neutral) eller ~37 (säljzon), MACD bullish hos en leverantör och −1,55 (sälj) hos en annan — kursen ligger dock över både 50- och 200-dagars snitt hos samtliga. Broadcom har en intern motsägelse hos samma källa: TipRanks aggregerat Strong Buy (16/4/2), men MACD-värdet (5,09) klassas paradoxalt som sälj; RSI 57–72 beroende på källa.
+
+Marvell är tydligt bullish efter veckans kursåterhämtning: RSI 65 (köp) hos en källa, 52 (mer neutralt) hos en annan, MACD +5,85 (köp) mot −0,04 (sälj), aggregerat Strong Buy (6/1). Micron har konsekvent köp-MACD hos alla källor och aggregerat Strong Buy (8/0), RSI 50–57. Taiwan Semiconductor är motstridig: RSI 79 (överköpt) eller 51 (neutral) beroende på källa, och MACD kallas köp men beskrivs samtidigt ligga under signallinjen (bearish momentum) hos samma källa — en intern motsägelse. ASML är genuint spretande mellan noteringar: RSI 39 (sälj) på en notering, 82 (överköpt/sälj) på en annan — båda flaggar svaghet men av olika skäl.
+
+Alibaba har en överköpt-varning: RSI 75 hos en källa mot 46 (neutral) hos en annan, MACD tolkas motsägelsefullt vid samma nivå. Intel har enorm RSI-spridning (57–80) och MACD bullish hos alla källor men blandade glidande medelvärden. AMD:s signaler tolkas olika av olika källor trots liknande RSI-nivå (56–64, "neutral" hos vissa, "överköpt" hos andra), och MACD ges både som bullish och som −4,81 (sälj).</p>
+          <p class="desk-status-full">Uppdaterad idag — Broadcom har en intern MACD-motsägelse, ASML mest spretande av dagens kandidater</p>
+        </div>
+      </details>
+      <details class="desk-item">
+        <summary>
+          <svg class="role-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 4h16v12H8l-4 4V4z"/></svg>
+          <span class="desk-role">Sentimentanalytiker</span>
+          <span class="desk-status"><span class="dot"></span>Klar</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="desk-item-body">
+          <p class="desk-output" id="sentimentDeskOutput">Arista Networks har Strong Buy-konsensus (~31 analytiker), snittkursmål ~241 USD, låg blankning (1,7–1,9%) och förhöjd, köp-dominerad optionsaktivitet. Nvidia har fortsatt brett Strong Buy-stöd (58–69 analytiker), snittmål kluster 319–329 USD; blankningen är låg i andel av float (~1,3%) men störst i dollartermer (~34 md USD notionellt), och optionsmarknaden visar tydlig call-skew (81:a percentilen) samt en stor putposition (150-strike, okt) som sannolikt är sålda puts snarare än ren hedge. Broadcom har Strong Buy (snittmål ~500–532 USD) och låg, fallande blankning (~1,2%). Marvell har Strong Buy från 39 av 44 analytiker (median 284–289 USD) med måttlig blankning (3,5%, dagar-att-täcka 1,5) — optionsflödet har historiskt varit starkt call-dominerat, men öppen ränta (put/call 1,27) är svagt defensiv, en blandad signal värd att notera.
+
+Micron har Strong Buy/Buy-konsensus men ovanligt bred riktkursspridning (snitt 1 296–1 513 USD, spann 361–2 200 USD) — bör tas med stor försiktighet. Blankningen stiger svagt (~2,9%) och stor ovanlig putaktivitet (390-strike) sågs efter kursdubblingen, sannolikt premieinkassering snarare än björnsyn. Taiwan Semiconductor har Strong Buy men riktkursspridningen är ovanligt bred mellan källor (333–551 USD) — osäker konsensusnivå; blankningen är låg (~0,5%) men stiger kraftigt (+8,5%), och optionsbilden är blandad (OI put/call 1,48 bearish-lutande mot mer balanserat dagligt flöde). ASML har en bredare ratingspridning än övriga halvledarnamn (Moderate Buy: 3 SB/21 B/4 H/3 S), mycket låg blankning (&lt;0,5%, fallande).
+
+Alibaba har Strong Buy (~40 analytiker) men med sjunkande riktkurstrend (nedreviderat från ~199 till ~190 USD) och brett spann (95–238 USD) — en reell osäkerhet snarare än bara metodskillnad. Blankningen är låg (1,7–1,8%), och optionsflödet är call-dominerat och bullish (put/call-volymkvot ~0,43). Intel har konsensus "Buy" men snittmålet (~112–115 USD) ligger nära dagens kurs — begränsad uppsida trots enskilda höjningar; blankningen faller (−5,7%) och en stor ovanlig putvolym i augusti (65-strike) tolkas som inkomststrategi snarare än björnsignal. AMD:s konsensus spretar mellan Moderate och Strong Buy beroende på panel (snittmål 565 mot 617 USD); optionsflödet är tydligt bullish med stora call-köp vid 600/700/800-strikes för 2027.
+
+På bevakningslistan: Hemnets blankning ligger i stort sett oförändrad till marginellt lägre jämfört med augusti (cirka 10,3–11,3% beroende på källa, mot ~10,67% i augusti och rekordhöga 15,03% i juni). SBB-B ligger kvar högt och i stort sett oförändrat till möjligen svagt stigande (cirka 15,2–16,3% beroende på källa, mot ~15,16% i augusti) — bolaget sticker ut genom att blankarna inte täcker positionerna i samma takt som i flera andra namn.</p>
+          <p class="desk-status-full">Klar — Micron och TSM har ovanligt bred riktkursspridning, Hemnet/SBB-B i stort sett oförändrade</p>
+        </div>
+      </details>
+      <details class="desk-item">
+        <summary>
+          <svg class="role-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="10.3" cy="10.3" r="6.3"/><line x1="15.2" y1="15.2" x2="20" y2="20"/><line x1="10.3" y1="7.3" x2="10.3" y2="10.7"/><circle cx="10.3" cy="13.3" r="0.5" fill="currentColor" stroke="none"/></svg>
+          <span class="desk-role">Riskgranskare</span>
+          <span class="desk-status"><span class="dot"></span>10 avvägningar — TSM/ASML/BABA i fokus inför Trump-Xi</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="desk-item-body">
+          <p class="desk-output">Dagens tydligaste tema är att flera case är direkt knutna till utfallet av Trump-Xi-mötet 24/9 — en genuin binär osäkerhet som förtjänar en ärlig avvägning innan slutsats, snarare än att bara räknas in i den allmänna AI-optimismen.
+
+Arista Networks: Bull — dagens intåg i S&amp;P 100 ger ett omedelbart institutionellt köpflöde, och Q2-rapporten slog tydligt förväntningarna. Bear — aktien är redan upp ~45% i år inför intaget, och TradingViews dagssignal visar paradoxalt Sälj trots Strong Buy hos andra leverantörer. Slutsats: stark story, men risk för ett kortsiktigt "sälj på nyheten"-mönster efter en redan stor uppgång.
+
+Nvidia: Bull — Jensen Huangs besked om fördubblade kretsleveranser 2027 är en kraftfull, konkret guidningsuppdatering. Bear — aktien var en av de hårdast drabbade i förra veckans 5,9%-chipras, och RSI/MACD är genuint delade mellan källor (37 mot 53 i RSI). Slutsats: långsiktig bild stärkt av Huangs uttalande, men kortsiktig teknik fortsatt osäker efter veckans volatilitet.
+
+Broadcom: Bull — kraftiga riktkurshöjningar efter Q3 (flera hus mot 600 dollar) och stark AI-intäktstillväxt (+221% å/å). Bear — TipRanks eget MACD-värde klassas paradoxalt som säljsignal trots aggregerat Strong Buy — en intern motsägelse i samma källa som inte bör viftas bort. Slutsats: fundamenta starkt, men den tekniska motsägelsen manar till viss vaksamhet kring exakt tajming.
+
+Marvell: Bull — kraftig kursåterhämtning senaste veckan (+9,8%) efter Piper Sandlers nya köprekommendation, och Google-affären ger en flerårig tillväxttes. Bear — tekniken är fortsatt delad mellan källor (RSI 65 mot 52, MACD köp mot sälj). Slutsats: det starkaste caset i dagens urval givet både fundamenta och momentum, men inte utan kvarstående teknisk osäkerhet.
+
+Micron: Bull — en äkta strukturell minnesbrist-historia och Strong Buy hos flertalet källor inför rapporten 30/9. Bear — uppgiften om en extremt hög kursnivå (~1 018 dollar) kunde inte oberoende verifieras, och blankningen stiger parallellt med rallyt — ett tecken på att en del aktörer ser boomen som överhettad. Slutsats: stark inför rapportdatumet, men den obekräftade kursnivån och stigande blankning är riskfaktorer att ta på allvar.
+
+Taiwan Semiconductor: Bull — obestridd tillväxt (Q3-EPS väntas +52% å/å) och Strong Buy-konsensus. Bear — TSM är den mest direkta tull-/geopolitikkänsliga aktien i urvalet inför 24/9-mötet, och tekniken innehåller en intern motsägelse (MACD kallas köp men beskrivs samtidigt som bearish momentum hos samma källa). Slutsats: fundamentalt stark långsiktig tes, men ett konkret kortsiktigt binärt riskcase kring mötesutfallet.
+
+ASML: Bull — höjd 2026-omsättningsguidning och starkt AI-relaterat orderintag enligt vd Fouquet. Bear — den föreslagna MATCH Act skulle förbjuda export av DUV-litografimaskiner till Kina, och handelsminister Lutnick har offentligt ifrågasatt bolagets exportpraxis — en genuint olöst politisk risk. Slutsats: den mest oklara bilden i dagens urval; invänta mötet 24/9 innan du tar ställning.
+
+Alibaba: Bull — Xi väntas ta med Alibaba-ledningen till toppmötet, och flera analytikerhus har höjt riktkurser efter senaste rapporten. Bear — snittriktkurserna trendar faktiskt nedåt (från ~199 till ~190 dollar) på Kina-regulatorisk osäkerhet, och aktien är ned ~31% i år. Slutsats: det tydligaste direkta mötesspelet — chansartat i endera riktningen snarare än en stabil tes just nu.
+
+Intel: Bull — konkreta amerikanska tillverkningsaffärer (Terafab, SK Hynix-förhandlingar) stärker turnaround-storyn. Bear — konsensusmålet (~112–115 dollar) ligger nära dagens kurs trots enskilda höjningar, och den samlade analytikerbilden lutar faktiskt mer mot Håll än rubriken antyder. Slutsats: en äkta men ännu obekräftad turnaround-story — bevaknings- snarare än ett övertygande köpcase.
+
+AMD: Bull — datacenterintäkterna steg 107% å/å och nya Microsoft/Anthropic-avtal stärker AI-infrastrukturtesen. Bear — riktkurserna spretar ovanligt kraftigt mellan källor (365–1 250 dollar), och tekniken är splittrad mellan "neutral" och "överköpt"-tolkningar av samma RSI-nivå. Slutsats: fundamentalt momentum är äkta, men precisionen i det tekniska och analytiska underlaget är sämre än vanligt.
+
+Utöver casen: Trump-Xi-mötet 24/9 är veckans mest konkreta binära riskhändelse och påverkar TSM, ASML och Alibaba direkt — ett positivt utfall (förlängd tullvapenvila) skulle sannolikt lyfta hela gruppen, ett negativt utfall skulle slå hårt mot samma namn. Iran/Hormuz-tankerkriget förblir en olöst bakgrundsrisk för oljepriset. Den nya delstatliga regleringsrisken mot AI-datacenter (Oregon, Connecticut, New Hampshire) är ett färskt tema som ännu inte prisats in fullt ut i AI-infrastrukturaktierna.</p>
+          <p class="desk-status-full">Klar — bull/bear-avvägning gjord för samtliga tio case, Trump-Xi-mötet 24/9 den mest konkreta riskhändelsen</p>
+        </div>
+      </details>
+      <details class="desk-item">
+        <summary>
+          <svg class="role-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="4" x2="6" y2="20"/><path d="M6 5h11l-3 4 3 4H6"/></svg>
+          <span class="desk-role">Chefsstrateg</span>
+          <span class="desk-status"><span class="dot"></span>Väntar på VD</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="desk-item-body">
+          <p class="desk-output">Dagens sökområde (satt utifrån Trendspanarens teman): USA-Kina-toppmötet (Trump–Xi, Washington 24/9) och tullvapenvilans checkpoint inför novemberdeadlinen — riskaptit i kinesiska tech-ADR:er och exportkänsliga halvledare; fortsatt AI-halvledarvolatilitet efter veckans 5,9-procentiga chipindex-ras och Jensen Huangs kommentar om fördubblade leveranser 2027, med Arista Networks intåg i S&amp;P 100 idag (21/9) och Micron-rapporten (30/9) som närmaste katalysatorer; ny delstatlig regleringsrisk mot AI-datacenter (Oregon, Connecticut, New Hampshire); samt det fortsatt olösta Iran/Hormuz-tankerkriget som bakgrundsrisk för oljepriset. Sammanställning: Väger samman dagens research och risk till tio idéer för orderboken (Arista Networks, Nvidia, Broadcom, Marvell, Micron, Taiwan Semiconductor, ASML, Alibaba, Intel och AMD) — samtliga knutna till veckans två stora teman: AI-halvledarinfrastrukturens fortsatta styrka och det förestående USA-Kina-toppmötet 24/9. Arista Networks tas in som ny huvudkandidat med hög övertygelse efter dagens S&amp;P 100-intåg och en stark rapport. Marvell behåller hög övertygelse efter veckans kraftiga kursåterhämtning (+9,8%) och Piper Sandlers nya köprekommendation. Tre nya namn (Taiwan Semiconductor, ASML och Alibaba) tas in specifikt för sin direkta exponering mot mötet 24/9 — ett genuint binärt utfall som Riskgranskaren flaggat tydligt i samtliga tre fall. Största bakgrundsrisker: utfallet av Trump-Xi-mötet 24/9, det olösta Iran/Hormuz-tankerkriget, och en ny delstatlig regleringsrisk mot AI-datacenter. Rapport klar för dig.</p>
+          <p class="desk-status-full">Väntar på VD-beslut</p>
+        </div>
+      </details>
+      <details class="desk-item">
+        <summary>
+          <svg class="role-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 20V9M6 9l-3 3M6 9l3 3"/><path d="M18 4v11M18 15l-3-3M18 15l3 3"/></svg>
+          <span class="desk-role">Portföljmäklare</span>
+          <span class="desk-status"><span class="dot"></span>Klar (privat)</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="desk-item-body">
+          <p class="desk-output" id="brokerDeskOutput">Granskar ägarens privata innehav och ger behåll/sälj/köp mer-rekommendationer för dem. Den genomgången är privat och visas bara för ägaren, inte i den här delade vyn.</p>
+          <p class="desk-status-full">Innehåll privat — visas bara för ägaren</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <section class="orderbook">
+    <p class="section-label">Dagens orderbok — Chefsstrategens förslag</p>
+    <div class="order-list" id="orderList"></div>
+  </section>
+
+  <div class="lower-grid">
+      <section class="panel">
+        <h3>Bevakningslista</h3>
+        <div class="watch-item">
+          <div class="watch-head"><span class="sym">HEMNET</span><span class="flag">Blankning i stort sett oförändrad, ~10–11%</span></div>
+          <p>Hemnets blankarintresse ligger i stort sett oförändrat till marginellt lägre jämfört med augusti (cirka 10,3–11,3% beroende på källa, mot ~10,67% i augusti och rekordhöga 15,03% i juni). Riskgranskaren: ingen ny utveckling denna vecka — bevakas, inget dagens-case.</p>
+        </div>
+        <div class="watch-item">
+          <div class="watch-head"><span class="sym">SBB-B</span><span class="flag">Blankning kvar högt, ~15%</span></div>
+          <p>Samhällsbyggnadsbolagets blankarintresse ligger kvar högt, i stort sett oförändrat till möjligen svagt stigande (cirka 15,2–16,3% beroende på källa, mot ~15,16% i augusti) — bolaget sticker ut genom att blankarna inte täcker positionerna i samma takt som i flera andra namn. Riskgranskaren: ihållande hög nivå värd att fortsätta bevaka — ingen anledning att gå emot strömmen just nu.</p>
+        </div>
+        <div class="watch-item">
+          <div class="watch-head"><span class="sym">SFTBY</span><span class="flag">-13% efter Altman-kommentarer</span></div>
+          <p>SoftBank Groups blankarintresse är fortsatt lågt (1,17% av floaten, minskande), men aktien föll 13% den 13/9 efter att Sam Altman sagt att OpenAI inte börsnoteras i år — relevant då SoftBank planerar egna IPO:er (SB Energy, &gt;50 md USD värdering; Roze, ~100 md USD), möjligen redan i september. Riskgranskaren: låg men händelsedriven volatilitetsrisk — bevakas.</p>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h3>Makro att hålla koll på</h3>
+        <div class="macro-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5v5l3 2"/></svg>
+          <p><b>USA-Kina-toppmötet torsdag 24/9 — tullvapenvilans checkpoint.</b> Trump tar emot Xi Jinping i Washington, det andra mötet mellan de två i år. Tullvapenvilan från Busan (ingicks 30/10 2025) löper ut redan 10/11 — bara fem veckor efter mötet. Analytiker ser ett "begränsat" utfall (inkrementellt utan genombrott) som mest sannolikt, men ett positivt utfall skulle gynna kinesiska tech-ADR:er och exportkänsliga halvledare, medan ett negativt utfall skulle höja volatiliteten. Xi väntas ta med ledande personer från bland annat Alibaba och Tencent.</p>
+        </div>
+        <div class="macro-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 19V10M9 19V5M14 19v-7M19 19V8"/></svg>
+          <p><b>AI-halvledarindexet föll 5,9% på en dag — sedan återhämtat efter Huangs kommentar.</b> Philadelphia semiconductor-index föll 5,9% måndagen 14/9, sektorns sämsta dag sedan tidig juli, sedan flera tunga AI-branschprofiler efterlyst en inbromsning av utvecklingstempot. Nvidia (−3,4%), Micron (−5%) och Marvell (−7%) var hårt drabbade den dagen. Sektorn återhämtade sig snabbt sedan Nvidias vd Jensen Huang (17/9) sagt att kretsleveranserna väntas fördubblas 2027. Arista Networks gick in i S&amp;P 100 idag (21/9), och Micron rapporterar fiskalt Q4 onsdag 30/9 — nästa stora test.</p>
+        </div>
+        <div class="macro-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4l16 16M4 20L20 4"/><circle cx="12" cy="12" r="9"/></svg>
+          <p><b>Ny regleringsmotvind: tre delstater skärper reglerna mot AI-datacenter.</b> Oregons guvernör beslutade 8/9 att frysa alla arrenden och tillståndsärenden för datacenter på delstatligt ägd mark till 1/7 2027. Connecticuts guvernör har sagt att delstaten "inte kommer att hysa massiva AI-datacenter", och New Hampshires guvernör driver ett flerårigt moratorium som delstatens republikanska senatsledning ställde sig bakom 18/9. Ett eventuellt moratorium träder tidigast i kraft 2027, men den politiska riktningen — tre delstater på tre veckor — är en ny riskfaktor för datacenterbyggtakten.</p>
+        </div>
+        <div class="macro-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3v11M12 14l-4-4M12 14l4-4"/><path d="M5 17h14l-1.5 4h-11z"/></svg>
+          <p><b>Iran/Hormuz-tankerkriget fortsätter olöst.</b> USA och Iran har under september attackerat varandras oljetankfartyg i Hormuzsundet under en uttalad amerikansk "tanker for tanker"-policy. Ingen bekräftad de-eskalering (eller vidare eskalering) kunde verifieras för de allra senaste dagarna — senast bekräftade uppgifter är från kring 2–6/9. Bevaka energi, försvar och sjöfart separat; kopplingen till Fed:s hökaktiga räntebana (höjning 16/9, uttryckligen driven av oljepris- och inflationsoro) är tydlig.</p>
+        </div>
+        <div class="macro-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 19V10M9 19V5M14 19v-7M19 19V8"/></svg>
+          <p><b>Riksbanken väntas ligga stilla den 24 september — samma dag som Trump-Xi-mötet.</b> Sedan ECB redan höjde 25 punkter till 2,50/2,65/2,90% pekar konsensus på att Riksbanken lämnar styrräntan oförändrad på 1,75% vid nästa besked, efter en svag augusti-KPIF. Inget nytt av vikt har läckt ut inför det beskedet denna vecka.</p>
+        </div>
+      </section>
+  </div>
+
+
+  <section class="wish" id="wish" aria-labelledby="wishTitle">
+    <p class="section-label">Önska till Trendspanaren</p>
+    <div class="wish-grid">
+
+      <div class="panel" id="wishPanel">
+        <h3 id="wishTitle" style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
+          Vad ska vi titta på i morgon?
+          <span class="wish-badge" title="Inget skickas iväg än — det här är en förhandsvisning">Prototyp</span>
+        </h3>
+
+        <form id="wishForm" novalidate autocomplete="off">
+          <p class="wish-lead">Föreslå ett tema, en bransch eller en fråga. Ett önskemål väljs varje dag, och svaret hamnar i Trendspanarens avdelning i nästa morgons rapport.</p>
+
+          <fieldset>
+            <legend>Gäller det…</legend>
+            <div class="wish-types">
+              <input type="radio" name="wishType" id="wt1" value="tema" checked><label for="wt1">Tema eller bransch</label>
+              <input type="radio" name="wishType" id="wt2" value="bolag"><label for="wt2">Ett bolag</label>
+              <input type="radio" name="wishType" id="wt3" value="fraga"><label for="wt3">En fråga</label>
+            </div>
+          </fieldset>
+
+          <div class="wish-field">
+            <label for="wishText">Ditt önskemål</label>
+            <textarea id="wishText" maxlength="200" placeholder="T.ex. Vad är hett inom amerikanska REITs just nu?" aria-describedby="wishCount"></textarea>
+            <div class="wish-count" id="wishCount"><span id="wishHint">Minst 10 tecken</span><span id="wishNum">0 / 200</span></div>
+          </div>
+
+          <div class="wish-row">
+            <div class="wish-field">
+              <label for="wishName">Förnamn <span class="opt">(valfritt)</span></label>
+              <input type="text" id="wishName" maxlength="30" placeholder="Visas som ”önskat av …”">
+            </div>
+            <div class="wish-field">
+              <label for="wishMail">E-post <span class="opt">(valfritt)</span></label>
+              <input type="email" id="wishMail" maxlength="80" placeholder="För att få veta när det besvarats">
+            </div>
+          </div>
+
+          <div class="wish-hp" aria-hidden="true"><label>Lämna tomt<input type="text" id="wishWeb" tabindex="-1" autocomplete="off"></label></div>
+
+          <label class="wish-check" for="wishConflict">
+            <input type="checkbox" id="wishConflict">
+            <span>Jag äger aktier i något bolag som önskemålet gäller <span class="opt">(vi redovisar det i så fall)</span></span>
+          </label>
+
+          <div class="wish-actions">
+            <button class="btn" type="submit" id="wishSubmit">Skicka önskemål</button>
+            <span class="wish-msg" id="wishMsg" role="status" aria-live="polite"></span>
+          </div>
+          <p class="wish-fine">Svaret är allmän information och inte personlig rådgivning. Vi väljer önskemål efter hur många som vill ha dem och efter vad som är relevant för dagen, och vi kan avstå från att besvara ett önskemål. Din e-postadress används inte till något annat.</p>
+        </form>
+
+        <div class="wish-done" id="wishDone" hidden>
+          <h4>Tack, önskemålet är mottaget</h4>
+          <p>Så här lyder det:</p>
+          <blockquote class="wish-quote" id="wishEcho"></blockquote>
+          <p id="wishEchoNote">Det hamnar bland de populära önskemålen här bredvid. Tryck på pilen på det du helst vill ha besvarat.</p>
+          <button class="btn ghost" type="button" id="wishAgain">Skicka ett till</button>
+        </div>
+      </div>
+
+      <div class="panel wish-side">
+        <h3>Populära önskemål <span class="wish-badge">Exempel</span></h3>
+        <ul class="wish-list" id="wishList"></ul>
+        <p class="wish-fine">Rösta på det du vill se. Önskemålet med flest röster (och som passar dagens bevakning) besvaras nästa morgon.</p>
+      </div>
+    </div>
+
+    <div class="wish-today">
+      <p class="section-label">Så visas ett besvarat önskemål</p>
+      <div class="panel">
+        <h3>Dagens önskemål <span class="wish-badge">Exempel</span></h3>
+        <p><b>Önskat av en medlem:</b> ”Vad är hett inom amerikanska REITs just nu?”</p>
+        <p>Här hamnar Trendspanarens svar, med riktiga kursdata och källor, lika sakligt som resten av rapporten. Har vi ägarintressen eller är underlaget tunt, står det uttryckligen.</p>
+      </div>
+    </div>
+  </section>
+  </div>
+
+
+  <div id="viewOrg" class="org-view" hidden>
+    <p class="org-intro">Golvet växer som en liten koncern — varje avdelning är ett eget litet "bolag" med egna agenter. Just nu finns en avdelning i drift. Klicka på ett bolag för att se laget bakom, och klicka på en agent för att se vad den gör, vem den pratar med och vad den levererat idag.</p>
+
+    <div class="holding-row">
+      <div class="holding-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="18" height="18" rx="1.5"/><line x1="3" y1="11" x2="21" y2="11"/><line x1="3" y1="16" x2="21" y2="16"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
+        <span>Golvet</span>
+      </div>
+      <span class="holding-arrow">→</span>
+      <div class="bolag-row">
+        <div class="bolag-card" id="bolagAktieanalys" role="button" tabindex="0">
+          <div>
+            <div class="name">Aktieanalys</div>
+            <div class="meta" id="bolagMeta">9 agenter · aktiv</div>
+          </div>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="bolag-card ghost" title="Kommer snart — fler avdelningar kan läggas till här">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <div class="name">Nytt bolag</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="orgDiagramWrap" hidden>
+      <div class="org-diagram">
+        <svg viewBox="0 0 760 530" role="img" aria-label="Organisationsschema för Golvet Aktieanalys: Trendspanaren söker brett efter veckans teman och lämnar dem till Chefsstrategen. Chefsstrategen sätter dagens sökområde och skickar ut Nyhetsspanaren, Sentimentanalytikern, Kursanalytikern, Teknisk analytiker och Bolag- och analytikerdesken. De skickar sin research till Riskgranskaren, som testar Chefens hypotes och ställer fundamental bild mot teknisk bild, och lämnar den granskade analysen tillbaka till Chefsstrategen. Chefsstrategen lämnar dagens orderbok till dig som VD. Parallellt granskar Portföljmäklaren dina egna innehav och rapporterar direkt till dig.">
+          <defs>
+            <marker id="orgArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M0,0 L10,5 L0,10 z" fill="var(--ink-faint)"/>
+            </marker>
+          </defs>
+          <rect x="2" y="355" width="756" height="145" rx="14" fill="none" stroke="var(--line)" stroke-width="1.2" stroke-dasharray="4 4" opacity=".8"/>
+          <path class="org-line" pathLength="1" style="animation-delay:.15s" d="M64,401 V357 H380 V349" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" marker-end="url(#orgArrow)"/>
+          <path class="org-line" pathLength="1" style="animation-delay:.15s" d="M222,401 V367 H380 V349" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" marker-end="url(#orgArrow)"/>
+          <path class="org-line" pathLength="1" style="animation-delay:.15s" d="M380,401 V349" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" marker-end="url(#orgArrow)"/>
+          <path class="org-line" pathLength="1" style="animation-delay:.15s" d="M538,401 V377 H380 V349" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" marker-end="url(#orgArrow)"/>
+          <path class="org-line" pathLength="1" style="animation-delay:.15s" d="M696,401 V387 H380 V349" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" marker-end="url(#orgArrow)"/>
+          <path class="org-line" pathLength="1" style="animation-delay:.5s" d="M380,271 V219" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" marker-end="url(#orgArrow)"/>
+          <path class="org-line" pathLength="1" style="animation-delay:.85s" d="M380,141 V89" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" marker-end="url(#orgArrow)"/>
+          <path class="org-line" pathLength="1" style="animation-delay:.85s" d="M150,141 V95 H380 V89" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" marker-end="url(#orgArrow)"/>
+          <path class="org-line" pathLength="1" style="animation-delay:.3s" d="M526,155 H473" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" marker-end="url(#orgArrow)"/>
+          <path d="M455,208 V228 H500 V351" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#orgArrow)"/>
+          <text x="367" y="242" text-anchor="end" font-size="11" fill="var(--ink-soft)" font-family="IBM Plex Mono, monospace">granskad research</text>
+          <text x="393" y="104" font-size="11" fill="var(--ink-soft)" font-family="IBM Plex Mono, monospace">dagens orderbok</text>
+          <text x="500" y="146" text-anchor="middle" font-size="10" fill="var(--ink-soft)" font-family="IBM Plex Mono, monospace">teman</text>
+          <text x="510" y="290" font-size="11" fill="var(--ink-soft)" font-family="IBM Plex Mono, monospace">sökområde</text>
+        </svg>
+
+        <button class="org-node you" style="left:50%; top:9.2%; animation-delay:.85s" data-agent="vd" type="button">
+          <div class="head"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l3-8 5 5 5-9 3 12"/></svg></span><span class="role">Du — VD</span></div>
+          <p class="blurb">Klubbar besluten och trycker på köp.</p>
+        </button>
+        <button class="org-node" style="left:50%; top:33.1%; animation-delay:.6s" data-agent="chef" type="button">
+          <div class="head"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="4" x2="6" y2="20"/><path d="M6 5h11l-3 4 3 4H6"/></svg></span><span class="role">Chefsstrateg</span></div>
+          <p class="blurb">Sätter sökområdet, skickar ut teamet och väger ihop svaren.</p>
+        </button>
+        <button class="org-node" style="left:19.7%; top:33.1%; animation-delay:.6s" data-agent="broker" type="button">
+          <div class="head"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 20V9M6 9l-3 3M6 9l3 3"/><path d="M18 4v11M18 15l-3-3M18 15l3 3"/></svg></span><span class="role">Portföljmäklare</span></div>
+          <p class="blurb">Granskar dina egna innehav — behåll, sälj eller köp mer.</p>
+        </button>
+        <button class="org-node" style="left:50%; top:56.9%; animation-delay:.4s" data-agent="risk" type="button">
+          <div class="head"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="10.3" cy="10.3" r="6.3"/><line x1="15.2" y1="15.2" x2="20" y2="20"/></svg></span><span class="role">Riskgranskare</span></div>
+          <p class="blurb">Testar Chefens hypotes och flaggar det som skaver.</p>
+        </button>
+        <button class="org-node feeder" style="left:8.4%; top:80.8%; animation-delay:.2s" data-agent="news" type="button">
+          <div class="head"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="17" r="1.4"/><path d="M8.3 17a3.7 3.7 0 0 1 7.4 0"/><path d="M5.3 17a6.7 6.7 0 0 1 13.4 0"/><line x1="12" y1="4" x2="12" y2="8.3"/></svg></span><span class="role">Nyhetsspanare</span></div>
+          <p class="blurb">Rapporterar vad som hänt de senaste 24 timmarna.</p>
+        </button>
+        <button class="org-node feeder" style="left:29.2%; top:80.8%; animation-delay:.2s" data-agent="sentiment" type="button">
+          <div class="head"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H8l-4 4V4z"/></svg></span><span class="role">Sentimentanalytiker</span></div>
+          <p class="blurb">Känner av vad marknaden faktiskt tycker.</p>
+        </button>
+        <button class="org-node feeder" style="left:50%; top:80.8%; animation-delay:.2s" data-agent="chart" type="button">
+          <div class="head"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 17 9 10 13 14 21 5"/></svg></span><span class="role">Kursanalytiker</span></div>
+          <p class="blurb">Gräver fram halvårets kursutveckling per bolag.</p>
+        </button>
+        <button class="org-node feeder" style="left:70.8%; top:80.8%; animation-delay:.2s" data-agent="technical" type="button">
+          <div class="head"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="4" x2="6" y2="20"/><rect x="4" y="9" width="4" height="6"/><line x1="12" y1="2" x2="12" y2="22"/><rect x="10" y="6" width="4" height="10"/><line x1="18" y1="6" x2="18" y2="18"/><rect x="16" y="10" width="4" height="5"/></svg></span><span class="role">Teknisk analytiker</span></div>
+          <p class="blurb">Läser bara kursmönster — struntar i vinster och nyheter.</p>
+        </button>
+        <button class="org-node feeder" style="left:91.6%; top:80.8%; animation-delay:.2s" data-agent="analyst" type="button">
+          <div class="head"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="20" x2="20" y2="20"/><rect x="6" y="13" width="3" height="7"/><rect x="11" y="9" width="3" height="11"/><rect x="16" y="5" width="3" height="15"/></svg></span><span class="role">Bolag &amp; Analytiker-desk</span></div>
+          <p class="blurb">Håller koll på riktkurser och rapporter.</p>
+        </button>
+        <button class="org-node" style="left:80.3%; top:33.1%; animation-delay:0s" data-agent="trend" type="button">
+          <div class="head"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 12 L17.5 7.5"/><path d="M12 3.5 A8.5 8.5 0 0 1 20.5 12"/></svg></span><span class="role">Trendspanare</span></div>
+          <p class="blurb">Söker brett och tar sig tid — veckans teman.</p>
+        </button>
+      </div>
+
+      <div class="org-drawer" id="orgDrawer" hidden></div>
+    </div>
+  </div>
+
+  <footer>
+    <p><b>Golvet</b> är ett internt research- och demoverktyg. Inget innehåll här är personlig finansiell rådgivning eller en rekommendation att köpa eller sälja värdepapper — du är VD och fattar alla beslut själv. Alla "köp" och "sälj" i portföljen är simulerade (papper) och sker inte hos någon mäklare eller med riktiga pengar; priser matas in manuellt eftersom sidan inte hämtar realtidskurser. Underlag: CNBC, Bloomberg, Barclays, UBS, Piper Sandler, Scotiabank, JPMorgan, BofA, Macquarie, Rosenblatt, Breaking Defense m.fl. — se respektive agents källor. Medelhög/medel konfidens-poster bör dubbelkollas innan de tas som fakta.</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var TODAY = "2026-09-21";
+
+  var candidates = [
+    {
+      ticker:"ANET", exch:"NYSE", company:"Arista Networks",
+      theme:"AI-nätverk / datacenterinfrastruktur", conv:"hog", convLabel:"Hög",
+      thesis:"Arista Networks gick in i S&amp;P 100 vid börsöppning idag (21/9), tillsammans med Dell, Palo Alto Networks och SanDisk (Nike, Honeywell Aerospace, Simon Property och Colgate-Palmolive lämnade indexet i kvartalsrebalanseringen). Aktien är upp cirka 45% i år och handlas kring 194–200 USD; Q2-rapporten slog förväntningarna (EPS 1,02 USD mot väntade 0,89, omsättning 3,04 md USD mot väntade 2,83 md, +37,7% å/å). Konsensus Strong Buy (~31 analytiker), snittkursmål cirka 241 USD (spann 185–289 USD), och flera hus (TD Cowen, Rosenblatt) har nyligen höjt mot 250–280 USD på AI-nätverksefterfrågan.",
+      risk:"Som nätverksleverantör till AI-datacenter är Arista exponerat mot samma sentimentsvängningar som drabbade halvledarindexet (−5,9% på en dag den 14/9) på AI-avmattningsoro. Tekniken har en tidshorisontkonflikt: TradingView visar Sälj på dagssikt trots att Barchart och ChartMill ger Strong Buy (7/0 respektive 9/10). Efter en stark förhandsuppgång inför indexintaget finns risk för ett kortsiktigt \"sälj på nyheten\"-mönster.",
+      src:"Källa: S&amp;P Dow Jones Indices/TipRanks om indexintaget (21/9), Q2-rapport, Barchart/ChartMill/TradingView om teknisk bild (sept 2026)",
+      sentiment:{
+        label:"Bullish", cls:"pos",
+        note:"Konsensus Strong Buy (~31 analytiker), snittkursmål ~241 USD. Låg blankning (1,7–1,9% av floaten). Förhöjd, köp-dominerad optionsaktivitet.",
+        src:"stockanalysis.com/S&amp;P Global (sept 2026)"
+      },
+      horizon:{
+        type:"kort", label:"Kortsiktig/nyhetsdriven",
+        note:"Dagens indexintag ger ett omedelbart institutionellt flöde in i aktien, men efter en redan stark förhandsuppgång (+37% inför intaget enligt en källa) finns en reell risk för avmattning på kort sikt."
+      },
+      technical:{
+        label:"Motstridigt (tidshorisont)", cls:"neu",
+        note:"RSI 58–64 (neutral till svagt köp), MACD över signallinjen. Barchart/ChartMill ger Strong Buy (7/0, 9/10), men TradingView ger paradoxalt Sälj på dagssikt trots Köp på vecka/månad.",
+        src:"Barchart/ChartMill/TradingView (sept 2026)"
+      },
+      alignment:{
+        status:"partial",
+        note:"Fundamentalt mycket starkt understött av dagens indexintag och konsensus, men den kortsiktiga tekniska signalen är splittrad mellan leverantörer — en stark story med oklar kortsiktig tajming."
+      }
+    },
+    {
+      ticker:"NVDA", exch:"NASDAQ", company:"Nvidia",
+      theme:"AI-infrastruktur / halvledare", conv:"medhog", convLabel:"Medel–hög",
+      thesis:"Nvidia handlas kring 219–222 USD (20/9). Vd Jensen Huang sa vid ett event i Skottland (17/9) att kretsförsäljningen väntas fördubblas 2027 mot i år, med minst 1 000 md USD i intäkter från nästa generations Vera Rubin-plattform fram till 2027 — dubbelt mot förra årets prognos; AWS uppges planera ytterligare 2 miljoner Nvidia-GPU:er 2027–2028. Aktien var en av de hårdast drabbade i halvledarindexets 5,9%-ras den 14/9 (ned ~3,4% den dagen) på AI-avmattningsoro från flera branschledare, men har återhämtat sig sedan Huangs uttalande.",
+      risk:"Riktkurserna spretar mellan källor: Morgan Stanley höjde marginellt till 288 USD, Wedbush ligger kvar ~275 USD, medan bredare paneler klustrar snittmål kring 319–329 USD (spann 180–515) — stor spridning. Tekniken är genuint delad: RSI antingen ~53 (neutral) eller ~37 (säljzon) beroende på källa, och MACD ges både som bullish och som negativt (−1,55, säljsignal).",
+      src:"Källa: Jensen Huang/CNBC (17/9), Morgan Stanley/Wedbush om riktkurser, Investing.com/Barchart om teknisk bild (sept 2026)",
+      sentiment:{
+        label:"Bullish", cls:"pos",
+        note:"Strong Buy-konsensus (58–69 analytiker), snittmål kluster 319–329 USD. Blankning låg i andel av float (~1,3%) men störst i dollartermer (~34 md USD). Call-skew klart bullish (81:a percentilen), OI put/call ~0,84.",
+        src:"S&amp;P Global/marketchameleon (sept 2026)"
+      },
+      horizon:{
+        type:"medel", label:"Medellång sikt",
+        note:"Huangs fördubblade leveransprognos och AWS expansionsplaner ger en stark medellång tes, men tekniken är genuint splittrad mellan källor efter veckans volatilitet — invänta att bilden klarnar innan du ökar tungt."
+      },
+      technical:{
+        label:"Motstridigt", cls:"neu",
+        note:"RSI antingen ~53 (neutral) eller ~37 (säljzon) beroende på källa. MACD bullish hos en leverantör, −1,55 (sälj) hos en annan. Kursen ligger dock över både 50- och 200-dagars glidande medelvärden hos samtliga källor.",
+        src:"Investing.com/Barchart/AltIndex (sept 2026)"
+      },
+      alignment:{
+        status:"partial",
+        note:"Strukturellt bullish (kurs över båda större glidande medelvärden hos alla källor) och ett starkt vd-uttalande, men enskilda RSI/MACD-avläsningar pekar åt olika håll just nu — långsiktig bild intakt, kortsiktig teknik oenig."
+      }
+    },
+    {
+      ticker:"AVGO", exch:"NASDAQ", company:"Broadcom",
+      theme:"AI-infrastruktur / anpassad AI-kisel", conv:"medhog", convLabel:"Medel–hög",
+      thesis:"Efter en starkt mottagen Q3-rapport (AI-halvledarintäkter +221% å/å till 16,7 md USD) har flera analytikerhus höjt riktkurserna kraftigt: Cantor Fitzgerald och Rosenblatt till 600 USD, BMO Capital till 575 USD (från 455), Macquarie uppgraderade till Outperform (490 USD) och Morgan Stanley höjde till 505 USD med hänvisning till \"surging AI chip demand\". Genomsnittlig riktkurs cirka 518 USD, omkring 45% uppsida mot kursen ~357,61 USD (20/9). Broadcoms custom-AI-siliconaffär med hyperscalers gör bolaget till en av de tydligaste vinnarna av fortsatt AI-capex.",
+      risk:"TipRanks aggregerade konsensus är Strong Buy (16 bullish/4 neutral/2 bearish), men samma källa klassar paradoxalt bolagets egen MACD-siffra (5,09) som en säljsignal — en intern motsägelse. RSI spretar mellan 57 (neutral) och 72 (överköpt) beroende på källa. Bolaget är också sårbart för samma sentimentsvängningar som drabbade hela chipsektorn i 14/9-raset.",
+      src:"Källa: Cantor Fitzgerald/Rosenblatt/BMO/Macquarie/Morgan Stanley om riktkurser (sept 2026), TipRanks/Barchart om teknisk bild",
+      sentiment:{
+        label:"Bullish (överköpt-varning)", cls:"pos",
+        note:"Strong Buy-konsensus, snittriktkurs ~518 USD (~45% uppsida). Låg och fallande blankning (~1,2%).",
+        src:"TipRanks (sept 2026)"
+      },
+      horizon:{
+        type:"medel", label:"Medellång sikt",
+        note:"Rekordkvartalet och de kraftiga riktkurshöjningarna ger en stark medellång tes, men den interna motsägelsen mellan aggregerat betyg och MACD-signal manar till viss försiktighet kring exakt tajming."
+      },
+      technical:{
+        label:"Bullish (motsägelsefull MACD)", cls:"pos",
+        note:"TipRanks aggregerat Strong Buy (16/4/2), men samma källas MACD-värde (5,09) klassas som sälj. RSI 57–72 beroende på källa, pris över korta glidande medelvärden.",
+        src:"TipRanks/Barchart (sept 2026)"
+      },
+      alignment:{
+        status:"partial",
+        note:"Fundamenta och aggregerat betyg är samstämmigt bullish, men en genuin intern motsägelse i den tekniska datan (MACD-sälj trots Strong Buy-betyg) gör bilden mindre entydig än rubriken antyder."
+      }
+    },
+    {
+      ticker:"MRVL", exch:"NASDAQ", company:"Marvell Technology",
+      theme:"AI-halvledare / datacenter", conv:"hog", convLabel:"Hög",
+      thesis:"Marvell har stigit kraftigt sedan förra veckan — 243,39 USD (20/9), upp från 221,63 USD (15/9) — och Piper Sandler inledde nyligen bevakning med Buy och riktkurs 270 USD. Konsensus förblir Strong Buy (39 köp/5 håll/0 sälj av 44), medianriktkurs 284,64 USD (~17% uppsida). Bolaget är en central leverantör av anpassade AI-nätverks-/anslutningskretsar till hyperscalers efter det utökade Google-avtalet (upp till 12,2 md USD i aktieköp, potentiellt 120 md USD i intäkter till 2033).",
+      risk:"Blankarintresset är förhöjt men inte extremt (3,5% av floaten, dagar-att-täcka 1,5). Tekniken är delad: RSI 65 (köp) hos en källa mot 52 (mer neutral, nära överköpt) hos en annan, och MACD ges både som +5,85 (köp) och −0,04 (sälj) beroende på leverantör. Optionsmarknadens öppna ränta (put/call OI 1,27) är svagt defensiv trots historiskt call-dominerat flöde.",
+      sixMonth:{
+        points:[{label:"Mars",price:89.57},{label:"Juni-topp",price:316.43},{label:"Idag",price:243.39}],
+        changePct:171.7,
+        note:"Upp kraftigt sedan mars och en tydlig återhämtning senaste veckan (+9,8% sedan 15/9) efter Piper Sandlers nya köprekommendation, men fortsatt en bit under junitoppen."
+      },
+      src:"Källa: Piper Sandler (sept 2026), Google-avtal, stockanalysis.com/Barchart/Investtech om teknisk bild (sept 2026)",
+      sentiment:{
+        label:"Bullish", cls:"pos",
+        note:"Strong Buy (39/5/0 av 44 analytiker), medianriktkurs 284,64 USD. Förhöjd men inte extrem blankning (3,5%, dagar-att-täcka 1,5). Öppen ränta i optioner svagt defensiv (put/call 1,27) trots historiskt bullish flöde.",
+        src:"stockanalysis.com/S&amp;P Global (sept 2026)"
+      },
+      horizon:{
+        type:"medel", label:"Medellång sikt",
+        note:"Google-affären och Piper Sandlers nya köprekommendation ger fortsatt medvind, men den tekniska bilden är splittrad mellan källor — en flerårig tes snarare än ett kortsiktigt momentumcase."
+      },
+      technical:{
+        label:"Köp (delad bild)", cls:"pos",
+        note:"RSI 65 (köp) hos en källa, 52 (mer neutralt/nära överköpt) hos en annan. MACD +5,85 (köp) mot −0,04 (sälj) beroende på leverantör. Aggregerat Strong Buy (6/1).",
+        src:"Barchart/Investtech (sept 2026)"
+      },
+      alignment:{
+        status:"match",
+        note:"Fundamentalt och tekniskt pekar fortsatt samstämmigt uppåt efter veckans kursåterhämtning, men den delade tekniska bilden mellan källor manar till viss vaksamhet kring exakt inköpstajming."
+      }
+    },
+    {
+      ticker:"MU", exch:"NASDAQ", company:"Micron Technology",
+      theme:"AI-minne / halvledare", conv:"medhog", convLabel:"Medel–hög",
+      thesis:"Micron rapporterar fiskalt Q4 onsdag 30/9. Egen guidning: omsättning 50,0 md USD ±1,0 md, bruttomarginal ~86%, GAAP-EPS 30,73 USD ±1,00 — en kraftig ökning mot fjolårets 3,03 USD, drivet av AI-minnesefterfrågan. Goldman Sachs (Hold-rating) ligger ändå över egen guidning i sin prognos: 51,9 md USD i omsättning, EPS 32,54 USD, och väntar sig low-teens sekventiell tillväxt i Q1 FY27-guidningen. Bernstein och Mizuho har Buy; konsensus Strong Buy med i snitt cirka 69% uppsida.",
+      risk:"Aktien föll drygt 5% i chipsektorns 14/9-ras och är nu på en extrem kursnivå (uppgift om ~1 018 USD, 20/9) efter en kraftig flerdubbling i år — denna nivå kunde inte oberoende verifieras och bör dubbelkollas innan den tas som fakta. Blankarintresset stiger mot flerårshögsta (~2,9% av floaten) parallellt med rallyt, och stor ovanlig putaktivitet (&gt;10 000 kontrakt, 390-strike) sågs efter kursdubblingen — sannolikt premieinkassering snarare än björnsyn, men värt att notera.",
+      src:"Källa: Micron egen guidning/GlobeNewswire (26/8), Goldman Sachs/Bernstein/Mizuho, Barchart/TradingView om teknisk bild (sept 2026)",
+      sentiment:{
+        label:"Strong Buy (stigande blankning, extrem kursnivå)", cls:"pos",
+        note:"Strong Buy/Buy beroende på källa (29–49 analytiker). Riktkurserna spretar kraftigt (snitt ~1 296–1 513 USD, spann 361–2 200 USD) efter kraftiga kurshöjningar — behandla enskilda siffror med försiktighet. Blankning stiger svagt (~2,9%).",
+        src:"TipRanks/Yahoo Finance (sept 2026)"
+      },
+      horizon:{
+        type:"kort", label:"Kortsiktig/rapportdriven",
+        note:"Rapporten 30/9 är en nära och tydlig katalysator given den starka minnesefterfrågan, men den extrema kursnivån och stigande blankning parallellt med rallyt är genuina varningstecken att ta på allvar inför datumet."
+      },
+      technical:{
+        label:"Köp", cls:"pos",
+        note:"MACD entydigt köp hos samtliga källor. RSI 50–57 (neutral till svagt köp). Aggregerat Strong Buy (8/0), stigande trendkanal.",
+        src:"Barchart/Intellectia (sept 2026)"
+      },
+      alignment:{
+        status:"match",
+        note:"Tekniken och den strukturella minnesbristhistorien är samstämmigt bullish inför rapporten 30/9, men den ovanligt extrema kursnivån (obekräftad) och stigande blankning mitt i euforin är riskfaktorer värda att hålla i bakhuvudet."
+      }
+    },
+    {
+      ticker:"TSM", exch:"NYSE", company:"Taiwan Semiconductor",
+      theme:"Halvledartillverkning / handelspolitik", conv:"medhog", convLabel:"Medel–hög",
+      thesis:"Trump har på nytt lyft frågan om att flytta hem chiptillverkning och höja halvledartullar, strax före Xi Jinpings väntade Washington-besök torsdag 24/9. Handelsminister Lutnick sa 2/9 att administrationen utformar ett tullramverk där bolag som tillverkar chip i USA kan undantas — TSMC har redan åtagit 265 md USD till Arizona-projekt, men bara cirka 30% av mest avancerade processkapacitet väntas ligga i USA även efter full utbyggnad. Needham höjde riktkursen till 530 USD (Buy), konsensus Strong Buy med snittriktkurs ~514 USD (~24% uppsida mot kursen 434,67 USD, 20/9). Q3-EPS väntas upp 52% å/å till 4,45 USD.",
+      risk:"TSM är den mest direkta tull-/geopolitikkänsliga aktien i dagens urval inför 24/9-mötet — utfallet kan svänga kraftigt åt båda håll. Tekniken är motsägelsefull: RSI antingen 79 (överköpt) eller 51 (neutral) beroende på källa, och MACD beskrivs samtidigt som \"köp\" och som liggande under signallinjen (bearish momentum) hos samma källa. Riktkurserna spretar också ovanligt brett mellan källor (333–551 USD).",
+      src:"Källa: Lutnick/Digitimes (2/9, 10/9), Needham om riktkurs, Investing.com/Barchart om teknisk bild (sept 2026)",
+      sentiment:{
+        label:"Bullish (osäker riktkursspridning)", cls:"pos",
+        note:"Strong Buy (~21 analytiker), men riktkurserna spretar ovanligt mycket mellan källor (333–551 USD) — exakt konsensusnivå osäker. Låg blankning (~0,5%) men stigande kraftigt (+8,5% senaste perioden).",
+        src:"stockanalysis.com (sept 2026)"
+      },
+      horizon:{
+        type:"lang", label:"Långsiktig",
+        note:"Fundamenta och AI-chipboomen ger en flerårig tes, men mötet 24/9 gör TSM till ett konkret kortsiktigt binärt riskcase i endera riktningen kring tull- och exportpolitik."
+      },
+      technical:{
+        label:"Motstridigt", cls:"neu",
+        note:"RSI 79 (överköpt) eller 51 (neutral) beroende på källa. MACD kallas köp men beskrivs samtidigt ligga under signallinjen (bearish momentum) — intern motsägelse. Samtliga glidande medelvärden pekar köp.",
+        src:"Investing.com/Barchart (sept 2026)"
+      },
+      alignment:{
+        status:"partial",
+        note:"Fundamentalt obestridd tillväxt och en stark relativ position inför toppmötet, men den tekniska bilden är genuint delad och riktkursspridningen ovanligt bred — vänta på att mötet 24/9 klarnar innan du ökar tungt."
+      }
+    },
+    {
+      ticker:"ASML", exch:"NASDAQ", company:"ASML Holding",
+      theme:"Halvledarutrustning / exportkontroll", conv:"med", convLabel:"Medel",
+      thesis:"ASML höjde sin 2026-omsättningsprognos till 43–45 md EUR (från 36–40 md), med bruttomarginalmål 54–56%. Q3-orderingång kom in på 5,40 md EUR mot väntade 5,36 md, och aktien steg cirka 2% på beskedet. Vd Christophe Fouquet lyfter fortsatt \"positivt momentum\" i AI-relaterade investeringar hos kunder inom avancerad logik och minne.",
+      risk:"Kina-exportrisken kvarstår: det tvåpartipolitiska MATCH Act-förslaget skulle förbjuda export av ASML:s mindre avancerade DUV-litografimaskiner till Kina, och handelsminister Lutnick har offentligt ifrågasatt om ASML agerar i \"god tro\" kring exportkontroller — bolaget väntar sig att Kina-försäljningen faller \"betydligt\" nästa år efter att ha utgjort nära hälften av intäkterna 2024. Tekniken är genuint spretande mellan noteringar: RSI antingen 39 (sälj) eller 82 (överköpt/sälj) — båda ändar flaggar svaghet men av olika skäl — och MACD ges både som −5,57 (sälj) och kraftigt positiv (köp) beroende på källa.",
+      src:"Källa: ASML Q2/Q3-uppdateringar, Lutnick-uttalande om MATCH Act, ChartMill/Investing.com/Barchart om teknisk bild (sept 2026)",
+      sentiment:{
+        label:"Moderate Buy (bredare spridning)", cls:"pos",
+        note:"Moderate Buy (3 strong buy/21 buy/4 hold/3 sell av 31 analytiker) — bredare spridning i rating än övriga halvledarnamn. Snittkursmål grovt ~1 970–2 158 USD (~27% uppsida). Mycket låg blankning (&lt;0,5%, fallande).",
+        src:"MarketBeat (sept 2026)"
+      },
+      horizon:{
+        type:"medel", label:"Medellång sikt",
+        note:"Den höjda 2026-guidningen och starka AI-relaterade orderläget balanseras mot en genuint skärpt Kina-exportrisk inför Trump-Xi-mötet 24/9 — en tydlig vågskål-aktie för handelsutfallet."
+      },
+      technical:{
+        label:"Motstridigt", cls:"neu",
+        note:"RSI 39 (sälj) eller 82 (överköpt) beroende på notering. MACD −5,57 (sälj) eller kraftigt positivt (köp) beroende på källa. Korta glidande medelvärden sälj hos en källa, men pris över 5/20/50-dagars EMA hos en annan.",
+        src:"ChartMill/Investing.com (sept 2026)"
+      },
+      alignment:{
+        status:"mismatch",
+        note:"Fundamenta (höjd guidning, starkt orderintag) pekar uppåt, men tekniken är genuint delad åt båda håll samtidigt som Kina-exportrisken är en äkta, olöst osäkerhet inför toppmötet — den mest oklara bilden i dagens urval."
+      }
+    },
+    {
+      ticker:"BABA", exch:"NYSE", company:"Alibaba",
+      theme:"Kina-handel / moln &amp; AI", conv:"medhog", convLabel:"Medel–hög",
+      thesis:"Xi Jinping väntas ta med en näringslivsdelegation till toppmötet 24/9, inklusive ledande personer från Alibaba och Tencent. Huvudfrågan är om tullvapenvilan (byggd kring kinesiska sällsynta jordartsmetaller/sojabönsköp mot amerikanska tullundantag och viss AI-chipexport) förlängs bortom nuvarande utgångsdatum 10/11. BofA höjde riktkursen till 175 USD (från 172, 7/9); andra hus har lyft mål till 185–205 USD-intervallet efter senaste kvartalsrapporten, med fokus på moln- och AI-strategin (AI-tjänster väntas utgöra över hälften av molnintäkterna inom ett år). Konsensus Strong Buy, snittriktkurs 185,88 USD mot kursen 113,24 USD (20/9).",
+      risk:"Riktkurserna trendar faktiskt nedåt (nedreviderat från ~199 till ~190 USD nyligen) och spannet är brett (95–238 USD) — en reell osäkerhet driven av Kina-regulatorisk risk och sänkta 2026 EPS-prognoser. Aktien är ned cirka 31% i år. Tekniken är delad: RSI antingen 75 (överköpt) eller 46 (neutral) beroende på källa, och MACD tolkas motsägelsefullt — en källa flaggar MACD under signallinjen (bearish) trots aggregerat Strong Buy (7/1).",
+      src:"Källa: Yahoo Finance/US News om toppmötesdelegationen (sept 2026), BofA/MarketBeat om riktkurser, Investing.com/Barchart om teknisk bild",
+      sentiment:{
+        label:"Bullish (nedtrendande riktkurser)", cls:"pos",
+        note:"Strong Buy (~40 analytiker), snittriktkurs 185,88 USD, men med sjunkande trend i estimaten. Låg blankning (1,7–1,8%). Optionsflödet är call-dominerat och bullish (put/call-volymkvot ~0,43).",
+        src:"MarketBeat/optioncharts.io (sept 2026)"
+      },
+      horizon:{
+        type:"kort", label:"Kortsiktig/mötesdriven",
+        note:"Den tydligaste direkta Kina-handelsspelet inför 24/9-toppmötet — ett positivt utfall (förlängd vapenvila) skulle sannolikt gynna aktien direkt, men ett negativt utfall är en lika konkret nedsiderisk."
+      },
+      technical:{
+        label:"Motstridigt (överköpt-varning)", cls:"neu",
+        note:"RSI 75 (överköpt) eller 46 (neutral) beroende på källa. MACD tolkas både som köp och sälj vid samma ungefärliga nivå; en källa noterar MACD under signallinjen trots aggregerat Strong Buy (7/1). Samtliga glidande medelvärden pekar dock köp.",
+        src:"Investing.com/Barchart (sept 2026)"
+      },
+      alignment:{
+        status:"partial",
+        note:"Nettot lutar positivt (alla glidande medelvärden köp, stark analytikerkonsensus), men överköpt-varningen på kort sikt och de nedtrendande riktkurserna gör detta till ett mötesdrivet snarare än ett rent tekniskt köpcase just nu."
+      }
+    },
+    {
+      ticker:"INTC", exch:"NASDAQ", company:"Intel",
+      theme:"Halvledare / USA-tillverkning", conv:"medhog", convLabel:"Medel–hög",
+      thesis:"Intels foundry-intäkter växte 31% till 5,8 md USD i Q2. Bolaget är primär foundry-partner till Terafab, ett gemensamt tillverkningsprojekt med Tesla/SpaceX värt 25 md USD (ingånget i april), och SK Hynix förhandlar om att för första gången tillverka minneskretsar i USA hos Intel. Tigress Financial höjde riktkursen till 145 USD (från 118, Buy), och Melius Research upprepade Buy med 165 USD-mål och ser en väg mot 200 USD inom två år.",
+      risk:"Analytikerbilden är splittrad och lutar faktiskt mer mot Håll än en ensam rubrik antyder: Mizuho sänkte riktkursen till 92 USD (Hold), och konsensusmålet ligger kring 112–115 USD (2 strong buy/12 buy/31 hold/2 sell/1 strong sell) — nära dagens kurs 109,09 USD (20/9), alltså begränsad uppsida i konsensus trots enskilda höjningar. Tekniken har enorm RSI-spridning (57 mot 80 beroende på källa) och MACD är bullish hos alla källor men glidande medelvärden är blandade.",
+      src:"Källa: Tigress Financial/Melius/Mizuho om riktkurser (sept 2026), Benzinga om Terafab/SK Hynix, Investing.com/Barchart om teknisk bild",
+      sentiment:{
+        label:"Mer delad än rubriken antyder", cls:"neu",
+        note:"Konsensus \"Buy\" (~49 analytiker) men med snittmål ~112–115 USD — nära dagens kurs och alltså begränsad uppsida trots enskilda höjningar. Blankning fallande (−5,7% senaste perioden). Stor ovanlig putaktivitet (65-strike, okt-expiry) i augusti tolkas som sålda puts/inkomststrategi snarare än björnsyn.",
+        src:"MarketBeat/unusualwhales.com (sept 2026)"
+      },
+      horizon:{
+        type:"kort", label:"Kortsiktig/nyhetsdriven",
+        note:"Terafab-partnerskapet och SK Hynix-förhandlingarna är konkreta, positiva utvecklingar för Intels amerikanska tillverkningsstrategi, men den splittrade analytikerbilden och begränsade uppsidan i konsensusmålet manar till försiktighet."
+      },
+      technical:{
+        label:"Spretande", cls:"neu",
+        note:"RSI mellan 57 (köp) och 80 (kraftigt överköpt) beroende på källa. MACD bullish hos alla källor. Glidande medelvärden blandade (5-dagars sälj, 50-/200-dagars köp). Aggregerat Strong Buy (7/1), men överköpt-flaggan bör noteras.",
+        src:"Investing.com/Barchart (sept 2026)"
+      },
+      alignment:{
+        status:"partial",
+        note:"Konkreta amerikanska tillverkningsaffärer (Terafab, SK Hynix) ger en äkta positiv story, men analytikerkonsensus är mer försiktig än rubriken antyder och tekniken är kraftigt spretande — bevaknings- snarare än ett övertygande köpcase."
+      }
+    },
+    {
+      ticker:"AMD", exch:"NASDAQ", company:"Advanced Micro Devices",
+      theme:"AI-halvledare / GPU-konkurrent", conv:"medhog", convLabel:"Medel–hög",
+      thesis:"AMD:s datacenterintäkter steg 107% å/å till 6,7 md USD i Q2, över hälften av totala kvartalsintäkter (11,54 md USD, +50% å/å). Microsoft ska driftsätta AMD:s Helios-plattform på Azure AI-tjänster från H2 2026, och Anthropic har tecknat ett större AI-infrastrukturavtal med AMD. Raymond James uppgraderade till Strong Buy (641 USD-mål) och Piper Sandler inledde bevakning med Buy (600 USD). Kursen har stigit kraftigt och stängde på 557,42 USD idag (21/9), upp över 160% i år.",
+      risk:"Riktkurserna spretar ovanligt kraftigt mellan källor — snitt cirka 565 USD (MarketBeat) mot 617 USD (bredare panel), spann 365–1 250 USD — en genuin källoenighet snarare än bara metodskillnad. Blankningsuppgifterna är också inexakta mellan källor (grovt 2,2–2,6%). Tekniken är splittrad: RSI 56–64 tolkas som \"neutral\" av vissa och \"överköpt\" av andra, och MACD ges både som bullish och som −4,81 (sälj) beroende på leverantör.",
+      sixMonth:{
+        points:[{label:"Mars",price:210},{label:"Juni-topp",price:580.91},{label:"Idag",price:557.42}],
+        changePct:165.4,
+        note:"Upp ~165% sedan mars och nu bara ~4% under junitoppen — stark trend, men med ovanligt stor spridning i både riktkurser och tekniska signaler mellan källor."
+      },
+      src:"Källa: Raymond James/Piper Sandler om riktkurser (sept 2026), Microsoft/Anthropic-avtal, TipRanks/Barchart om teknisk bild",
+      sentiment:{
+        label:"Bullish (bred optionsaktivitet)", cls:"pos",
+        note:"Konsensus spretar mellan Moderate Buy och Strong Buy beroende på panel. Optionsflödet är tydligt bullish: nettodelta kraftigt åt call-sidan, stora köp vid 600/700/800-strikes för 2027, call-premie i snitt ~30% över putpremie senaste 18 månaderna.",
+        src:"MarketBeat/unusualwhales.com (sept 2026)"
+      },
+      horizon:{
+        type:"medel", label:"Medellång sikt",
+        note:"Datacentertillväxten och de nya Microsoft/Anthropic-avtalen är äkta fundamentala drivkrafter, men den ovanligt breda spridningen i både riktkurser och tekniska signaler gör datakvaliteten sämre än vanligt just nu."
+      },
+      technical:{
+        label:"Motstridigt (ovanligt brett)", cls:"neu",
+        note:"RSI 56–64, tolkas som neutral av vissa källor och överköpt av andra. MACD bullish hos en leverantör, −4,81 (sälj) hos en annan. 5-dagars medelvärde köp, 50-dagars sälj — kortsiktig styrka mot medellång avmattning.",
+        src:"TipRanks/Barchart (sept 2026)"
+      },
+      alignment:{
+        status:"partial",
+        note:"Fundamentala datacenteraffärer och ett starkt bullish optionsflöde talar för fortsatt uppgång, men källkonflikten i både riktkurser och teknik är ovanligt bred — momentum är äkta, precisionen i underlaget är det inte."
+      }
+    }
+  ];
+  function convClass(c){ return "pill conv-" + c; }
+
+  var ALIGN_ICON = {
+    match: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="8 12 11 15 16 9"/></svg>',
+    partial: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="8" y1="12" x2="16" y2="12"/></svg>',
+    mismatch: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>'
+  };
+  var ALIGN_LABEL = { match:"Samstämmigt", partial:"Delvis samstämmigt", mismatch:"Motstridigt" };
+  var ALIGN_CLASS = { match:"match", partial:"partial", mismatch:"mismatch" };
+
+  function trendHtml(sm){
+    if(!sm || !sm.points || sm.points.length < 2) return "";
+    var vals = sm.points.map(function(p){ return p.price; });
+    var min = Math.min.apply(null, vals), max = Math.max.apply(null, vals);
+    var range = (max - min) || 1;
+    var w = 56, h = 20, pad = 3;
+    var n = vals.length;
+    var xs = vals.map(function(v,i){ return pad + i * ((w - 2*pad) / (n - 1)); });
+    var ys = vals.map(function(v){ return h - pad - ((v - min) / range) * (h - 2*pad); });
+    var pos = sm.changePct >= 0;
+    var color = pos ? "var(--up)" : "var(--down)";
+    var pts = xs.map(function(x,i){ return x.toFixed(1) + "," + ys[i].toFixed(1); }).join(" ");
+    var titleText = sm.points.map(function(p){ return p.label + ": " + p.price; }).join(" · ");
+    var arrow = pos
+      ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 18 10 10 14 14 20 4"/></svg>'
+      : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 6 10 14 14 10 20 20"/></svg>';
+    return (
+      '<div class="trend">' +
+        '<svg viewBox="0 0 ' + w + ' ' + h + '" role="img" aria-label="Kursutveckling 6 mån: ' + titleText + '"><title>' + titleText + '</title>' +
+          '<polyline points="' + pts + '" fill="none" stroke="' + color + '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' +
+          '<circle cx="' + xs[n-1].toFixed(1) + '" cy="' + ys[n-1].toFixed(1) + '" r="2.5" fill="' + color + '"/>' +
+        '</svg>' +
+        '<span class="trend-badge ' + (pos ? "pos" : "neg") + '">' + arrow + (pos ? "+" : "") + sm.changePct.toFixed(0) + '% · 6 mån</span>' +
+      '</div>' +
+      '<p class="trend-note">' + sm.note + '</p>'
+    );
+  }
+
+  var orderList = document.getElementById("orderList");
+  candidates.forEach(function(c){
+    var row = document.createElement("div");
+    row.className = "order-row";
+    row.innerHTML =
+      '<div class="order-id">' +
+        '<div class="ticker-sym">' + c.ticker + '</div>' +
+        '<div class="company">' + c.company + '</div>' +
+        '<div class="exch">' + c.exch + '</div>' +
+        trendHtml(c.sixMonth) +
+        '<div class="badges">' +
+          '<span class="pill theme">' + c.theme + '</span>' +
+          '<span class="' + convClass(c.conv) + '">' + c.convLabel + '</span>' +
+          (c.horizon ? '<span class="pill horizon">' + c.horizon.label + '</span>' : '') +
+          (c.sentiment ? '<span class="pill sent-' + c.sentiment.cls + '">' + c.sentiment.label + '</span>' : '') +
+          (c.technical ? '<span class="pill sent-' + c.technical.cls + '">Teknik: ' + c.technical.label + '</span>' : '') +
+        '</div>' +
+      '</div>' +
+      '<div class="order-body">' +
+        '<p class="thesis">' + c.thesis + '</p>' +
+        '<details class="order-more">' +
+          '<summary><span>Visa detaljer</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></summary>' +
+          '<div class="order-more-body">' +
+            '<p class="risk">Risk: ' + c.risk + '</p>' +
+            (c.horizon ? '<p class="meta-line"><b>Horisont:</b> ' + c.horizon.note + '</p>' : '') +
+            (c.sentiment ? '<p class="meta-line"><b>Sentiment:</b> <span class="sent-' + c.sentiment.cls + '">' + c.sentiment.label + '</span> — ' + c.sentiment.note + '</p>' : '') +
+            (c.technical ? '<p class="meta-line"><b>Teknisk analys:</b> <span class="sent-' + c.technical.cls + '">' + c.technical.label + '</span> — ' + c.technical.note + '</p>' : '') +
+            (c.alignment ? '<p class="align-line ' + ALIGN_CLASS[c.alignment.status] + '">' + ALIGN_ICON[c.alignment.status] + '<span><b>Fundamentalt vs tekniskt: ' + ALIGN_LABEL[c.alignment.status] + '.</b> ' + c.alignment.note + '</span></p>' : '') +
+            '<p class="src">' + c.src + '</p>' +
+          '</div>' +
+        '</details>' +
+      '</div>';
+    orderList.appendChild(row);
+  });
+
+  var tickerItems = candidates.map(function(c){
+    return '<span class="ticker-item"><b>' + c.ticker + '</b> · ' + c.theme + ' · ' + c.convLabel + '</span>';
+  }).concat([
+    '<span class="ticker-item"><b>TRUMP–XI</b> · Toppmöte i Washington torsdag 24/9 — tullvapenvilans checkpoint inför 10/11-deadline</span>',
+    '<span class="ticker-item"><b>ANET</b> · Gick in i S&amp;P 100 vid börsöppning idag (21/9)</span>',
+    '<span class="ticker-item"><b>AI-CHIP</b> · Halvledarindex −5,9% på en dag (14/9) på AI-avmattningsoro, sedan återhämtat</span>',
+    '<span class="ticker-item"><b>MU</b> · Rapporterar fiskalt Q4 onsdag 30/9 — nyckeltest för minnesprisboomen</span>',
+    '<span class="ticker-item"><b>DATACENTER</b> · Oregon, Connecticut och New Hampshire skärper regler mot AI-datacenter</span>',
+    '<span class="ticker-item"><b>HORMUZ</b> · Tankerkriget mellan USA och Iran fortsatt olöst — WTI kring 100 dollar</span>',
+    '<span class="ticker-item"><b>HEMNET</b> · Blankning i stort sett oförändrad, ~10–11%</span>',
+    '<span class="ticker-item"><b>SBB-B</b> · Blankning kvar högt, ~15%</span>',
+    '<span class="ticker-item"><b>SFTBY</b> · Fortsatt låg blankning efter Altman-kommentarer i september</span>'
+  ]);
+  var trackHtml = tickerItems.join("") ;
+  document.getElementById("tickerTrack").innerHTML = trackHtml + trackHtml;
+
+  // ---------- tabs ----------
+  var tabDeskBtn = document.getElementById("tabDeskBtn");
+  var tabOrgBtn = document.getElementById("tabOrgBtn");
+  var viewDesk = document.getElementById("viewDesk");
+  var viewOrg = document.getElementById("viewOrg");
+  function showView(v){
+    viewDesk.hidden = v !== "desk";
+    viewOrg.hidden = v !== "org";
+    tabDeskBtn.classList.toggle("active", v === "desk");
+    tabOrgBtn.classList.toggle("active", v === "org");
+  }
+  tabDeskBtn.addEventListener("click", function(){ showView("desk"); });
+  tabOrgBtn.addEventListener("click", function(){ showView("org"); });
+
+  // ---------- organisation: bolag + agent hierarki ----------
+  var AGENTS = {
+    vd: {
+      role:"Du — VD", blurb:"Du sätter riktningen, väger Chefsstrategens förslag mot din egen känsla för läget och klubbar besluten.",
+      from:["Chefsstrateg"], to:[],
+      output:"Väntar på att gå igenom dagens tio idéer i orderboken och bestämma vad som blir papper-köp.",
+      status:"Aktiv · fattar dagens beslut"
+    },
+    chef: {
+      role:"Chefsstrateg", blurb:"Sätter dagens sökområde utifrån Trendspanarens teman, skickar ut research-teamet och tar emot det granskade resultatet — och väger ihop det till konkreta case, med tydlig tes, risk och källa per idé, som lämnas vidare till dig.",
+      from:["Trendspanare","Riskgranskare"], to:["Du (VD)","Nyhetsspanare","Sentimentanalytiker","Kursanalytiker","Teknisk analytiker","Bolag & Analytiker-desk"],
+      output:"Dagens sökområde: USA-Kina-toppmötet (Trump–Xi, Washington 24/9) och tullvapenvilans checkpoint inför novemberdeadlinen — riskaptit i kinesiska tech-ADR:er och exportkänsliga halvledare; fortsatt AI-halvledarvolatilitet efter veckans 5,9-procentiga chipindex-ras och Jensen Huangs kommentar om fördubblade leveranser 2027, med Arista Networks intåg i S&amp;P 100 idag (21/9) och Micron-rapporten (30/9) som närmaste katalysatorer; ny delstatlig regleringsrisk mot AI-datacenter (Oregon, Connecticut, New Hampshire); samt det fortsatt olösta Iran/Hormuz-tankerkriget som bakgrundsrisk för oljepriset. Sammanställning: Väger samman dagens research och risk till tio idéer för orderboken (Arista Networks, Nvidia, Broadcom, Marvell, Micron, Taiwan Semiconductor, ASML, Alibaba, Intel och AMD). Arista tas in som ny huvudkandidat efter dagens S&amp;P 100-intåg. TSM, ASML och Alibaba tas in för sin direkta exponering mot USA-Kina-toppmötet 24/9 — ett genuint binärt utfall. Största bakgrundsrisker: mötet 24/9 och det olösta Iran/Hormuz-läget. Rapport klar för dig.",
+      status:"Rapport klar · väntar på VD-beslut"
+    },
+    risk: {
+      role:"Riskgranskare", blurb:"Testar Chefens hypotes: läser igenom det de fem hittat, väger bull mot bear per case, ställer fundamental bild mot teknisk bild och flaggar det som skaver innan det når Chefsstrategen.",
+      from:["Nyhetsspanare","Sentimentanalytiker","Kursanalytiker","Teknisk analytiker","Bolag & Analytiker-desk"], to:["Chefsstrateg"],
+      output:"Bull/bear-avvägning gjord för alla tio case. TSM, ASML och Alibaba är direkt knutna till utfallet av Trump-Xi-mötet 24/9 — en genuin binär osäkerhet som vägs mot deras i övrigt starka fundamenta. Broadcom har en intern motsägelse (TipRanks eget MACD-värde klassas som sälj trots aggregerat Strong Buy). Micron: en obekräftad extrem kursnivå och stigande blankning parallellt med rallyt är riskfaktorer inför rapporten 30/9. Iran/Hormuz och ny delstatlig AI-datacenterreglering är fortsatta bakgrundsrisker.",
+      status:"Klar · 10 avvägningar — TSM/ASML/BABA i fokus inför Trump-Xi"
+    },
+    chart: {
+      role:"Kursanalytiker", blurb:"Gräver fram verklig kursdata ur publika källor för de aktuella casen — var priset låg för sex och tre månader sedan, och hur resan dit har sett ut.",
+      from:["Chefsstrateg"], to:["Riskgranskare"],
+      output:"Direkt datafeed var otillgänglig idag — nivåerna är hämtade via nyhets-/marknadsrecap-sökningar. Arista 199,85 USD, Nvidia 222,27 USD, Broadcom 357,61 USD, Marvell 243,39 USD (upp ~10% på en vecka), Micron ~1 018 USD (ovanligt hög nivå, ej oberoende verifierad), TSM 434,67 USD, ASML 1 446,00 EUR, Alibaba 113,24 USD, Intel 109,09 USD, AMD 557,42 USD (idag).",
+      status:"Klar · Marvell +10% på en vecka"
+    },
+    technical: {
+      role:"Teknisk analytiker", blurb:"Bryr sig inte om vinster eller nyheter — läser bara kursmönster: trend, momentum och publicerade tekniska signaler från TradingView, Barchart och liknande.",
+      from:["Chefsstrateg"], to:["Riskgranskare"],
+      output:"Marvell och Micron övervägande bullish. Broadcom har en intern MACD-motsägelse (aggregerat Strong Buy men MACD-värdet klassas paradoxalt som sälj hos samma källa). TSM och ASML har genuint spretande RSI-avläsningar mellan källor/noteringar. Alibaba visar en överköpt-varning hos en källa.",
+      status:"Klar · ASML mest spretande av dagens kandidater"
+    },
+    sentiment: {
+      role:"Sentimentanalytiker", blurb:"Kollar analytikerkonsensus, blankarintresse och optionsflöde för att se vad marknaden faktiskt känner — inte bara vad den skriver i rapporter.",
+      from:["Chefsstrateg"], to:["Riskgranskare"],
+      output:"Arista och Nvidia har brett Strong Buy-stöd och bullish optionsflöde. Micron och Taiwan Semiconductor har ovanligt bred riktkursspridning mellan källor — osäker exakt konsensusnivå. Alibabas riktkurser trendar faktiskt nedåt (~199 till ~190 USD) på Kina-regulatorisk osäkerhet, trots Strong Buy-etikett. Hemnets och SBB-B:s blankning är i stort sett oförändrad jämfört med augusti.",
+      status:"Klar · Micron/TSM har ovanligt bred riktkursspridning"
+    },
+    broker: {
+      role:"Portföljmäklare", blurb:"Granskar dina faktiska innehav — både registrerade i 'Mitt innehav' och köpta i papper — och säger rakt ut: behåll, sälj eller köp mer. Rapporterar direkt till dig, oberoende av dagens nya idéer.",
+      from:["Mitt innehav","Portföljen (papper)"], to:["Du (VD)"],
+      output:"Granskar ägarens privata innehav och ger behåll/sälj/köp mer-rekommendationer för dem. Den genomgången är privat och visas bara för ägaren, inte i den här delade vyn.",
+      status:"Innehåll privat — visas bara för ägaren"
+    },
+    news: {
+      role:"Nyhetsspanare", blurb:"Rapporterar vad som hänt de senaste 24 timmarna inom dagens sökområde — bolags- och sektornyheter med datum och källa.",
+      from:["Chefsstrateg"], to:["Riskgranskare"],
+      output:"USA-Kina-toppmötet (Trump–Xi, Washington 24/9) dominerar veckans agenda — tullvapenvilan löper ut 10/11. AI-halvledarindexet föll 5,9% på en dag (14/9) på AI-avmattningsoro innan Jensen Huangs fördubblade leveransprognos (17/9) vände sentimentet. Arista Networks gick in i S&amp;P 100 idag (21/9). Tre delstater (Oregon, Connecticut, New Hampshire) har skärpt regler mot AI-datacenter. Iran/Hormuz-tankerkriget fortsätter olöst. Riksbankens räntebesked infaller samma dag som Trump-Xi-mötet, 24/9.",
+      status:"Klar · Trump-Xi-mötet 24/9 i fokus"
+    },
+    trend: {
+      role:"Trendspanare", blurb:"Söker brett och tar sig tid: veckans teman, vart pengarna rör sig och vad som kommer de närmaste två veckorna — och lämnar det vidare till Chefsstrategen.",
+      from:[], to:["Chefsstrateg"],
+      output:"USA-Kina-toppmötet (24/9) är veckans klart största tema, med tullvapenvilan som huvudfråga. AI-halvledarvolatiliteten fortsätter — chipindexet föll 5,9% på en dag innan Jensen Huangs fördubblade leveransprognos vände sentimentet, och Arista Networks gick in i S&amp;P 100 idag. Ny regleringsmotvind mot AI-datacenter i tre delstater. Iran/Hormuz-tankerkriget fortsätter som olöst bakgrundsrisk.",
+      status:"Klar · uppdaterad idag"
+    },
+    analyst: {
+      role:"Bolag & Analytiker-desk", blurb:"Följer riktkurser, rapporter, kontrakt och insiderhandel bolag för bolag, över sektorer och börser.",
+      from:["Chefsstrateg"], to:["Riskgranskare"],
+      output:"Arista Networks gick in i S&amp;P 100 idag efter en stark Q2-rapport. Broadcom fick kraftiga riktkurshöjningar (flera hus mot 600 dollar). Marvell steg kraftigt efter Piper Sandlers nya köprekommendation. TSM och ASML är i fokus inför Trump-Xi-mötet — Lutnick utformar tullundantag för USA-tillverkning, medan ASML brottas med skärpt Kina-exportrisk. Intel är partner i det 25 md dollar stora Terafab-projektet med Tesla/SpaceX. AMD:s datacenterintäkter steg 107% å/å, med nya Microsoft- och Anthropic-avtal.",
+      status:"Klar · Arista i S&amp;P 100, Trump-Xi-mötet påverkar TSM/ASML/BABA"
+    }
+  };
+
+  var bolagCard = document.getElementById("bolagAktieanalys");
+  var bolagMeta = document.getElementById("bolagMeta");
+  var orgDiagramWrap = document.getElementById("orgDiagramWrap");
+  function toggleDiagram(){
+    orgDiagramWrap.hidden = !orgDiagramWrap.hidden;
+    var open = !orgDiagramWrap.hidden;
+    bolagCard.classList.toggle("open", open);
+    bolagMeta.textContent = open ? "Klicka för att stänga" : "9 agenter · aktiv";
+    if(open){
+      orgDiagramWrap.scrollIntoView({behavior:"smooth", block:"nearest"});
+    }
+  }
+  bolagCard.addEventListener("click", toggleDiagram);
+  bolagCard.addEventListener("keydown", function(e){
+    if(e.key === "Enter" || e.key === " "){ e.preventDefault(); toggleDiagram(); }
+  });
+
+  var orgDrawer = document.getElementById("orgDrawer");
+  function renderDrawer(a){
+    orgDrawer.hidden = false;
+    orgDrawer.classList.remove("anim-in");
+    void orgDrawer.offsetWidth;
+    orgDrawer.classList.add("anim-in");
+    var fromHtml = a.from.length
+      ? a.from.map(function(x){ return "<li>" + x + "</li>"; }).join("")
+      : "<li>Ingen — startar kedjan</li>";
+    var toHtml = a.to.length
+      ? a.to.map(function(x){ return "<li>" + x + "</li>"; }).join("")
+      : "<li>Ingen — sista steget</li>";
+    orgDrawer.innerHTML =
+      '<div class="drawer-head"><h4>' + a.role + '</h4><button class="close-drawer" type="button" aria-label="Stäng">&times;</button></div>' +
+      '<p class="blurb-line">' + a.blurb + '</p>' +
+      '<div class="flow-grid">' +
+        '<div class="flow-col"><div class="k">Tar emot från</div><ul>' + fromHtml + '</ul></div>' +
+        '<div class="flow-col"><div class="k">Skickar till</div><ul>' + toHtml + '</ul></div>' +
+      '</div>' +
+      '<p class="status-line">' + a.status + '</p>' +
+      '<div class="output-box">' + a.output + '</div>';
+    orgDrawer.querySelector(".close-drawer").addEventListener("click", function(){
+      orgDrawer.hidden = true;
+      document.querySelectorAll(".org-node").forEach(function(n){ n.classList.remove("active"); });
+    });
+    orgDrawer.scrollIntoView({behavior:"smooth", block:"nearest"});
+  }
+  document.querySelectorAll(".org-node").forEach(function(btn){
+    btn.addEventListener("click", function(e){
+      e.stopPropagation();
+      document.querySelectorAll(".org-node").forEach(function(n){ n.classList.remove("active"); });
+      btn.classList.add("active");
+      renderDrawer(AGENTS[btn.getAttribute("data-agent")]);
+    });
+  });
+})();
+</script>
+
+
+<script>
+(function(){
+  // Prototyp: utan WISH_ENDPOINT sparas allt bara i den här webbläsaren (localStorage).
+  var WISH_ENDPOINT = "";
+  var MIN = 10, MAX = 200;
+  var LS_VOTES = "golvet_wish_votes", LS_OWN = "golvet_wish_own";
+
+  var form = document.getElementById("wishForm");
+  if (!form) return;
+  var text = document.getElementById("wishText");
+  var num = document.getElementById("wishNum");
+  var hint = document.getElementById("wishHint");
+  var msg = document.getElementById("wishMsg");
+  var submit = document.getElementById("wishSubmit");
+  var done = document.getElementById("wishDone");
+  var echo = document.getElementById("wishEcho");
+  var echoNote = document.getElementById("wishEchoNote");
+  var list = document.getElementById("wishList");
+
+  var seed = [
+    { id:"s1", text:"Vad är hett inom amerikanska REITs just nu?", by:"en medlem", votes:14, next:true },
+    { id:"s2", text:"Hur påverkas de svenska bankerna av Riksbankens nästa besked?", by:"Anna", votes:9 },
+    { id:"s3", text:"Är kärnkraft på väg att bli en börstrend i Norden?", by:"en medlem", votes:6 }
+  ];
+
+  function load(key){
+    try { var v = JSON.parse(localStorage.getItem(key) || "[]"); return Array.isArray(v) ? v : []; }
+    catch (e) { return []; }
+  }
+  function save(key, val){
+    try { localStorage.setItem(key, JSON.stringify(val)); } catch (e) {}
+  }
+
+  var votes = load(LS_VOTES);
+  var own = load(LS_OWN);
+
+  function el(tag, cls, txt){
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (txt != null) n.textContent = txt;
+    return n;
+  }
+
+  function renderList(){
+    list.textContent = "";
+    var all = own.concat(seed).slice();
+    all.forEach(function(w){
+      var mine = votes.indexOf(w.id) !== -1;
+      var count = w.votes + (mine ? 1 : 0);
+      var li = el("li", "wish-item");
+      var btn = el("button", "wish-vote");
+      btn.type = "button";
+      btn.setAttribute("aria-pressed", mine ? "true" : "false");
+      btn.setAttribute("aria-label", (mine ? "Ta bort din röst: " : "Rösta på: ") + w.text);
+      btn.appendChild(el("span", null, "▲"));
+      btn.appendChild(el("b", null, String(count)));
+      btn.addEventListener("click", function(){
+        var i = votes.indexOf(w.id);
+        if (i === -1) votes.push(w.id); else votes.splice(i, 1);
+        save(LS_VOTES, votes);
+        renderList();
+      });
+      var body = el("div", "wish-item-body");
+      body.appendChild(el("p", null, w.text));
+      var meta = el("div", "wish-meta");
+      if (w.next) meta.appendChild(el("span", "wish-status next", "Nästa körning"));
+      else if (w.mine) meta.appendChild(el("span", "wish-status", "Ditt förslag"));
+      meta.appendChild(document.createTextNode("önskat av " + w.by));
+      body.appendChild(meta);
+      li.appendChild(btn);
+      li.appendChild(body);
+      list.appendChild(li);
+    });
+  }
+
+  function clean(s){
+    // ren text: kontrolltecken bort, blanksteg ihop
+    var o = "";
+    for (var k = 0; k < s.length; k++) {
+      var c = s.charCodeAt(k);
+      o += (c < 32 || c === 127) ? " " : s.charAt(k);
+    }
+    return o.replace(/ +/g, " ").trim();
+  }
+
+  function updateCount(){
+    var n = clean(text.value).length;
+    num.textContent = n + " / " + MAX;
+    num.className = n > MAX ? "over" : "";
+    hint.textContent = n < MIN ? "Minst " + MIN + " tecken" : "";
+    hint.className = "";
+  }
+  text.addEventListener("input", function(){ msg.textContent = ""; msg.className = "wish-msg"; updateCount(); });
+
+  function fail(t){
+    msg.textContent = t;
+    msg.className = "wish-msg err";
+    text.focus();
+  }
+
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    if (document.getElementById("wishWeb").value) return; // botfälla
+    var t = clean(text.value);
+    if (t.length < MIN) return fail("Skriv lite mer, minst " + MIN + " tecken.");
+    if (t.length > MAX) return fail("Det blev för långt, högst " + MAX + " tecken.");
+    var mail = document.getElementById("wishMail").value.trim();
+    if (mail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)) {
+      msg.textContent = "E-postadressen ser inte riktig ut.";
+      msg.className = "wish-msg err";
+      document.getElementById("wishMail").focus();
+      return;
+    }
+    var name = clean(document.getElementById("wishName").value).slice(0, 30);
+    var payload = {
+      text: t,
+      type: (form.querySelector("input[name=wishType]:checked") || {}).value || "tema",
+      name: name,
+      email: mail,
+      owns: document.getElementById("wishConflict").checked,
+      sent: new Date().toISOString()
+    };
+
+    submit.disabled = true;
+    msg.textContent = "Skickar…";
+    msg.className = "wish-msg";
+
+    var send = WISH_ENDPOINT
+      ? fetch(WISH_ENDPOINT, { method:"POST", headers:{ "Content-Type":"application/json" }, body:JSON.stringify(payload) })
+          .then(function(r){ if (!r.ok) throw new Error("http " + r.status); })
+      : Promise.resolve();
+
+    send.then(function(){
+      var w = { id:"m" + Date.now(), text:t, by:name || "en medlem", votes:0, mine:true };
+      own.unshift(w);
+      votes.push(w.id);
+      save(LS_OWN, own.slice(0, 5));
+      save(LS_VOTES, votes);
+      echo.textContent = t + (payload.owns ? "  (du har uppgett att du äger aktier i bolaget)" : "");
+      echoNote.textContent = WISH_ENDPOINT
+        ? "Det är skickat. Tryck på pilen vid önskemål du själv vill ha besvarade."
+        : "Det här är en prototyp: önskemålet sparas bara i din webbläsare, och inget har skickats till någon. Det syns bland exemplen här bredvid.";
+      form.hidden = true;
+      done.hidden = false;
+      renderList();
+    }).catch(function(){
+      fail("Det gick inte att skicka just nu. Försök igen om en stund.");
+    }).then(function(){
+      submit.disabled = false;
+    });
+  });
+
+  document.getElementById("wishAgain").addEventListener("click", function(){
+    form.reset();
+    updateCount();
+    msg.textContent = "";
+    form.hidden = false;
+    done.hidden = true;
+    text.focus();
+  });
+
+  updateCount();
+  renderList();
+})();
+</script>
+</body></html>
