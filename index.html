@@ -487,13 +487,20 @@
   .org-drawer .status-line{ margin-top:14px; font-family:var(--font-mono); font-size:10.5px; letter-spacing:.03em; text-transform:uppercase; color:var(--brass-strong); }
   .org-drawer .output-box{ margin-top:8px; font-size:13px; line-height:1.55; background:var(--paper-2); border-left:2px solid var(--brass); padding:10px 12px; border-radius:0 6px 6px 0; }
 
+  @media (max-width:760px){
+    .org-node:not(.feeder){ width:164px; }
+  }
   @media (max-width:640px){
     .org-node{ width:132px; padding:8px 9px; }
+    .org-node:not(.feeder){ width:104px; padding:7px 8px; }
+    .org-node:not(.feeder) .icon-badge{ display:none; }
     .org-node .role{ font-size:10.5px; }
     .org-node .blurb{ display:none; }
     .org-drawer .flow-grid{ grid-template-columns:1fr; }
   }
   @media (max-width:480px){
+    .org-node:not(.feeder){ width:84px; padding:6px; }
+    .org-node:not(.feeder) .role{ font-size:9px; overflow-wrap:anywhere; }
     .org-node.feeder{ width:58px !important; padding:4px 5px !important; }
     .org-node.feeder .role{ font-size:6.5px !important; line-height:1.1; }
     .org-node.feeder .icon-badge{ width:14px !important; height:14px !important; }
@@ -545,18 +552,6 @@
         <div class="desk-item-body">
           <p class="desk-output">Veckans klart största tema är USA-Kina-toppmötet: Xi Jinping besöker Washington torsdag 24/9, det andra mötet mellan honom och Trump i år, med tullvapenvilan (ingicks i Busan 30/10 2025, ettårig) som huvudfråga — den löper ut redan 10/11, bara fem veckor efter mötet. Xi väntas ta med sig ledande personer från bland annat Alibaba och Tencent, och marknaden har redan börjat positionera sig i både kinesiska tech-ADR:er och exportkänsliga halvledare. Näst störst är den fortsatta AI-halvledarvolatiliteten: halvledarindexet föll hela 5,9% på en enda dag (14/9) sedan flera tunga branschprofiler efterlyst en AI-inbromsning, innan sektorn återhämtade sig efter att Nvidias vd Jensen Huang (17/9) sagt att kretsleveranserna väntas fördubblas 2027. Samma vecka gick Arista Networks in i S&amp;P 100 (21/9, idag), och Micron rapporterar sitt fiskala Q4 redan 30/9 — ett nära nyckeltest för hela minnesprisboomen. Ett tredje, färskare spår är regleringsmotvind mot AI-datacenter: tre delstater (Oregon, Connecticut, New Hampshire) har inom loppet av tre veckor skärpt sin hållning, med hänvisning till el- och vattenförbrukning. Iran/Hormuz-tankerkriget mellan USA och Iran fortsätter i bakgrunden som en olöst geopolitisk riskfaktor för oljepriset.</p>
           <p class="desk-status-full">Uppdaterad idag</p>
-        </div>
-      </details>
-      <details class="desk-item">
-        <summary>
-          <svg class="role-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16l-6 8v6l-4 2v-8z"/></svg>
-          <span class="desk-role">Dirigent</span>
-          <span class="desk-status"><span class="dot"></span>Klar</span>
-          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-        </summary>
-        <div class="desk-item-body">
-          <p class="desk-output">Dagens sökområde: USA-Kina-toppmötet (Trump–Xi, Washington 24/9) och tullvapenvilans checkpoint inför novemberdeadlinen — riskaptit i kinesiska tech-ADR:er och exportkänsliga halvledare; fortsatt AI-halvledarvolatilitet efter veckans 5,9-procentiga chipindex-ras och Jensen Huangs kommentar om fördubblade leveranser 2027, med Arista Networks intåg i S&amp;P 100 idag (21/9) och Micron-rapporten (30/9) som närmaste katalysatorer; ny delstatlig regleringsrisk mot AI-datacenter (Oregon, Connecticut, New Hampshire); samt det fortsatt olösta Iran/Hormuz-tankerkriget som bakgrundsrisk för oljepriset.</p>
-          <p class="desk-status-full">Sökområde satt för dagen</p>
         </div>
       </details>
       <details class="desk-item">
@@ -675,7 +670,7 @@ Alibaba: Bull — Xi väntas ta med Alibaba-ledningen till toppmötet, och flera
 
 Intel: Bull — konkreta amerikanska tillverkningsaffärer (Terafab, SK Hynix-förhandlingar) stärker turnaround-storyn. Bear — konsensusmålet (~112–115 dollar) ligger nära dagens kurs trots enskilda höjningar, och den samlade analytikerbilden lutar faktiskt mer mot Håll än rubriken antyder. Slutsats: en äkta men ännu obekräftad turnaround-story — bevaknings- snarare än ett övertygande köpcase.
 
-AMD: Bull — datacenterintäkterna steg 107% å/å och nya Microsoft/Anthropic-avtal stärker AI-infrastrukturtesen. Bear — riktkurserna spretar ovanligt kraftigt mellan källor (365–1 250 dollar), och tekniken är splittrad mellan "neutral" och "överköpt"-tolkningar av samma RSI-nivå. Slutsats: fundamentalt momentum är äkta, men precisionen i det tekniska och analytiska underlaget är sämre än vanligt.
+AMD: Bull — datacenterintäkterna steg 107% å/å och nya AI-infrastrukturavtal stärker AI-infrastrukturtesen. Bear — riktkurserna spretar ovanligt kraftigt mellan källor (365–1 250 dollar), och tekniken är splittrad mellan "neutral" och "överköpt"-tolkningar av samma RSI-nivå. Slutsats: fundamentalt momentum är äkta, men precisionen i det tekniska och analytiska underlaget är sämre än vanligt.
 
 Utöver casen: Trump-Xi-mötet 24/9 är veckans mest konkreta binära riskhändelse och påverkar TSM, ASML och Alibaba direkt — ett positivt utfall (förlängd tullvapenvila) skulle sannolikt lyfta hela gruppen, ett negativt utfall skulle slå hårt mot samma namn. Iran/Hormuz-tankerkriget förblir en olöst bakgrundsrisk för oljepriset. Den nya delstatliga regleringsrisken mot AI-datacenter (Oregon, Connecticut, New Hampshire) är ett färskt tema som ännu inte prisats in fullt ut i AI-infrastrukturaktierna.</p>
           <p class="desk-status-full">Klar — bull/bear-avvägning gjord för samtliga tio case, Trump-Xi-mötet 24/9 den mest konkreta riskhändelsen</p>
@@ -689,7 +684,7 @@ Utöver casen: Trump-Xi-mötet 24/9 är veckans mest konkreta binära riskhände
           <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </summary>
         <div class="desk-item-body">
-          <p class="desk-output">Väger samman dagens research och risk till tio idéer för orderboken (Arista Networks, Nvidia, Broadcom, Marvell, Micron, Taiwan Semiconductor, ASML, Alibaba, Intel och AMD) — samtliga knutna till veckans två stora teman: AI-halvledarinfrastrukturens fortsatta styrka och det förestående USA-Kina-toppmötet 24/9. Arista Networks tas in som ny huvudkandidat med hög övertygelse efter dagens S&amp;P 100-intåg och en stark rapport. Marvell behåller hög övertygelse efter veckans kraftiga kursåterhämtning (+9,8%) och Piper Sandlers nya köprekommendation. Tre nya namn (Taiwan Semiconductor, ASML och Alibaba) tas in specifikt för sin direkta exponering mot mötet 24/9 — ett genuint binärt utfall som Riskgranskaren flaggat tydligt i samtliga tre fall. Största bakgrundsrisker: utfallet av Trump-Xi-mötet 24/9, det olösta Iran/Hormuz-tankerkriget, och en ny delstatlig regleringsrisk mot AI-datacenter. Rapport klar för dig.</p>
+          <p class="desk-output">Dagens sökområde (satt utifrån Trendspanarens teman): USA-Kina-toppmötet (Trump–Xi, Washington 24/9) och tullvapenvilans checkpoint inför novemberdeadlinen — riskaptit i kinesiska tech-ADR:er och exportkänsliga halvledare; fortsatt AI-halvledarvolatilitet efter veckans 5,9-procentiga chipindex-ras och Jensen Huangs kommentar om fördubblade leveranser 2027, med Arista Networks intåg i S&amp;P 100 idag (21/9) och Micron-rapporten (30/9) som närmaste katalysatorer; ny delstatlig regleringsrisk mot AI-datacenter (Oregon, Connecticut, New Hampshire); samt det fortsatt olösta Iran/Hormuz-tankerkriget som bakgrundsrisk för oljepriset. Sammanställning: Väger samman dagens research och risk till tio idéer för orderboken (Arista Networks, Nvidia, Broadcom, Marvell, Micron, Taiwan Semiconductor, ASML, Alibaba, Intel och AMD) — samtliga knutna till veckans två stora teman: AI-halvledarinfrastrukturens fortsatta styrka och det förestående USA-Kina-toppmötet 24/9. Arista Networks tas in som ny huvudkandidat med hög övertygelse efter dagens S&amp;P 100-intåg och en stark rapport. Marvell behåller hög övertygelse efter veckans kraftiga kursåterhämtning (+9,8%) och Piper Sandlers nya köprekommendation. Tre nya namn (Taiwan Semiconductor, ASML och Alibaba) tas in specifikt för sin direkta exponering mot mötet 24/9 — ett genuint binärt utfall som Riskgranskaren flaggat tydligt i samtliga tre fall. Största bakgrundsrisker: utfallet av Trump-Xi-mötet 24/9, det olösta Iran/Hormuz-tankerkriget, och en ny delstatlig regleringsrisk mot AI-datacenter. Rapport klar för dig.</p>
           <p class="desk-status-full">Väntar på VD-beslut</p>
         </div>
       </details>
@@ -771,7 +766,7 @@ Utöver casen: Trump-Xi-mötet 24/9 är veckans mest konkreta binära riskhände
         <div class="bolag-card" id="bolagAktieanalys" role="button" tabindex="0">
           <div>
             <div class="name">Aktieanalys</div>
-            <div class="meta" id="bolagMeta">10 agenter · aktiv</div>
+            <div class="meta" id="bolagMeta">9 agenter · aktiv</div>
           </div>
           <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
@@ -784,7 +779,7 @@ Utöver casen: Trump-Xi-mötet 24/9 är veckans mest konkreta binära riskhände
 
     <div id="orgDiagramWrap" hidden>
       <div class="org-diagram">
-        <svg viewBox="0 0 760 780" role="img" aria-label="Organisationsschema för Golvet Aktieanalys: Trendspanaren spanar efter veckans stora teman åt Dirigenten, som sätter dagens sökområde åt Nyhetsspanaren, Sentimentanalytikern, Kursanalytikern, Teknisk analytiker och Bolag- och analytikerdesken. De skickar sin research till Riskgranskaren, som ställer fundamental bild mot teknisk bild och skickar granskad analys vidare till Chefsstrategen, som lämnar dagens orderbok till dig som VD. Parallellt granskar Portföljmäklaren dina egna innehav och rapporterar direkt till dig.">
+        <svg viewBox="0 0 760 530" role="img" aria-label="Organisationsschema för Golvet Aktieanalys: Trendspanaren söker brett efter veckans teman och lämnar dem till Chefsstrategen. Chefsstrategen sätter dagens sökområde och skickar ut Nyhetsspanaren, Sentimentanalytikern, Kursanalytikern, Teknisk analytiker och Bolag- och analytikerdesken. De skickar sin research till Riskgranskaren, som testar Chefens hypotes och ställer fundamental bild mot teknisk bild, och lämnar den granskade analysen tillbaka till Chefsstrategen. Chefsstrategen lämnar dagens orderbok till dig som VD. Parallellt granskar Portföljmäklaren dina egna innehav och rapporterar direkt till dig.">
           <defs>
             <marker id="orgArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
               <path d="M0,0 L10,5 L0,10 z" fill="var(--ink-faint)"/>
@@ -799,60 +794,53 @@ Utöver casen: Trump-Xi-mötet 24/9 är veckans mest konkreta binära riskhände
           <path class="org-line" pathLength="1" style="animation-delay:.5s" d="M380,271 V219" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" marker-end="url(#orgArrow)"/>
           <path class="org-line" pathLength="1" style="animation-delay:.85s" d="M380,141 V89" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" marker-end="url(#orgArrow)"/>
           <path class="org-line" pathLength="1" style="animation-delay:.85s" d="M150,141 V95 H380 V89" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" marker-end="url(#orgArrow)"/>
-          <path class="org-line" pathLength="1" style="animation-delay:0s" d="M380,521 V486 H64 V479" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" marker-end="url(#orgArrow)"/>
-          <path class="org-line" pathLength="1" style="animation-delay:0s" d="M380,521 V494 H222 V479" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" marker-end="url(#orgArrow)"/>
-          <path class="org-line" pathLength="1" style="animation-delay:0s" d="M380,521 V479" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" marker-end="url(#orgArrow)"/>
-          <path class="org-line" pathLength="1" style="animation-delay:0s" d="M380,521 V502 H538 V479" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" marker-end="url(#orgArrow)"/>
-          <path class="org-line" pathLength="1" style="animation-delay:0s" d="M380,521 V510 H696 V479" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" marker-end="url(#orgArrow)"/>
-          <path class="org-line" pathLength="1" style="animation-delay:-.15s" d="M380,651 V599" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" marker-end="url(#orgArrow)"/>
-          <text x="393" y="249" font-size="11" fill="var(--ink-soft)" font-family="IBM Plex Mono, monospace">granskad research</text>
-          <text x="393" y="119" font-size="11" fill="var(--ink-soft)" font-family="IBM Plex Mono, monospace">dagens orderbok</text>
-          <text x="393" y="503" font-size="11" fill="var(--ink-soft)" font-family="IBM Plex Mono, monospace">sökområde</text>
+          <path class="org-line" pathLength="1" style="animation-delay:.3s" d="M526,155 H473" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" marker-end="url(#orgArrow)"/>
+          <path d="M455,208 V228 H500 V351" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#orgArrow)"/>
+          <text x="367" y="242" text-anchor="end" font-size="11" fill="var(--ink-soft)" font-family="IBM Plex Mono, monospace">granskad research</text>
+          <text x="393" y="104" font-size="11" fill="var(--ink-soft)" font-family="IBM Plex Mono, monospace">dagens orderbok</text>
+          <text x="500" y="146" text-anchor="middle" font-size="10" fill="var(--ink-soft)" font-family="IBM Plex Mono, monospace">teman</text>
+          <text x="510" y="290" font-size="11" fill="var(--ink-soft)" font-family="IBM Plex Mono, monospace">sökområde</text>
         </svg>
 
-        <button class="org-node you" style="left:50%; top:6.4%; animation-delay:1.1s" data-agent="vd" type="button">
+        <button class="org-node you" style="left:50%; top:9.2%; animation-delay:.85s" data-agent="vd" type="button">
           <div class="head"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l3-8 5 5 5-9 3 12"/></svg></span><span class="role">Du — VD</span></div>
           <p class="blurb">Klubbar besluten och trycker på köp.</p>
         </button>
-        <button class="org-node" style="left:50%; top:23.1%; animation-delay:.65s" data-agent="chef" type="button">
+        <button class="org-node" style="left:50%; top:33.1%; animation-delay:.6s" data-agent="chef" type="button">
           <div class="head"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="4" x2="6" y2="20"/><path d="M6 5h11l-3 4 3 4H6"/></svg></span><span class="role">Chefsstrateg</span></div>
-          <p class="blurb">Väger ihop research till dagens orderbok — och hur länge du bör sitta kvar.</p>
+          <p class="blurb">Sätter sökområdet, skickar ut teamet och väger ihop svaren.</p>
         </button>
-        <button class="org-node" style="left:19.7%; top:23.1%; animation-delay:.65s" data-agent="broker" type="button">
+        <button class="org-node" style="left:19.7%; top:33.1%; animation-delay:.6s" data-agent="broker" type="button">
           <div class="head"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 20V9M6 9l-3 3M6 9l3 3"/><path d="M18 4v11M18 15l-3-3M18 15l3 3"/></svg></span><span class="role">Portföljmäklare</span></div>
           <p class="blurb">Granskar dina egna innehav — behåll, sälj eller köp mer.</p>
         </button>
-        <button class="org-node" style="left:50%; top:39.7%; animation-delay:.3s" data-agent="risk" type="button">
+        <button class="org-node" style="left:50%; top:56.9%; animation-delay:.4s" data-agent="risk" type="button">
           <div class="head"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="10.3" cy="10.3" r="6.3"/><line x1="15.2" y1="15.2" x2="20" y2="20"/></svg></span><span class="role">Riskgranskare</span></div>
-          <p class="blurb">Dubbelkollar och flaggar det som skaver.</p>
+          <p class="blurb">Testar Chefens hypotes och flaggar det som skaver.</p>
         </button>
-        <button class="org-node feeder" style="left:8.4%; top:56.4%; animation-delay:.05s" data-agent="news" type="button">
+        <button class="org-node feeder" style="left:8.4%; top:80.8%; animation-delay:.2s" data-agent="news" type="button">
           <div class="head"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="17" r="1.4"/><path d="M8.3 17a3.7 3.7 0 0 1 7.4 0"/><path d="M5.3 17a6.7 6.7 0 0 1 13.4 0"/><line x1="12" y1="4" x2="12" y2="8.3"/></svg></span><span class="role">Nyhetsspanare</span></div>
-          <p class="blurb">Läser världen innan du hunnit dricka kaffet.</p>
+          <p class="blurb">Rapporterar vad som hänt de senaste 24 timmarna.</p>
         </button>
-        <button class="org-node feeder" style="left:29.2%; top:56.4%; animation-delay:.05s" data-agent="sentiment" type="button">
+        <button class="org-node feeder" style="left:29.2%; top:80.8%; animation-delay:.2s" data-agent="sentiment" type="button">
           <div class="head"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H8l-4 4V4z"/></svg></span><span class="role">Sentimentanalytiker</span></div>
           <p class="blurb">Känner av vad marknaden faktiskt tycker.</p>
         </button>
-        <button class="org-node feeder" style="left:50%; top:56.4%; animation-delay:.05s" data-agent="chart" type="button">
+        <button class="org-node feeder" style="left:50%; top:80.8%; animation-delay:.2s" data-agent="chart" type="button">
           <div class="head"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 17 9 10 13 14 21 5"/></svg></span><span class="role">Kursanalytiker</span></div>
           <p class="blurb">Gräver fram halvårets kursutveckling per bolag.</p>
         </button>
-        <button class="org-node feeder" style="left:70.8%; top:56.4%; animation-delay:.05s" data-agent="technical" type="button">
+        <button class="org-node feeder" style="left:70.8%; top:80.8%; animation-delay:.2s" data-agent="technical" type="button">
           <div class="head"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="4" x2="6" y2="20"/><rect x="4" y="9" width="4" height="6"/><line x1="12" y1="2" x2="12" y2="22"/><rect x="10" y="6" width="4" height="10"/><line x1="18" y1="6" x2="18" y2="18"/><rect x="16" y="10" width="4" height="5"/></svg></span><span class="role">Teknisk analytiker</span></div>
           <p class="blurb">Läser bara kursmönster — struntar i vinster och nyheter.</p>
         </button>
-        <button class="org-node feeder" style="left:91.6%; top:56.4%; animation-delay:.05s" data-agent="analyst" type="button">
+        <button class="org-node feeder" style="left:91.6%; top:80.8%; animation-delay:.2s" data-agent="analyst" type="button">
           <div class="head"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="20" x2="20" y2="20"/><rect x="6" y="13" width="3" height="7"/><rect x="11" y="9" width="3" height="11"/><rect x="16" y="5" width="3" height="15"/></svg></span><span class="role">Bolag &amp; Analytiker-desk</span></div>
           <p class="blurb">Håller koll på riktkurser och rapporter.</p>
         </button>
-        <button class="org-node" style="left:50%; top:71.8%; animation-delay:.2s" data-agent="dirigent" type="button">
-          <div class="head"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16l-6 8v6l-4 2v-8z"/></svg></span><span class="role">Dirigent</span></div>
-          <p class="blurb">Sätter dagens sökområde åt research-teamet.</p>
-        </button>
-        <button class="org-node feeder" style="left:50%; top:88.5%; animation-delay:0s" data-agent="trend" type="button">
+        <button class="org-node" style="left:80.3%; top:33.1%; animation-delay:0s" data-agent="trend" type="button">
           <div class="head"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 12 L17.5 7.5"/><path d="M12 3.5 A8.5 8.5 0 0 1 20.5 12"/></svg></span><span class="role">Trendspanare</span></div>
-          <p class="blurb">Spanar efter veckans stora teman.</p>
+          <p class="blurb">Söker brett och tar sig tid — veckans teman.</p>
         </button>
       </div>
 
@@ -1118,7 +1106,7 @@ Utöver casen: Trump-Xi-mötet 24/9 är veckans mest konkreta binära riskhände
       },
       horizon:{
         type:"medel", label:"Medellång sikt",
-        note:"Datacentertillväxten och de nya Microsoft/Anthropic-avtalen är äkta fundamentala drivkrafter, men den ovanligt breda spridningen i både riktkurser och tekniska signaler gör datakvaliteten sämre än vanligt just nu."
+        note:"Datacentertillväxten och de nya avtalen är äkta fundamentala drivkrafter, men den ovanligt breda spridningen i både riktkurser och tekniska signaler gör datakvaliteten sämre än vanligt just nu."
       },
       technical:{
         label:"Motstridigt (ovanligt brett)", cls:"neu",
@@ -1243,32 +1231,32 @@ Utöver casen: Trump-Xi-mötet 24/9 är veckans mest konkreta binära riskhände
       status:"Aktiv · fattar dagens beslut"
     },
     chef: {
-      role:"Chefsstrateg", blurb:"Väger samman granskad research till konkreta case, med tydlig tes, risk och källa per idé — och lämnar dem vidare till dig.",
-      from:["Riskgranskare"], to:["Du (VD)"],
-      output:"Väger samman dagens research och risk till tio idéer för orderboken (Arista Networks, Nvidia, Broadcom, Marvell, Micron, Taiwan Semiconductor, ASML, Alibaba, Intel och AMD). Arista tas in som ny huvudkandidat efter dagens S&amp;P 100-intåg. TSM, ASML och Alibaba tas in för sin direkta exponering mot USA-Kina-toppmötet 24/9 — ett genuint binärt utfall. Största bakgrundsrisker: mötet 24/9 och det olösta Iran/Hormuz-läget. Rapport klar för dig.",
+      role:"Chefsstrateg", blurb:"Sätter dagens sökområde utifrån Trendspanarens teman, skickar ut research-teamet och tar emot det granskade resultatet — och väger ihop det till konkreta case, med tydlig tes, risk och källa per idé, som lämnas vidare till dig.",
+      from:["Trendspanare","Riskgranskare"], to:["Du (VD)","Nyhetsspanare","Sentimentanalytiker","Kursanalytiker","Teknisk analytiker","Bolag & Analytiker-desk"],
+      output:"Dagens sökområde: USA-Kina-toppmötet (Trump–Xi, Washington 24/9) och tullvapenvilans checkpoint inför novemberdeadlinen — riskaptit i kinesiska tech-ADR:er och exportkänsliga halvledare; fortsatt AI-halvledarvolatilitet efter veckans 5,9-procentiga chipindex-ras och Jensen Huangs kommentar om fördubblade leveranser 2027, med Arista Networks intåg i S&amp;P 100 idag (21/9) och Micron-rapporten (30/9) som närmaste katalysatorer; ny delstatlig regleringsrisk mot AI-datacenter (Oregon, Connecticut, New Hampshire); samt det fortsatt olösta Iran/Hormuz-tankerkriget som bakgrundsrisk för oljepriset. Sammanställning: Väger samman dagens research och risk till tio idéer för orderboken (Arista Networks, Nvidia, Broadcom, Marvell, Micron, Taiwan Semiconductor, ASML, Alibaba, Intel och AMD). Arista tas in som ny huvudkandidat efter dagens S&amp;P 100-intåg. TSM, ASML och Alibaba tas in för sin direkta exponering mot USA-Kina-toppmötet 24/9 — ett genuint binärt utfall. Största bakgrundsrisker: mötet 24/9 och det olösta Iran/Hormuz-läget. Rapport klar för dig.",
       status:"Rapport klar · väntar på VD-beslut"
     },
     risk: {
-      role:"Riskgranskare", blurb:"Läser igenom det de andra fem hittat, jämför källor mot varandra, ställer fundamental bild mot teknisk bild per case och flaggar det som motsäger sig själv innan det når Chefsstrategen.",
+      role:"Riskgranskare", blurb:"Testar Chefens hypotes: läser igenom det de fem hittat, väger bull mot bear per case, ställer fundamental bild mot teknisk bild och flaggar det som skaver innan det når Chefsstrategen.",
       from:["Nyhetsspanare","Sentimentanalytiker","Kursanalytiker","Teknisk analytiker","Bolag & Analytiker-desk"], to:["Chefsstrateg"],
       output:"Bull/bear-avvägning gjord för alla tio case. TSM, ASML och Alibaba är direkt knutna till utfallet av Trump-Xi-mötet 24/9 — en genuin binär osäkerhet som vägs mot deras i övrigt starka fundamenta. Broadcom har en intern motsägelse (TipRanks eget MACD-värde klassas som sälj trots aggregerat Strong Buy). Micron: en obekräftad extrem kursnivå och stigande blankning parallellt med rallyt är riskfaktorer inför rapporten 30/9. Iran/Hormuz och ny delstatlig AI-datacenterreglering är fortsatta bakgrundsrisker.",
       status:"Klar · 10 avvägningar — TSM/ASML/BABA i fokus inför Trump-Xi"
     },
     chart: {
       role:"Kursanalytiker", blurb:"Gräver fram verklig kursdata ur publika källor för de aktuella casen — var priset låg för sex och tre månader sedan, och hur resan dit har sett ut.",
-      from:["Dirigent"], to:["Riskgranskare"],
+      from:["Chefsstrateg"], to:["Riskgranskare"],
       output:"Direkt datafeed var otillgänglig idag — nivåerna är hämtade via nyhets-/marknadsrecap-sökningar. Arista 199,85 USD, Nvidia 222,27 USD, Broadcom 357,61 USD, Marvell 243,39 USD (upp ~10% på en vecka), Micron ~1 018 USD (ovanligt hög nivå, ej oberoende verifierad), TSM 434,67 USD, ASML 1 446,00 EUR, Alibaba 113,24 USD, Intel 109,09 USD, AMD 557,42 USD (idag).",
       status:"Klar · Marvell +10% på en vecka"
     },
     technical: {
       role:"Teknisk analytiker", blurb:"Bryr sig inte om vinster eller nyheter — läser bara kursmönster: trend, momentum och publicerade tekniska signaler från TradingView, Barchart och liknande.",
-      from:["Dirigent"], to:["Riskgranskare"],
+      from:["Chefsstrateg"], to:["Riskgranskare"],
       output:"Marvell och Micron övervägande bullish. Broadcom har en intern MACD-motsägelse (aggregerat Strong Buy men MACD-värdet klassas paradoxalt som sälj hos samma källa). TSM och ASML har genuint spretande RSI-avläsningar mellan källor/noteringar. Alibaba visar en överköpt-varning hos en källa.",
       status:"Klar · ASML mest spretande av dagens kandidater"
     },
     sentiment: {
       role:"Sentimentanalytiker", blurb:"Kollar analytikerkonsensus, blankarintresse och optionsflöde för att se vad marknaden faktiskt känner — inte bara vad den skriver i rapporter.",
-      from:["Dirigent"], to:["Riskgranskare"],
+      from:["Chefsstrateg"], to:["Riskgranskare"],
       output:"Arista och Nvidia har brett Strong Buy-stöd och bullish optionsflöde. Micron och Taiwan Semiconductor har ovanligt bred riktkursspridning mellan källor — osäker exakt konsensusnivå. Alibabas riktkurser trendar faktiskt nedåt (~199 till ~190 USD) på Kina-regulatorisk osäkerhet, trots Strong Buy-etikett. Hemnets och SBB-B:s blankning är i stort sett oförändrad jämfört med augusti.",
       status:"Klar · Micron/TSM har ovanligt bred riktkursspridning"
     },
@@ -1279,26 +1267,20 @@ Utöver casen: Trump-Xi-mötet 24/9 är veckans mest konkreta binära riskhände
       status:"Innehåll privat — visas bara för ägaren"
     },
     news: {
-      role:"Nyhetsspanare", blurb:"Bevakar geopolitik, centralbanker och makrodata åt hela firman — läser hellre hundra rubriker än missar en viktig.",
-      from:["Dirigent"], to:["Riskgranskare"],
+      role:"Nyhetsspanare", blurb:"Rapporterar vad som hänt de senaste 24 timmarna inom dagens sökområde — bolags- och sektornyheter med datum och källa.",
+      from:["Chefsstrateg"], to:["Riskgranskare"],
       output:"USA-Kina-toppmötet (Trump–Xi, Washington 24/9) dominerar veckans agenda — tullvapenvilan löper ut 10/11. AI-halvledarindexet föll 5,9% på en dag (14/9) på AI-avmattningsoro innan Jensen Huangs fördubblade leveransprognos (17/9) vände sentimentet. Arista Networks gick in i S&amp;P 100 idag (21/9). Tre delstater (Oregon, Connecticut, New Hampshire) har skärpt regler mot AI-datacenter. Iran/Hormuz-tankerkriget fortsätter olöst. Riksbankens räntebesked infaller samma dag som Trump-Xi-mötet, 24/9.",
       status:"Klar · Trump-Xi-mötet 24/9 i fokus"
     },
     trend: {
-      role:"Trendspanare", blurb:"Spanar brett efter vad som är intressant just den här veckan — hett sektormomentum, återkommande teman i nyhetsflödet, vad marknaden pratar om — och lämnar det vidare till Dirigenten.",
-      from:[], to:["Dirigent"],
+      role:"Trendspanare", blurb:"Söker brett och tar sig tid: veckans teman, vart pengarna rör sig och vad som kommer de närmaste två veckorna — och lämnar det vidare till Chefsstrategen.",
+      from:[], to:["Chefsstrateg"],
       output:"USA-Kina-toppmötet (24/9) är veckans klart största tema, med tullvapenvilan som huvudfråga. AI-halvledarvolatiliteten fortsätter — chipindexet föll 5,9% på en dag innan Jensen Huangs fördubblade leveransprognos vände sentimentet, och Arista Networks gick in i S&amp;P 100 idag. Ny regleringsmotvind mot AI-datacenter i tre delstater. Iran/Hormuz-tankerkriget fortsätter som olöst bakgrundsrisk.",
       status:"Klar · uppdaterad idag"
     },
-    dirigent: {
-      role:"Dirigent", blurb:"Väger samman Trendspanarens teman och tar fram dagens sökområde — så att de fem research-agenterna gräver på samma ställen istället för att leta helt fritt.",
-      from:["Trendspanare"], to:["Nyhetsspanare","Sentimentanalytiker","Kursanalytiker","Teknisk analytiker","Bolag & Analytiker-desk"],
-      output:"Dagens sökområde: USA-Kina-toppmötet (Trump–Xi, 24/9) och tullvapenvilans checkpoint — riskaptit i kinesiska tech-ADR:er och exportkänsliga halvledare; fortsatt AI-halvledarvolatilitet (Arista i S&amp;P 100, Micron-rapport 30/9); ny delstatlig regleringsrisk mot AI-datacenter; samt det olösta Iran/Hormuz-tankerkriget.",
-      status:"Klar · sökområde satt för dagen"
-    },
     analyst: {
       role:"Bolag & Analytiker-desk", blurb:"Följer riktkurser, rapporter, kontrakt och insiderhandel bolag för bolag, över sektorer och börser.",
-      from:["Dirigent"], to:["Riskgranskare"],
+      from:["Chefsstrateg"], to:["Riskgranskare"],
       output:"Arista Networks gick in i S&amp;P 100 idag efter en stark Q2-rapport. Broadcom fick kraftiga riktkurshöjningar (flera hus mot 600 dollar). Marvell steg kraftigt efter Piper Sandlers nya köprekommendation. TSM och ASML är i fokus inför Trump-Xi-mötet — Lutnick utformar tullundantag för USA-tillverkning, medan ASML brottas med skärpt Kina-exportrisk. Intel är partner i det 25 md dollar stora Terafab-projektet med Tesla/SpaceX. AMD:s datacenterintäkter steg 107% å/å, med nya Microsoft- och Anthropic-avtal.",
       status:"Klar · Arista i S&amp;P 100, Trump-Xi-mötet påverkar TSM/ASML/BABA"
     }
@@ -1311,7 +1293,7 @@ Utöver casen: Trump-Xi-mötet 24/9 är veckans mest konkreta binära riskhände
     orgDiagramWrap.hidden = !orgDiagramWrap.hidden;
     var open = !orgDiagramWrap.hidden;
     bolagCard.classList.toggle("open", open);
-    bolagMeta.textContent = open ? "Klicka för att stänga" : "10 agenter · aktiv";
+    bolagMeta.textContent = open ? "Klicka för att stänga" : "9 agenter · aktiv";
     if(open){
       orgDiagramWrap.scrollIntoView({behavior:"smooth", block:"nearest"});
     }
