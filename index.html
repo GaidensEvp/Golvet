@@ -227,6 +227,7 @@
   .pill.sent-pos{ color:var(--up); border-color:var(--up); }
   .pill.sent-neg{ color:var(--down); border-color:var(--down); }
   .pill.sent-neu{ color:var(--ink-soft); border-color:var(--line); }
+  .pill.wish{ background:var(--brass-soft); color:var(--brass-strong); border-color:var(--brass); font-weight:600; }
   .order-body p{ margin:0; font-size:13.5px; line-height:1.55; }
   .order-body .thesis{ margin-bottom:0; }
   .order-more{ margin-top:12px; }
@@ -254,6 +255,11 @@
     margin-top:9px; font-size:12px; color:var(--ink-soft); border-left:2px solid var(--down);
     padding-left:9px; font-style:italic;
   }
+  .order-body .wish-line{
+    margin-top:9px; font-size:12px; color:var(--ink-soft); border-left:2px solid var(--brass);
+    padding-left:9px;
+  }
+  .order-body .wish-line b{ color:var(--brass-strong); }
   .order-body .meta-line{ margin-top:7px; font-size:12px; color:var(--ink-soft); line-height:1.5; }
   .order-body .meta-line b{ color:var(--ink); }
   .order-body .meta-line .sent-pos{ color:var(--up); font-weight:600; }
@@ -366,6 +372,7 @@
   .hist-btn.active-miss{ background:var(--down); color:#fff; border-color:var(--down); }
   .hist-btn.active-pending{ background:var(--info); color:#fff; border-color:var(--info); }
 
+  .order-legend{ margin:-4px 0 12px; font-size:11.5px; color:var(--ink-faint); font-family:var(--font-mono); }
   footer{ margin-top:44px; border-top:1px solid var(--line); padding-top:16px; }
   footer p{ font-size:11.5px; color:var(--ink-faint); line-height:1.6; max-width:900px; }
 
@@ -792,6 +799,7 @@ Utöver casen: Trump-Xi-mötet imorgon (24/9) är veckans mest konkreta binära 
 
   <section class="orderbook">
     <p class="section-label">Dagens orderbok — Chefsstrategens förslag</p>
+    <p class="order-legend">🙋 markerar en idé som kommer från ett önskemål skickat in via sidan.</p>
     <div class="order-list" id="orderList"></div>
   </section>
 
@@ -1316,6 +1324,7 @@ Utöver casen: Trump-Xi-mötet imorgon (24/9) är veckans mest konkreta binära 
         '<div class="exch">' + c.exch + '</div>' +
         trendHtml(c.sixMonth) +
         '<div class="badges">' +
+          (c.wish ? '<span class="pill wish" title="Föreslaget via önskemålsformuläret på sidan">🙋 Idé av ' + c.wish.by + '</span>' : '') +
           '<span class="pill theme">' + c.theme + '</span>' +
           '<span class="' + convClass(c.conv) + '">' + c.convLabel + '</span>' +
           (c.horizon ? '<span class="pill horizon">' + c.horizon.label + '</span>' : '') +
@@ -1328,6 +1337,7 @@ Utöver casen: Trump-Xi-mötet imorgon (24/9) är veckans mest konkreta binära 
         '<details class="order-more">' +
           '<summary><span>Visa detaljer</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></summary>' +
           '<div class="order-more-body">' +
+            (c.wish ? '<p class="wish-line"><b>Läsarförslag:</b> Det här caset kommer från ett önskemål skickat in via sidans önskemålsformulär, av ' + c.wish.by + '.</p>' : '') +
             '<p class="risk">Risk: ' + c.risk + '</p>' +
             (c.horizon ? '<p class="meta-line"><b>Horisont:</b> ' + c.horizon.note + '</p>' : '') +
             (c.sentiment ? '<p class="meta-line"><b>Sentiment:</b> <span class="sent-' + c.sentiment.cls + '">' + c.sentiment.label + '</span> — ' + c.sentiment.note + '</p>' : '') +
