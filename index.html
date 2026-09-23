@@ -105,6 +105,27 @@
   }
   .section-label::after{ content:""; flex:1; height:1px; background:var(--line); }
 
+  /* ---------- hero / förstagångsvy ---------- */
+  .hero{
+    position:relative; margin-top:18px; padding:16px 44px 16px 18px;
+    background:var(--brass-soft); border:1px solid var(--brass); border-radius:var(--radius-m);
+  }
+  .hero-lede{ margin:0; font-size:13.5px; line-height:1.55; color:var(--ink); max-width:760px; }
+  .hero-steps{ display:flex; gap:18px; margin-top:12px; flex-wrap:wrap; }
+  .hero-step{ display:flex; align-items:center; gap:8px; }
+  .hero-step-num{
+    width:20px; height:20px; border-radius:50%; background:var(--brass); color:#fff;
+    font-family:var(--font-mono); font-size:11px; font-weight:600;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .hero-step p{ margin:0; font-size:12.5px; color:var(--ink-soft); }
+  .hero-dismiss{
+    position:absolute; top:10px; right:10px; background:none; border:none;
+    color:var(--ink-faint); font-size:18px; line-height:1; cursor:pointer; padding:4px;
+  }
+  .hero-dismiss:hover{ color:var(--ink); }
+  @media (max-width:600px){ .hero-steps{ flex-direction:column; gap:8px; } }
+
   /* ---------- masthead ---------- */
   .masthead{ padding-top:6px; }
   .masthead-top{
@@ -635,6 +656,16 @@
       <div class="ps-cell"><div class="k">Idéer idag</div><div class="v">8</div></div>
     </div>
   </header>
+
+  <section class="hero" id="heroIntro">
+    <button class="hero-dismiss" id="heroDismissBtn" type="button" aria-label="Dölj">&times;</button>
+    <p class="hero-lede">Golvet läser nyheterna varje morgon, kartlägger vilka bolag som påverkas — positivt och negativt — och ger dig en snabb överblick. Ingen rådgivning, bara research.</p>
+    <div class="hero-steps">
+      <div class="hero-step"><span class="hero-step-num">1</span><p>Vi läser nyheterna</p></div>
+      <div class="hero-step"><span class="hero-step-num">2</span><p>Vi kartlägger vem som påverkas</p></div>
+      <div class="hero-step"><span class="hero-step-num">3</span><p>Du får en snabb överblick</p></div>
+    </div>
+  </section>
 
   <div class="tabs">
     <button class="tab-btn active" id="tabDeskBtn" type="button">Skrivbordet</button>
@@ -1483,6 +1514,22 @@ Utöver casen: morgondagens Trump-Xi-möte är veckans mest konkreta binära ris
       renderDrawer(AGENTS[btn.getAttribute("data-agent")]);
     });
   });
+
+  // ---------- hero / förstagångsvy (döljs efter första besöket, per webbläsare) ----------
+  (function(){
+    var hero = document.getElementById("heroIntro");
+    if(!hero) return;
+    var seen = false;
+    try { seen = localStorage.getItem("golvetHeroSeen") === "1"; } catch(e){}
+    if(seen){ hero.hidden = true; return; }
+    var dismissBtn = document.getElementById("heroDismissBtn");
+    if(dismissBtn){
+      dismissBtn.addEventListener("click", function(){
+        hero.hidden = true;
+        try { localStorage.setItem("golvetHeroSeen", "1"); } catch(e){}
+      });
+    }
+  })();
 })();
 </script>
 
