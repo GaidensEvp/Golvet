@@ -154,6 +154,21 @@
   }
   .ticker-item b{ color:var(--desk-ink); font-weight:600; }
 
+  /* ---------- trend radar ---------- */
+  .radar{ margin-top:28px; }
+  .radar-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+  @media (max-width:900px){ .radar-grid{ grid-template-columns:repeat(2,1fr); } }
+  .radar-card{ background:var(--paper-2); border:1px solid var(--line); border-radius:var(--radius-s); padding:10px 12px; }
+  .radar-card.active{ border-color:var(--brass); }
+  .radar-card .lens{
+    font-family:var(--font-mono); font-size:10.5px; letter-spacing:.03em; text-transform:uppercase;
+    color:var(--ink-faint); display:flex; align-items:center; gap:6px;
+  }
+  .radar-card.active .lens{ color:var(--brass-strong); }
+  .radar-card .dot{ width:6px; height:6px; border-radius:50%; background:var(--line); flex-shrink:0; }
+  .radar-card.active .dot{ background:var(--brass); }
+  .radar-card p{ margin:6px 0 0; font-size:12px; line-height:1.4; color:var(--ink-soft); }
+
   /* ---------- desks ---------- */
   .desks{ margin-top:34px; }
   .desk-list{
@@ -631,6 +646,11 @@
   <div class="ticker" aria-hidden="true">
     <div class="ticker-track" id="tickerTrack"></div>
   </div>
+
+  <section class="radar">
+    <p class="section-label">Trendradar — de linser vi scannar varje dag</p>
+    <div class="radar-grid" id="radarGrid"></div>
+  </section>
 
   <section class="desks">
     <p class="section-label">Dagens skift</p>
@@ -1222,6 +1242,17 @@ Utöver casen: morgondagens Trump-Xi-möte är veckans mest konkreta binära ris
       }
     }
   ];
+  var trendRadar = [
+    {lens:"Geopolitik & handel", active:true, note:"Trump-Xi-mötet i Washington imorgon (24/9) och Iran-de-eskaleringen dominerar dagens riskbild."},
+    {lens:"Makro & räntor", active:true, note:"Riksbankens räntebesked imorgon (24/9) — ingen höjning väntas efter en svag augusti-KPIF."},
+    {lens:"Sektorrotation", active:true, note:"AI-halvledarrallyt breddas globalt efter Meta Muse-lanseringen — Sydkorea, Nasdaq-rekord."},
+    {lens:"Reglering & politik", active:true, note:"Ny regleringsmotvind mot AI-datacentrens elkostnader (Kongressen, Kalifornien, New Hampshire)."},
+    {lens:"Teknik & innovation", active:true, note:"Meta Platforms AI-agent \"Muse\" är veckans stora produktlansering och rallytriggern."},
+    {lens:"Norden & small-cap", active:true, note:"Ericsson nedgraderat 18% av Morgan Stanley, SBB:s inlösenrally, svensk regeringsbildning."},
+    {lens:"Råvaror & energi", active:false, note:"Inget eget tema idag utöver oljeprisrörelsen (se Geopolitik & handel)."},
+    {lens:"Demografi & struktur", active:false, note:"Inget eget tema idag — Welltowers demografiska tes finns i Dagens påverkan."}
+  ];
+
   function impactClass(c){ return "pill impact-" + c; }
 
   var ALIGN_ICON = {
@@ -1294,6 +1325,16 @@ Utöver casen: morgondagens Trump-Xi-möte är veckans mest konkreta binära ris
         '</details>' +
       '</div>';
     orderList.appendChild(row);
+  });
+
+  var radarGrid = document.getElementById("radarGrid");
+  trendRadar.forEach(function(r){
+    var card = document.createElement("div");
+    card.className = "radar-card" + (r.active ? " active" : "");
+    card.innerHTML =
+      '<div class="lens"><span class="dot"></span>' + r.lens + '</div>' +
+      '<p>' + r.note + '</p>';
+    radarGrid.appendChild(card);
   });
 
   var tickerItems = candidates.map(function(c){
