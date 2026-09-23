@@ -220,9 +220,9 @@
     white-space:normal; word-break:break-word; max-width:100%;
   }
   .pill.theme{ color:var(--info); border-color:var(--info); }
-  .pill.conv-hog{ background:var(--brass); color:#fff; border-color:var(--brass); }
-  .pill.conv-medhog{ color:var(--brass-strong); border-color:var(--brass); }
-  .pill.conv-med{ color:var(--ink-soft); }
+  .pill.impact-pos{ background:var(--up); color:#fff; border-color:var(--up); }
+  .pill.impact-neg{ background:var(--down); color:#fff; border-color:var(--down); }
+  .pill.impact-blandad{ color:var(--ink-soft); border-color:var(--line); }
   .pill.horizon{ color:var(--ink-soft); border-color:var(--line); }
   .pill.sent-pos{ color:var(--up); border-color:var(--up); }
   .pill.sent-neg{ color:var(--down); border-color:var(--down); }
@@ -795,7 +795,7 @@ Utöver casen: morgondagens Trump-Xi-möte är veckans mest konkreta binära ris
   </section>
 
   <section class="orderbook">
-    <p class="section-label">Dagens orderbok — Chefsstrategens förslag</p>
+    <p class="section-label">Dagens påverkan — vem drabbas av det som hänt</p>
     <p class="order-legend">🙋 markerar en idé som kommer från ett önskemål skickat in via sidan.</p>
     <div class="order-list" id="orderList"></div>
   </section>
@@ -1023,7 +1023,7 @@ Utöver casen: morgondagens Trump-Xi-möte är veckans mest konkreta binära ris
   var candidates = [
     {
       ticker:"MU", exch:"NASDAQ", company:"Micron Technology",
-      theme:"AI-minne / halvledare", conv:"hog", convLabel:"Hög",
+      theme:"AI-minne / halvledare", impact:"pos", impactLabel:"Positiv",
       thesis:"Micron handlas till 1 096,16 dollar (23/9, +5,00%, dagsintervall 1 030,02–1 097,25) inför fiskala Q4-rapporten onsdag 30/9. Bolagets HBM-minnen (high-bandwidth memory) för hela 2026 är redan slutsålda till låsta priser — ett ovanligt tydligt tecken på prissättningsmakt mitt i AI-minnesboomen. Konsensus är Strong Buy (45-50 analytiker, 45 köp/0 sälj), snittriktkurs 1 515–1 564 dollar, cirka 40% uppsida mot dagens kurs.",
       risk:"Blankarintresset har stigit stadigt genom 2026 till 3,32–3,69% av floaten enligt Yahoo Finance — en genuin divergens eftersom blankare ökar sina positioner trots den starka konsensus och AI-boomen. Tekniken har tidigare varit tydligt överköpt (RSI 64,6–82,3 beroende på källa och tidpunkt), och MACD ger en daglig köpsignal men en säljsignal på tre månaders sikt. Rapporten 30/9 är en konkret binär händelse efter en redan kraftig uppgång i år.",
       src:"Källa: Micron egen guidning/HBM-kapacitetsuppgifter, Yahoo Finance (23/9), stockanalysis.com/TipRanks konsensus, Investing.com teknisk bild (sept 2026)",
@@ -1048,7 +1048,7 @@ Utöver casen: morgondagens Trump-Xi-möte är veckans mest konkreta binära ris
     },
     {
       ticker:"ARM", exch:"NASDAQ", company:"Arm Holdings",
-      theme:"AI-halvledare / CPU-arkitektur", conv:"medhog", convLabel:"Medel–hög",
+      theme:"AI-halvledare / CPU-arkitektur", impact:"blandad", impactLabel:"Blandad",
       thesis:"Arm Holdings fortsatte gårdagens 17-procentiga rusning med ytterligare +3,19% till 333,20 dollar (23/9, dagsintervall 318,685–334,66). Piper Sandler inledde bevakning med Overweight och riktkurs 320 dollar, med hänvisning till Arm-baserade serverprocessorer och kopplingen till Meta Muse-temat. Tekniken är entydigt bullish: samtliga glidande medelvärden ger Strong Buy (12 köp/0 sälj).",
       risk:"Snittriktkursen (286–296 dollar enligt 39-40 analytiker) ligger faktiskt cirka 16,5% UNDER dagens kurs — ett tydligt tecken på att marknaden sprungit ifrån den bredare analytikerkonsensus. Blankarintresset sticker samtidigt ut kraftigt: 12,55–13,29% av floaten mot ett peer-snitt på bara 4,54% (Sahm Capital/Fintel), vilket gör aktien känslig för en snabb vändning om sentimentet skiftar. RSI är entydigt överköpt (73,4–77,9).",
       src:"Källa: Piper Sandler bevakningsinitiering (sept 2026), stockanalysis.com/S&amp;P Global konsensus, Sahm Capital/Fintel blankningsdata, Investing.com teknisk bild (23/9)",
@@ -1073,7 +1073,7 @@ Utöver casen: morgondagens Trump-Xi-möte är veckans mest konkreta binära ris
     },
     {
       ticker:"INTC", exch:"NASDAQ", company:"Intel",
-      theme:"AI-halvledare / turnaround", conv:"med", convLabel:"Medel",
+      theme:"AI-halvledare / turnaround", impact:"blandad", impactLabel:"Blandad",
       thesis:"Intel steg 1,71% till 123,86 dollar (23/9, dagsintervall 120,075–124,09) och fortsätter dra nytta av en stor extern investering i bolaget samt en bekräftad AI-/foundry-turnaround-story. BofA behöll Buy med riktkurs 145 dollar, och Melius ser 200 dollar på två års sikt.",
       risk:"Den bredare analytikerkonsensus riktkursen (100,97–116,79 dollar beroende på källa) ger nästan ingen uppsida alls mot dagens kurs — marknaden har med andra ord redan sprungit förbi vad de flesta analytiker anser rimligt, trots enskilda höjningar. Mizuho sänkte samtidigt sin riktkurs till 92 dollar (från 109) med Hold. Tekniken visar tydliga utmattningstecken: kursen ligger 15,4% över 20-dagars glidande snitt, och RSI spretar mellan 54,4 (neutral) och 79,8 (klart överköpt) beroende på källa. Blankningen (2,87–2,9% av floaten) ligger nära årshögsta trots vårens rally.",
       src:"Källa: BofA/Mizuho/Melius riktkurser (sept 2026), stockanalysis.com/MarketBeat konsensus, Barchart/TipRanks teknisk bild (23/9)",
@@ -1098,7 +1098,7 @@ Utöver casen: morgondagens Trump-Xi-möte är veckans mest konkreta binära ris
     },
     {
       ticker:"TSM", exch:"NYSE", company:"Taiwan Semiconductor",
-      theme:"Halvledartillverkning / Trump-Xi-mötet", conv:"medhog", convLabel:"Medel–hög",
+      theme:"Halvledartillverkning / Trump-Xi-mötet", impact:"pos", impactLabel:"Positiv",
       thesis:"TSM steg 1,54% till 452,00 dollar (23/9, dagsintervall 441,20–452,88) inför Trump-Xi-mötet i Washington imorgon (24/9), där bland annat Taiwan-frågan och exportkontroller för halvledare väntas diskuteras. Konsensus är Hold/Strong Buy-blandad (18 analytiker), snittriktkurs 554,45 dollar — drygt 20% uppsida. Blankningen är mycket låg (0,49–0,69% av floaten).",
       risk:"Morgondagens möte är en konkret binär riskhändelse: ett nyckelspår är om Trump fortsätter skjuta upp det 14 miljarder dollar stora Taiwan-vapenpaketet, vilket skulle kunna påverka sentimentet i endera riktningen. Tekniken är också oense mellan källor — en källa visar RSI 78,9 (överköpt), en annan 50,6 (neutral).",
       src:"Källa: Bloomberg om mötesagendan (22/9), Barchart/Investing.com konsensus och teknisk bild (23/9)",
@@ -1123,7 +1123,7 @@ Utöver casen: morgondagens Trump-Xi-möte är veckans mest konkreta binära ris
     },
     {
       ticker:"BABA", exch:"NYSE", company:"Alibaba",
-      theme:"Kina-handel / moln &amp; AI / Trump-Xi-mötet", conv:"med", convLabel:"Medel",
+      theme:"Kina-handel / moln &amp; AI / Trump-Xi-mötet", impact:"blandad", impactLabel:"Blandad",
       thesis:"Alibaba steg 0,48% till 116,31 dollar (23/9, dagsintervall 116,06–120,40) inför morgondagens Trump-Xi-möte. Konsensus är Strong Buy (40 analytiker, 38 köp/2 håll/1 sälj), snittriktkurs 186,63 dollar — cirka 60% uppsida om mötet ger ett positivt utfall för kinesiska tech-ADR:er. Blankningen är låg (1,69–1,78% av floaten).",
       risk:"Tekniken är genuint motstridig: RSI anges till 46 (neutral) i den färskaste datan, men en annan källa visar samtidigt 75,5 (överköpt) — en stor divergens. MACD har ett positivt värde men bearish momentum (signallinjen över MACD-linjen), vilket tyder på att nedåtmomentum ännu inte klingat av. Ingen konkret ny handelsöverenskommelse kunde beläggas i dagens sökningar — bara fortsatt osäkerhet inför mötet.",
       src:"Källa: Investing.com teknisk bild (23/9), stockanalysis.com konsensus, Bloomberg om mötesagendan (22/9)",
@@ -1148,7 +1148,7 @@ Utöver casen: morgondagens Trump-Xi-möte är veckans mest konkreta binära ris
     },
     {
       ticker:"EQIX", exch:"NASDAQ", company:"Equinix",
-      theme:"REIT / AI-datacenter / regleringsrisk", conv:"med", convLabel:"Medel",
+      theme:"REIT / AI-datacenter / regleringsrisk", impact:"blandad", impactLabel:"Blandad",
       thesis:"Equinix handlas nära oförändrat, +0,19% till 1 059,26 dollar (23/9, dagsintervall 1 047,715–1 066,51). Bolaget har Buy-konsensus (31 analytiker, 23 köp/4 håll), snittriktkurs 1 199–1 205 dollar (cirka 14% uppsida), och blankningen är låg (1,90%). Strukturell AI-datacentertillväxt förblir intakt.",
       risk:"En ny och konkret regleringsrisk har tillkommit sedan förra veckan: Equinix finns bland de cirka 187 undertecknarna av Vita husets 'Ratepayer Protection Pledge', ett defensivt drag efter att Representanthuset röstat igenom 'Ratepayer Protection Act' (417–3, 16/9) som kan tvinga stora datacenter att själva bära kostnaden för nätuppgraderingar. Tekniken är samtidigt svag: RSI spretar 30,5 (sälj) till 65,8 (neutral) beroende på källa, MACD -9,3 (sälj), och den sammanvägda dagssignalen är Strong Sell (0 köp/7 sälj) trots att TradingViews månadsrating visar köp.",
       src:"Källa: Vita husets Ratepayer Protection Pledge-lista, Representanthusets H.R. 9340 (15–16/9), stockanalysis.com konsensus, Investing.com/TradingView teknisk bild (23/9)",
@@ -1173,7 +1173,7 @@ Utöver casen: morgondagens Trump-Xi-möte är veckans mest konkreta binära ris
     },
     {
       ticker:"WELL", exch:"NYSE", company:"Welltower",
-      theme:"REIT / hälsovård &amp; seniorboende", conv:"hog", convLabel:"Hög",
+      theme:"REIT / hälsovård &amp; seniorboende", impact:"pos", impactLabel:"Positiv",
       thesis:"Welltower backade svagt, -1,02% till 230,39 dollar (23/9, dagsintervall 229,00–231,64), men förblir ett av dagens fundamentalt starkaste case. Bolaget är inne på sitt 15:e raka kvartal med över 20% NOI-tillväxt, och Jefferies inledde bevakning med Buy och riktkurs 275 dollar (15/9). Konsensus är Buy/Moderate Buy (17-26 analytiker, 14 köp/3 håll), snittriktkurs 243,89–252,56 dollar.",
       risk:"Uppsidan mot konsensusmålet (cirka 6–10%) är mer modest än flera andra dagens case, och ingen aktuell blankningsdata kunde beläggas — en datalucka värd att notera. Sektorn är fortsatt indirekt exponerad mot den bredare räntemiljön även om Welltower inte är direkt berört av datacenterregleringen.",
       src:"Källa: Jefferies bevakningsinitiering (15/9), stockanalysis.com konsensus, Investing.com/StockRSI teknisk bild (23/9)",
@@ -1198,7 +1198,7 @@ Utöver casen: morgondagens Trump-Xi-möte är veckans mest konkreta binära ris
     },
     {
       ticker:"ERIC-B", exch:"Stockholmsbörsen", company:"Ericsson",
-      theme:"Telekom / Norden / analytikersyn i skarp kontrast", conv:"med", convLabel:"Medel",
+      theme:"Telekom / Norden / analytikersyn i skarp kontrast", impact:"neg", impactLabel:"Negativ",
       thesis:"Ericsson B föll 3,77% till 96,52 kr (23/9, dagsintervall 94,90–98,36), dagen efter att Morgan Stanley nedgraderat aktien från Equal-Weight till Underweight (22/9) och sänkt riktkursen till 9 dollar (från 11), motsvarande cirka 90 kr — en nedgradering på 18%. Motiveringen är fallande Nordamerika-intäkter, marginalpress och en väntat platt RAN-marknad in i 2027.",
       risk:"Tekniken ger en helt annan bild: samtliga glidande medelvärden pekar Strong Buy (12 köp/0 sälj), och aktien har historiskt återhämtat sig snabbt efter liknande nedgraderingar. Den bredare analytikerkonsensus är dock redan svag — bara 3 av 10 hus har köp-rekommendation, snittriktkurs 96,84 kr (spann 58–133 kr) — och blankningen (2,89%) är på uppgång efter nedgraderingen. Ett genuint kontrariskt case där tekniken och den fundamentala/analytikerbilden pekar åt olika håll.",
       src:"Källa: Morgan Stanley nedgradering (22/9), Investing.com/GuruFocus, Investtech teknisk bild (23/9), Yahoo Finance (23/9)",
@@ -1222,7 +1222,7 @@ Utöver casen: morgondagens Trump-Xi-möte är veckans mest konkreta binära ris
       }
     }
   ];
-  function convClass(c){ return "pill conv-" + c; }
+  function impactClass(c){ return "pill impact-" + c; }
 
   var ALIGN_ICON = {
     match: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="8 12 11 15 16 9"/></svg>',
@@ -1273,7 +1273,7 @@ Utöver casen: morgondagens Trump-Xi-möte är veckans mest konkreta binära ris
         trendHtml(c.sixMonth) +
         '<div class="badges">' +
           '<span class="pill theme">' + c.theme + '</span>' +
-          '<span class="' + convClass(c.conv) + '">' + c.convLabel + '</span>' +
+          '<span class="' + impactClass(c.impact) + '">' + c.impactLabel + '</span>' +
           (c.horizon ? '<span class="pill horizon">' + c.horizon.label + '</span>' : '') +
           (c.sentiment ? '<span class="pill sent-' + c.sentiment.cls + '">' + c.sentiment.label + '</span>' : '') +
           (c.technical ? '<span class="pill sent-' + c.technical.cls + '">Teknik: ' + c.technical.label + '</span>' : '') +
@@ -1297,7 +1297,7 @@ Utöver casen: morgondagens Trump-Xi-möte är veckans mest konkreta binära ris
   });
 
   var tickerItems = candidates.map(function(c){
-    return '<span class="ticker-item"><b>' + c.ticker + '</b> · ' + c.theme + ' · ' + c.convLabel + '</span>';
+    return '<span class="ticker-item"><b>' + c.ticker + '</b> · ' + c.theme + ' · ' + c.impactLabel + '</span>';
   }).concat([
     '<span class="ticker-item"><b>TRUMP–XI</b> · Toppmöte i Washington imorgon, torsdag 24/9 — tullvapenvilans checkpoint inför 10/11-deadline</span>',
     '<span class="ticker-item"><b>OLJA</b> · Brent föll till 98,47 dollar (22/9) — femte nedgångsdagen i rad på Iran-de-eskaleringssignaler</span>',
