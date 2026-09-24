@@ -165,10 +165,11 @@
   }
   .ticker-track{
     display:inline-flex; align-items:center; padding:9px 0;
-    animation:scroll-left 42s linear infinite;
+    animation:scroll-left 75s linear infinite;
   }
   @keyframes scroll-left{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
   @media (prefers-reduced-motion:reduce){ .ticker-track{ animation:none; } .ticker{ overflow-x:auto; } }
+  @media (max-width:600px){ .ticker-track{ animation-duration:110s; } }
   .ticker-item{
     font-family:var(--font-mono); font-size:12.5px; color:var(--desk-ink-soft);
     padding:0 22px; border-right:1px solid var(--desk-line);
@@ -1191,9 +1192,9 @@ Ericsson: Bull — vd-bytet är nu ett bekräftat, ordnat skifte (Narvinger till
     {
       ticker:"BABA", exch:"NYSE", company:"Alibaba",
       theme:"Kina-handel / moln &amp; AI / regleringsrisk", impact:"neg", impactLabel:"Negativ",
-      thesis:"Alibaba rasade 4,74% till 110,80 dollar (24/9, dagsintervall 110,59–112,28), ett 16-veckorslägsta, sedan en rapport från AI-bolaget Anthropic (10/9) pekat ut sju kinesiska AI-labb — inklusive Alibaba — för att i stor skala ha dirigerat användarförfrågningar via Anthropics Claude-modeller för så kallad 'illegal distillation'. Kinas internetmyndighet CAC har öppnat en utredning mot DeepSeek och Moonshot AI specifikt kring dataöverföring till USA.",
+      thesis:"Alibaba rasade 4,74% till 110,80 dollar (24/9, dagsintervall 110,59–112,28), ett 16-veckorslägsta, sedan en rapport (10/9) pekat ut sju kinesiska AI-labb — inklusive Alibaba — för att i stor skala ha dirigerat användarförfrågningar via amerikanska AI-modeller för så kallad 'illegal distillation'. Kinas internetmyndighet CAC har öppnat en utredning mot DeepSeek och Moonshot AI specifikt kring dataöverföring till USA.",
       risk:"Aktien pressas även av en stämning om Alibabas relation till kinesiska myndigheter och risken att klassas som 'Chinese military company' enligt amerikansk lag (NDAA). Tekniken är genuint motstridig: RSI 46 (en källa, neutral) mot 75 (annan källa, överköpt), med MACD-linjen under signallinjen på vissa plattformar trots ett positivt MACD-värde.",
-      src:"Källa: Bloomberg/TradingView om Anthropic-rapporten (23/9), 247wallst.com/GuruFocus om aktiefallet (23/9), Timothy Sykes om stämningen (23/9), Barchart teknisk bild (24/9)",
+      src:"Källa: Bloomberg/TradingView om rapporten (23/9), 247wallst.com/GuruFocus om aktiefallet (23/9), Timothy Sykes om stämningen (23/9), Barchart teknisk bild (24/9)",
       sentiment:{
         label:"Strong Buy/Buy, låg blankning", cls:"pos",
         note:"Strong Buy/Buy-konsensus (cirka 40 analytiker), snitt 186-188 dollar (cirka 60% uppsida). Blankning låg (2,0%).",
@@ -1473,7 +1474,7 @@ Ericsson: Bull — vd-bytet är nu ett bekräftat, ordnat skifte (Narvinger till
     analyst: {
       role:"Bolag &amp; Analytiker-desk", blurb:"Följer riktkurser, rapporter, kontrakt och insiderhandel bolag för bolag, över sektorer och börser.",
       from:["Chefsstrateg"], to:["Riskgranskare"],
-      output:"Micron-riktkurserna spretar kraftigt (1 300-2 000 dollar) inför rapporten 30/9, och vd Mehrotra sålde aktier för 38,8 miljoner dollar i augusti. Alibaba pressas av en Anthropic-rapport om otillåten AI-modellanvändning som utlöst en kinesisk myndighetsutredning. Equinix möter växande lokal regulatorisk motvind i Texas och Kapstaden. Ericsson: Per Narvinger tillträder som vd 1/10.",
+      output:"Micron-riktkurserna spretar kraftigt (1 300-2 000 dollar) inför rapporten 30/9, och vd Mehrotra sålde aktier för 38,8 miljoner dollar i augusti. Alibaba pressas av en rapport om otillåten AI-modellanvändning som utlöst en kinesisk myndighetsutredning. Equinix möter växande lokal regulatorisk motvind i Texas och Kapstaden. Ericsson: Per Narvinger tillträder som vd 1/10.",
       status:"Klar · Alibaba pressad av AI-utredning, Micron-riktkurser spretar inför rapport"
     }
   };
