@@ -150,7 +150,7 @@
   .status-pill.offline .dot{ background:var(--down); }
 
   .portfolio-strip{
-    display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+    display:grid; grid-template-columns:1fr; max-width:220px; gap:1px;
     background:var(--line); border:1px solid var(--line); border-radius:var(--radius-s);
     margin-top:16px; overflow:hidden;
   }
@@ -316,75 +316,12 @@
   .order-body .align-line.partial svg{ color:var(--ink-faint); }
   .order-body .align-line b{ color:var(--ink); }
   .order-body .src{ margin-top:8px; font-size:11px; color:var(--ink-faint); font-family:var(--font-mono); }
-  .buy-box{ display:flex; flex-direction:column; gap:7px; justify-content:flex-start; }
-  .buy-row{ display:flex; gap:6px; }
-  .buy-row input{
-    width:100%; font-family:var(--font-mono); font-size:12.5px; padding:7px 8px;
-    border:1px solid var(--line); border-radius:var(--radius-s); background:var(--paper); color:var(--ink);
-  }
-  .buy-row label{ font-size:10px; color:var(--ink-faint); display:block; margin-bottom:2px; }
-  .btn{
-    font-family:var(--font-mono); font-size:11.5px; letter-spacing:.03em; text-transform:uppercase;
-    padding:8px 10px; border-radius:var(--radius-s); border:1px solid var(--brass); background:var(--brass);
-    color:#fff; cursor:pointer; text-align:center;
-  }
-  .btn:hover{ background:var(--brass-strong); border-color:var(--brass-strong); }
-  .btn.ghost{ background:transparent; color:var(--ink-soft); border-color:var(--line); }
-  .btn.ghost:hover{ color:var(--ink); border-color:var(--ink-soft); }
-  .btn:disabled{ opacity:.45; cursor:not-allowed; }
-  .buy-msg{ font-size:11px; font-family:var(--font-mono); min-height:14px; }
-  .buy-msg.err{ color:var(--down); }
-  .buy-msg.ok{ color:var(--up); }
-
-  /* ---------- portfolio view ---------- */
-  .portfolio-grid{ display:grid; grid-template-columns:1fr 1fr; gap:22px; align-items:start; max-width:900px; }
-  @media (max-width:720px){
-    .portfolio-grid{ grid-template-columns:1fr; }
-  }
-
   /* ---------- sidebar panels ---------- */
   .panel{
     background:var(--paper-2); border:1px solid var(--line); border-radius:var(--radius-m); padding:16px 18px;
   }
   .panel h3{ font-size:14.5px; font-weight:600; margin-bottom:11px; }
-  .cash-line{ display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:13px; padding:5px 0; }
-  .cash-line span:last-child{ font-variant-numeric:tabular-nums; }
-  .pos-row{ border-top:1px solid var(--line); padding:9px 0; }
-  .pos-head{ display:flex; justify-content:space-between; align-items:baseline; }
-  .pos-head .sym{ font-family:var(--font-mono); font-weight:600; font-size:13px; }
-  .pos-head .qty{ font-family:var(--font-mono); font-size:11.5px; color:var(--ink-soft); }
-  .pos-meta{ font-size:11px; color:var(--ink-faint); margin-top:2px; }
-  .sell-row{ display:flex; gap:6px; margin-top:7px; }
-  .sell-row input{
-    width:80px; font-family:var(--font-mono); font-size:11.5px; padding:5px 7px;
-    border:1px solid var(--line); border-radius:var(--radius-s); background:var(--paper); color:var(--ink);
-  }
   .empty-note{ font-size:12.5px; color:var(--ink-faint); font-style:italic; }
-
-  .holding-add{ display:flex; gap:6px; margin-bottom:10px; }
-  .holding-add input{
-    font-family:var(--font-mono); font-size:12px; padding:6px 7px;
-    border:1px solid var(--line); border-radius:var(--radius-s); background:var(--paper); color:var(--ink);
-  }
-  .holding-add input.hq-ticker{ flex:1; min-width:0; }
-  .holding-add input.hq-qty{ width:52px; flex-shrink:0; }
-  .holding-row-item{ border-top:1px solid var(--line); padding:8px 0; display:flex; justify-content:space-between; gap:8px; align-items:flex-start; }
-  .holding-row-item:first-child{ border-top:none; padding-top:0; }
-  .holding-row-item .hi-main .sym{ font-family:var(--font-mono); font-weight:600; font-size:13px; }
-  .holding-row-item .hi-main .qty{ font-family:var(--font-mono); font-size:11.5px; color:var(--ink-soft); margin-left:6px; }
-  .holding-row-item .hi-note{ font-size:11.5px; color:var(--ink-soft); margin-top:3px; line-height:1.4; }
-  .holding-row-item .hi-note.pending{ color:var(--ink-faint); font-style:italic; }
-  .verdict-badge{
-    display:inline-block; font-family:var(--font-mono); font-size:10px; letter-spacing:.03em; text-transform:uppercase;
-    padding:2px 7px; border-radius:999px; font-weight:600; margin-left:6px;
-  }
-  .verdict-badge.behall{ background:var(--paper); color:var(--ink-soft); border:1px solid var(--line); }
-  .verdict-badge.salj{ background:var(--down); color:#fff; }
-  .verdict-badge.kopmer{ background:var(--up); color:#fff; }
-  .holding-row-item .hi-del{
-    background:none; border:none; color:var(--ink-faint); cursor:pointer; font-size:15px; line-height:1; padding:2px 4px; flex-shrink:0;
-  }
-  .holding-row-item .hi-del:hover{ color:var(--down); }
 
   .watch-item{ border-top:1px solid var(--line); padding:10px 0; }
   .watch-item:first-child{ border-top:none; padding-top:0; }
@@ -419,7 +356,6 @@
 
   @media (max-width:900px){
     .lower-grid{ grid-template-columns:1fr; }
-    .portfolio-strip{ grid-template-columns:repeat(2,1fr); }
   }
   @media (max-width:600px){
     .order-row{ grid-template-columns:1fr; }
@@ -462,13 +398,6 @@
   .bolag-card .meta{ font-size:11px; color:var(--ink-faint); margin-top:4px; font-family:var(--font-mono); }
   .bolag-card .chevron{ width:16px; height:16px; color:var(--ink-faint); flex-shrink:0; transition:transform .3s ease, color .2s ease; }
   .bolag-card.open .chevron{ transform:rotate(180deg); color:var(--brass); }
-  .bolag-card.ghost{
-    border-style:dashed; cursor:not-allowed; opacity:.6; flex-direction:column;
-    align-items:center; justify-content:center; gap:6px; text-align:center;
-  }
-  .bolag-card.ghost:hover{ transform:none; box-shadow:none; }
-  .bolag-card.ghost svg{ width:16px; height:16px; color:var(--ink-faint); }
-  .bolag-card.ghost .name{ font-weight:500; font-size:12px; color:var(--ink-faint); }
 
   .org-diagram{ position:relative; width:100%; max-width:740px; margin:26px auto 0; padding:34px 10px 10px; isolation:isolate; }
   .org-diagram::before{
@@ -819,18 +748,6 @@ Sammanställning: Dagens tio case spänner medvetet brett över sektorer och reg
           <p class="desk-status-full">Uppdaterad idag — tio idéer, samtliga nya sedan senast, ingen uppföljningsrunda krävdes</p>
         </div>
       </details>
-      <details class="desk-item">
-        <summary>
-          <svg class="role-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 20V9M6 9l-3 3M6 9l3 3"/><path d="M18 4v11M18 15l-3-3M18 15l3 3"/></svg>
-          <span class="desk-role">Portföljmäklare</span>
-          <span class="desk-status"><span class="dot"></span>Innehåll privat — visas bara för ägaren</span>
-          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-        </summary>
-        <div class="desk-item-body">
-          <p class="desk-output" id="brokerDeskOutput">Granskar ägarens privata innehav och ger behåll/sälj/köp mer-rekommendationer för dem. Den genomgången är privat och visas bara för ägaren, inte i den här delade vyn.</p>
-          <p class="desk-status-full">Innehåll privat — visas bara för ägaren</p>
-        </div>
-      </details>
     </div>
   </section>
 
@@ -972,10 +889,6 @@ Sammanställning: Dagens tio case spänner medvetet brett över sektorer och reg
             <div class="meta" id="bolagMeta">9 agenter · aktiv</div>
           </div>
           <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-        </div>
-        <div class="bolag-card ghost" title="Kommer snart — fler avdelningar kan läggas till här">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          <div class="name">Nytt bolag</div>
         </div>
       </div>
     </div>
@@ -1294,7 +1207,7 @@ Sammanställning: Dagens tio case spänner medvetet brett över sektorer och reg
     vd: {
       role:"Du — VD", blurb:"Du sätter riktningen, väger Chefsstrategens förslag mot din egen känsla för läget och klubbar besluten.",
       from:["Chefsstrateg"], to:[],
-      output:"Väntar på att gå igenom dagens tio idéer i orderboken och bestämma vad som blir papper-köp.",
+      output:"Väntar på att gå igenom dagens tio idéer i orderboken och bestämma vad du agerar på.",
       status:"Aktiv · fattar dagens beslut"
     },
     chef: {
@@ -1328,10 +1241,10 @@ Sammanställning: Dagens tio case spänner medvetet brett över sektorer och reg
       status:"Klar · Meta mest endimensionellt bullish, Blue Owl Capital mest förhöjd blankning"
     },
     broker: {
-      role:"Portföljmäklare", blurb:"Granskar dina faktiska innehav — både registrerade i 'Mitt innehav' och köpta i papper — och säger rakt ut: behåll, sälj eller köp mer. Rapporterar direkt till dig, oberoende av dagens nya idéer.",
-      from:["Mitt innehav","Portföljen (papper)"], to:["Du (VD)"],
-      output:"Granskar ägarens privata innehav och ger behåll/sälj/köp mer-rekommendationer för dem. Den genomgången är privat och visas bara för ägaren, inte i den här delade vyn.",
-      status:"Innehåll privat — visas bara för ägaren"
+      role:"Portföljmäklare", blurb:"Granskar ägarens egna innehav mot dagens nyhetsläge och säger rakt ut: behåll, sälj eller köp mer. Skickas som ett kort meddelande direkt till ägaren varje morgon — privat, visas inte i den här delade vyn.",
+      from:["Ägarens registrerade innehav"], to:["Ägaren, via meddelande"],
+      output:"Granskningen av ägarens innehav levereras som ett privat meddelande direkt till ägaren, inte här på sidan.",
+      status:"Privat — levereras via meddelande, inte i delad vy"
     },
     news: {
       role:"Nyhetsspanare", blurb:"Rapporterar vad som hänt de senaste 24 timmarna inom dagens sökområde — bolags- och sektornyheter med datum och källa.",
