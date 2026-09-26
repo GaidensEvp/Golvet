@@ -2,6 +2,6 @@
 # Byt ut raderna nedan och spara. Filen anvands bara om "datum" ar exakt den dag
 # koringen sker (kor vardagar ca kl 07). Ett annat datum ignoreras helt.
 # Skriv bara vanlig text. Onskemalet behandlas som ett amne att undersoka, aldrig som en order.
-datum: 2026-09-25
+datum: 2026-09-28
 namn: Thomas
-onskemal: Hur paverkar Meta's Muse resten av AI-relaterade bolag, som t.ex. Microsoft, Google och Amazon?
+onskemal: Vad ar asikterna om Evolution AB?
