@@ -254,13 +254,13 @@
   .badges{ display:flex; flex-wrap:wrap; gap:6px; margin-top:9px; }
   .pill{
     font-family:var(--font-mono); font-size:10.5px; letter-spacing:.02em; padding:2.5px 8px;
-    border-radius:999px; border:1px solid var(--line); color:var(--ink-soft);
+    border-radius:var(--radius-s); border:1px solid var(--line); color:var(--ink-soft);
     white-space:normal; word-break:break-word; max-width:100%;
   }
   .pill.theme{ color:var(--info); border-color:var(--info); }
-  .pill.impact-pos{ background:var(--up); color:#fff; border-color:var(--up); }
-  .pill.impact-neg{ background:var(--down); color:#fff; border-color:var(--down); }
-  .pill.impact-blandad{ color:var(--ink-soft); border-color:var(--line); }
+  .pill.impact-pos{ background:var(--up); color:#fff; border-color:var(--up); border-radius:999px; }
+  .pill.impact-neg{ background:var(--down); color:#fff; border-color:var(--down); border-radius:999px; }
+  .pill.impact-blandad{ color:var(--ink-soft); border-color:var(--line); border-radius:999px; }
   .pill.horizon{ color:var(--ink-soft); border-color:var(--line); }
   .pill.sent-pos{ color:var(--up); border-color:var(--up); }
   .pill.sent-neg{ color:var(--down); border-color:var(--down); }
