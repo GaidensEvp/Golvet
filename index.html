@@ -233,10 +233,39 @@
   .lower-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:18px; margin-top:32px; align-items:start; }
 
   .order-list{ display:flex; flex-direction:column; gap:12px; }
+  @keyframes cardRise{ from{ opacity:0; transform:translateY(14px); } to{ opacity:1; transform:translateY(0); } }
   .order-row{
+    position:relative; overflow:hidden;
     background:var(--paper-2); border:1px solid var(--line); border-radius:var(--radius-m);
-    padding:16px 18px; display:grid; grid-template-columns:150px 1fr; gap:18px;
+    padding:14px 16px 14px; display:flex; flex-direction:column; gap:8px;
+    transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
   }
+  @media (prefers-reduced-motion:no-preference){
+    .order-row{ animation:cardRise .5s cubic-bezier(.2,.8,.2,1) backwards; }
+  }
+  .order-row:hover{ transform:translateY(-3px); box-shadow:var(--shadow); border-color:var(--ink-faint); }
+  .order-row::before{
+    content:""; position:absolute; top:0; left:0; right:0; height:3px;
+    background:var(--line); transform:scaleX(0); transform-origin:left;
+    transition:transform .5s ease;
+  }
+  .order-row.impact-pos::before{ background:var(--up); }
+  .order-row.impact-neg::before{ background:var(--down); }
+  .order-row.impact-blandad::before{ background:var(--info); }
+  .order-row.card-in::before{ transform:scaleX(1); }
+  .news-head-row{ display:flex; align-items:flex-start; gap:10px; }
+  .news-headline{
+    font-family:var(--font-display); font-size:15.5px; font-weight:600; line-height:1.4;
+    margin:0; color:var(--ink); flex:1; min-width:0;
+  }
+  .news-tags{ display:flex; flex-wrap:wrap; align-items:center; gap:6px; flex-shrink:0; }
+  .company-chip{
+    display:inline-flex; align-items:center; gap:4px;
+    font-family:var(--font-mono); font-size:10.5px; padding:3px 9px 3px 7px;
+    border-radius:999px; background:var(--paper); border:1px solid var(--line); color:var(--ink-soft);
+    white-space:nowrap;
+  }
+  .company-chip b{ color:var(--brass-strong); font-weight:700; }
   .order-id .ticker-sym{ font-family:var(--font-mono); font-size:19px; font-weight:600; }
   .order-id .company{ font-size:12.5px; color:var(--ink-soft); margin-top:2px; }
   .order-id .exch{ font-size:10.5px; color:var(--ink-faint); font-family:var(--font-mono); margin-top:6px; }
@@ -383,23 +412,6 @@
   }
   .org-intro{ font-size:13.5px; color:var(--ink-soft); max-width:660px; margin:0 0 26px; line-height:1.55; }
 
-  .holding-row{ display:flex; align-items:center; gap:20px; flex-wrap:wrap; margin-bottom:32px; }
-  .holding-mark{ display:flex; align-items:center; gap:9px; font-family:var(--font-display); font-size:19px; font-weight:600; }
-  .holding-mark svg{ width:24px; height:24px; color:var(--brass); }
-  .holding-arrow{ color:var(--ink-faint); font-size:18px; }
-  .bolag-row{ display:flex; gap:14px; flex-wrap:wrap; }
-  .bolag-card{
-    width:180px; padding:14px 16px; border-radius:var(--radius-m); border:1px solid var(--line);
-    background:var(--paper); cursor:pointer; transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
-    display:flex; align-items:center; justify-content:space-between; gap:10px;
-  }
-  .bolag-card:hover{ transform:translateY(-2px); box-shadow:var(--shadow); }
-  .bolag-card.open{ border-color:var(--brass); box-shadow:var(--shadow); }
-  .bolag-card .name{ font-weight:600; font-size:14px; }
-  .bolag-card .meta{ font-size:11px; color:var(--ink-faint); margin-top:4px; font-family:var(--font-mono); }
-  .bolag-card .chevron{ width:16px; height:16px; color:var(--ink-faint); flex-shrink:0; transition:transform .3s ease, color .2s ease; }
-  .bolag-card.open .chevron{ transform:rotate(180deg); color:var(--brass); }
-
   .org-diagram{ position:relative; width:100%; max-width:740px; margin:26px auto 0; padding:34px 10px 10px; isolation:isolate; }
   .org-diagram::before{
     content:""; position:absolute; inset:0; z-index:-1; border-radius:var(--radius-m);
@@ -419,23 +431,16 @@
     box-shadow:var(--shadow); cursor:pointer; text-align:left; transform:translate(-50%,-50%);
     font-family:var(--font-body); opacity:1;
   }
-  .org-node.you{
-    background:var(--brass-soft); color:var(--ink); border-color:var(--brass);
-    box-shadow:var(--shadow), 0 0 0 5px var(--brass-soft);
-  }
   .org-node:hover, .org-node.active{ outline:2px solid var(--brass); outline-offset:2px; }
   .org-node .head{ display:flex; align-items:center; gap:8px; }
   .org-node .icon-badge{
     width:25px; height:25px; border-radius:50%; display:flex; align-items:center; justify-content:center;
     background:var(--desk-2); flex-shrink:0;
   }
-  .org-node.you .icon-badge{ background:var(--brass); }
-  .org-node.you .icon-badge svg{ color:#fff; }
   .org-node svg{ width:13px; height:13px; color:var(--brass-strong); flex-shrink:0; }
   .org-node.feeder{ width:128px; }
   .org-node .role{ font-size:12.5px; font-weight:600; }
   .org-node .blurb{ font-size:10.5px; color:var(--desk-ink-soft); margin-top:4px; line-height:1.4; }
-  .org-node.you .blurb{ color:var(--ink-soft); }
 
   @media (prefers-reduced-motion:no-preference){
     .org-line{ stroke-dasharray:1; stroke-dashoffset:1; animation:orgLineIn .55s ease forwards; }
@@ -883,28 +888,11 @@ Sammanställning: Dagens elva case spänner medvetet brett över sektorer och re
 
 
   <div id="viewOrg" class="org-view" hidden>
-    <p class="org-intro">Golvet växer som en liten koncern — varje avdelning är ett eget litet "bolag" med egna agenter. Just nu finns en avdelning i drift. Klicka på ett bolag för att se laget bakom, och klicka på en agent för att se vad den gör, vem den pratar med och vad den levererat idag.</p>
+    <p class="org-intro">Golvet växer som en liten koncern — varje avdelning är ett eget litet "bolag" med egna agenter. Just nu finns en avdelning i drift: Aktieanalys. Klicka på en agent för att se vad den gör, vem den pratar med och vad den levererat idag.</p>
 
-    <div class="holding-row">
-      <div class="holding-mark">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="18" height="18" rx="1.5"/><line x1="3" y1="11" x2="21" y2="11"/><line x1="3" y1="16" x2="21" y2="16"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
-        <span>Golvet</span>
-      </div>
-      <span class="holding-arrow">→</span>
-      <div class="bolag-row">
-        <div class="bolag-card" id="bolagAktieanalys" role="button" tabindex="0">
-          <div>
-            <div class="name">Aktieanalys</div>
-            <div class="meta" id="bolagMeta">9 agenter · aktiv</div>
-          </div>
-          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-        </div>
-      </div>
-    </div>
-
-    <div id="orgDiagramWrap" hidden>
+    <div>
       <div class="org-diagram">
-        <svg viewBox="0 0 760 530" role="img" aria-label="Organisationsschema för Golvet Aktieanalys: Trendspanaren söker brett efter veckans teman och lämnar dem till Chefsstrategen. Chefsstrategen sätter dagens sökområde och skickar ut Nyhetsspanaren, Sentimentanalytikern, Kursanalytikern, Teknisk analytiker och Bolag- och analytikerdesken. De skickar sin research till Riskgranskaren, som testar Chefens hypotes och ställer fundamental bild mot teknisk bild, och lämnar den granskade analysen tillbaka till Chefsstrategen. Chefsstrategen lämnar dagens orderbok till dig som VD. Parallellt granskar Portföljmäklaren dina egna innehav och rapporterar direkt till dig.">
+        <svg viewBox="0 0 760 530" role="img" aria-label="Organisationsschema för Golvet Aktieanalys: Trendspanaren söker brett efter veckans teman och lämnar dem till Chefsstrategen. Chefsstrategen sätter dagens sökområde och skickar ut Nyhetsspanaren, Sentimentanalytikern, Kursanalytikern, Teknisk analytiker och Bolag- och analytikerdesken. De skickar sin research till Riskgranskaren, som testar Chefens hypotes och ställer fundamental bild mot teknisk bild, och lämnar den granskade analysen tillbaka till Chefsstrategen.">
           <defs>
             <marker id="orgArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
               <path d="M0,0 L10,5 L0,10 z" fill="var(--ink-faint)"/>
@@ -917,27 +905,16 @@ Sammanställning: Dagens elva case spänner medvetet brett över sektorer och re
           <path class="org-line" pathLength="1" style="animation-delay:.15s" d="M538,401 V377 H380 V349" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" marker-end="url(#orgArrow)"/>
           <path class="org-line" pathLength="1" style="animation-delay:.15s" d="M696,401 V387 H380 V349" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" marker-end="url(#orgArrow)"/>
           <path class="org-line" pathLength="1" style="animation-delay:.5s" d="M380,271 V219" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" marker-end="url(#orgArrow)"/>
-          <path class="org-line" pathLength="1" style="animation-delay:.85s" d="M380,141 V89" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" marker-end="url(#orgArrow)"/>
-          <path class="org-line" pathLength="1" style="animation-delay:.85s" d="M150,141 V95 H380 V89" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" marker-end="url(#orgArrow)"/>
           <path class="org-line" pathLength="1" style="animation-delay:.3s" d="M526,155 H473" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" marker-end="url(#orgArrow)"/>
           <path d="M455,208 V228 H500 V351" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#orgArrow)"/>
           <text x="367" y="242" text-anchor="end" font-size="11" fill="var(--ink-soft)" font-family="IBM Plex Mono, monospace">granskad research</text>
-          <text x="393" y="104" font-size="11" fill="var(--ink-soft)" font-family="IBM Plex Mono, monospace">dagens orderbok</text>
           <text x="500" y="146" text-anchor="middle" font-size="10" fill="var(--ink-soft)" font-family="IBM Plex Mono, monospace">teman</text>
           <text x="510" y="290" font-size="11" fill="var(--ink-soft)" font-family="IBM Plex Mono, monospace">sökområde</text>
         </svg>
 
-        <button class="org-node you" style="left:50%; top:9.2%; animation-delay:.85s" data-agent="vd" type="button">
-          <div class="head"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l3-8 5 5 5-9 3 12"/></svg></span><span class="role">Du — VD</span></div>
-          <p class="blurb">Klubbar besluten och trycker på köp.</p>
-        </button>
         <button class="org-node" style="left:50%; top:33.1%; animation-delay:.6s" data-agent="chef" type="button">
           <div class="head"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="4" x2="6" y2="20"/><path d="M6 5h11l-3 4 3 4H6"/></svg></span><span class="role">Chefsstrateg</span></div>
           <p class="blurb">Sätter sökområdet, skickar ut teamet och väger ihop svaren.</p>
-        </button>
-        <button class="org-node" style="left:19.7%; top:33.1%; animation-delay:.6s" data-agent="broker" type="button">
-          <div class="head"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 20V9M6 9l-3 3M6 9l3 3"/><path d="M18 4v11M18 15l-3-3M18 15l3 3"/></svg></span><span class="role">Portföljmäklare</span></div>
-          <p class="blurb">Granskar dina egna innehav — behåll, sälj eller köp mer.</p>
         </button>
         <button class="org-node" style="left:50%; top:56.9%; animation-delay:.4s" data-agent="risk" type="button">
           <div class="head"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="10.3" cy="10.3" r="6.3"/><line x1="15.2" y1="15.2" x2="20" y2="20"/></svg></span><span class="role">Riskgranskare</span></div>
@@ -1153,24 +1130,31 @@ Sammanställning: Dagens elva case spänner medvetet brett över sektorer och re
   }
 
   var orderList = document.getElementById("orderList");
-  candidates.forEach(function(c){
+  function synthHeadline(c){
+    // Mockup only: real version needs a dedicated short headline written daily.
+    var s = c.thesis || "";
+    var cut = s.length;
+    var comma = s.indexOf(", ");
+    var paren = s.indexOf(" (");
+    if(comma > 15 && comma < cut) cut = comma;
+    if(paren > 15 && paren < cut) cut = paren;
+    if(cut > 90) cut = s.indexOf(" ", 80) > 0 ? s.indexOf(" ", 80) : 90;
+    return s.slice(0, cut).replace(/[,.]$/, "") + (cut < s.length ? "…" : "");
+  }
+  candidates.forEach(function(c, i){
     var row = document.createElement("div");
-    row.className = "order-row";
+    row.className = "order-row impact-" + c.impact;
+    row.style.animationDelay = (i * 0.06) + "s";
     row.innerHTML =
       (c.wish ? '<div class="wish-banner"><span class="wish-banner-icon">🙋</span><span><b>Önskemål från användare</b> — föreslaget av ' + c.wish.by + '</span></div>' : '') +
-      '<div class="order-id">' +
-        '<div class="ticker-sym">' + c.ticker + '</div>' +
-        '<div class="company">' + c.company + '</div>' +
-        '<div class="exch">' + c.exch + '</div>' +
-        trendHtml(c.sixMonth) +
-        '<div class="badges">' +
-          '<span class="pill theme">' + c.theme + '</span>' +
+      '<div class="news-head-row">' +
+        '<h3 class="news-headline">' + synthHeadline(c) + '</h3>' +
+        '<div class="news-tags">' +
+          '<span class="company-chip"><b>' + c.ticker + '</b> ' + c.company + '</span>' +
           '<span class="' + impactClass(c.impact) + '">' + c.impactLabel + '</span>' +
-          (c.horizon ? '<span class="pill horizon">' + c.horizon.label + '</span>' : '') +
-          (c.sentiment ? '<span class="pill sent-' + c.sentiment.cls + '">' + c.sentiment.label + '</span>' : '') +
-          (c.technical ? '<span class="pill sent-' + c.technical.cls + '">Teknik: ' + c.technical.label + '</span>' : '') +
         '</div>' +
       '</div>' +
+      trendHtml(c.sixMonth) +
       '<div class="order-body">' +
         '<p class="thesis">' + c.thesis + '</p>' +
         '<details class="order-more">' +
@@ -1186,6 +1170,7 @@ Sammanställning: Dagens elva case spänner medvetet brett över sektorer och re
         '</details>' +
       '</div>';
     orderList.appendChild(row);
+    setTimeout(function(){ row.classList.add("card-in"); }, 80 + i * 60);
   });
 
   var radarGrid = document.getElementById("radarGrid");
@@ -1226,12 +1211,6 @@ Sammanställning: Dagens elva case spänner medvetet brett över sektorer och re
 
   // ---------- organisation: bolag + agent hierarki ----------
   var AGENTS = {
-    vd: {
-      role:"Du — VD", blurb:"Du sätter riktningen, väger Chefsstrategens förslag mot din egen känsla för läget och klubbar besluten.",
-      from:["Chefsstrateg"], to:[],
-      output:"Väntar på att gå igenom dagens elva idéer i orderboken och bestämma vad du agerar på.",
-      status:"Aktiv · fattar dagens beslut"
-    },
     chef: {
       role:"Chefsstrateg", blurb:"Sätter dagens sökområde utifrån Trendspanarens teman, skickar ut research-teamet och tar emot det granskade resultatet — och väger ihop det till konkreta case, med tydlig tes, risk och källa per idé, som lämnas vidare till dig.",
       from:["Trendspanare","Riskgranskare"], to:["Du (VD)","Nyhetsspanare","Sentimentanalytiker","Kursanalytiker","Teknisk analytiker","Bolag &amp; Analytiker-desk"],
@@ -1262,12 +1241,6 @@ Sammanställning: Dagens elva case spänner medvetet brett över sektorer och re
       output:"Evolution har den mest splittrade sentimentbilden i hela genomgången (4 köp/6 håll/6 sälj) mitt i ett utköpsbud. Meta behåller ett i praktiken enhälligt bullish sentiment trots säkerhetsskandalen. Nvidia och Saab har båda tydligt positivt temastöd.",
       status:"Klar · Evolution mest splittrat sentiment, Meta fortsatt enhälligt bullish"
     },
-    broker: {
-      role:"Portföljmäklare", blurb:"Granskar ägarens egna innehav mot dagens nyhetsläge och säger rakt ut: behåll, sälj eller köp mer. Skickas som ett kort meddelande direkt till ägaren varje morgon — privat, visas inte i den här delade vyn.",
-      from:["Ägarens registrerade innehav"], to:["Ägaren, via meddelande"],
-      output:"Granskningen av ägarens innehav levereras som ett privat meddelande direkt till ägaren, inte här på sidan.",
-      status:"Privat — levereras via meddelande, inte i delad vy"
-    },
     news: {
       role:"Nyhetsspanare", blurb:"Rapporterar vad som hänt de senaste 24 timmarna inom dagens sökområde — bolags- och sektornyheter med datum och källa.",
       from:["Chefsstrateg"], to:["Riskgranskare"],
@@ -1287,23 +1260,6 @@ Sammanställning: Dagens elva case spänner medvetet brett över sektorer och re
       status:"Klar · AMD höjd av BofA, bred nordisk bolagsdag, Evolution mest kluvet"
     }
   };
-
-  var bolagCard = document.getElementById("bolagAktieanalys");
-  var bolagMeta = document.getElementById("bolagMeta");
-  var orgDiagramWrap = document.getElementById("orgDiagramWrap");
-  function toggleDiagram(){
-    orgDiagramWrap.hidden = !orgDiagramWrap.hidden;
-    var open = !orgDiagramWrap.hidden;
-    bolagCard.classList.toggle("open", open);
-    bolagMeta.textContent = open ? "Klicka för att stänga" : "9 agenter · aktiv";
-    if(open){
-      orgDiagramWrap.scrollIntoView({behavior:"smooth", block:"nearest"});
-    }
-  }
-  bolagCard.addEventListener("click", toggleDiagram);
-  bolagCard.addEventListener("keydown", function(e){
-    if(e.key === "Enter" || e.key === " "){ e.preventDefault(); toggleDiagram(); }
-  });
 
   var orgDrawer = document.getElementById("orgDrawer");
   function renderDrawer(a){
