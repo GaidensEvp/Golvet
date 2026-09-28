@@ -253,18 +253,19 @@
   .trend-note{ font-size:10px; color:var(--ink-faint); margin-top:3px; }
   .badges{ display:flex; flex-wrap:wrap; gap:6px; margin-top:9px; }
   .pill{
-    font-family:var(--font-mono); font-size:10.5px; letter-spacing:.02em; padding:2.5px 8px;
-    border-radius:var(--radius-s); border:1px solid var(--line); color:var(--ink-soft);
+    font-family:var(--font-mono); font-size:10.5px; letter-spacing:.02em; padding:3px 8px;
+    border-radius:var(--radius-s); border:none; color:var(--ink-soft);
+    background:color-mix(in srgb, var(--ink-soft) 12%, transparent);
     white-space:normal; word-break:break-word; max-width:100%;
   }
-  .pill.theme{ color:var(--info); border-color:var(--info); }
-  .pill.impact-pos{ background:var(--up); color:#fff; border-color:var(--up); border-radius:999px; }
-  .pill.impact-neg{ background:var(--down); color:#fff; border-color:var(--down); border-radius:999px; }
-  .pill.impact-blandad{ color:var(--ink-soft); border-color:var(--line); border-radius:999px; }
-  .pill.horizon{ color:var(--ink-soft); border-color:var(--line); }
-  .pill.sent-pos{ color:var(--up); border-color:var(--up); }
-  .pill.sent-neg{ color:var(--down); border-color:var(--down); }
-  .pill.sent-neu{ color:var(--ink-soft); border-color:var(--line); }
+  .pill.theme{ color:var(--info); background:color-mix(in srgb, var(--info) 14%, transparent); }
+  .pill.impact-pos{ background:var(--up); color:#fff; border-radius:999px; }
+  .pill.impact-neg{ background:var(--down); color:#fff; border-radius:999px; }
+  .pill.impact-blandad{ color:var(--ink-soft); background:color-mix(in srgb, var(--ink-soft) 12%, transparent); border-radius:999px; }
+  .pill.horizon{ color:var(--ink-soft); background:color-mix(in srgb, var(--ink-soft) 10%, transparent); }
+  .pill.sent-pos{ color:var(--up); background:color-mix(in srgb, var(--up) 14%, transparent); }
+  .pill.sent-neg{ color:var(--down); background:color-mix(in srgb, var(--down) 14%, transparent); }
+  .pill.sent-neu{ color:var(--ink-soft); background:color-mix(in srgb, var(--ink-soft) 10%, transparent); }
   .wish-banner{
     grid-column:1 / -1;
     display:flex; align-items:center; gap:10px;
