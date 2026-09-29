@@ -906,7 +906,6 @@ Sammanställning: Dagens tolv case spänner över AI-säkerhetschockens direkt d
           <path class="org-line" pathLength="1" style="animation-delay:.15s" d="M696,401 V387 H380 V349" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" marker-end="url(#orgArrow)"/>
           <path class="org-line" pathLength="1" style="animation-delay:.5s" d="M380,271 V219" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" marker-end="url(#orgArrow)"/>
           <path class="org-line" pathLength="1" style="animation-delay:.3s" d="M526,155 H473" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" marker-end="url(#orgArrow)"/>
-          <path class="org-line" pathLength="1" style="animation-delay:.3s" d="M234,155 H287" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" marker-end="url(#orgArrow)"/>
           <path d="M455,208 V228 H500 V351" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#orgArrow)"/>
           <text x="367" y="242" text-anchor="end" font-size="11" fill="var(--ink-soft)" font-family="IBM Plex Mono, monospace">granskad research</text>
           <text x="500" y="146" text-anchor="middle" font-size="10" fill="var(--ink-soft)" font-family="IBM Plex Mono, monospace">teman</text>
@@ -920,10 +919,6 @@ Sammanställning: Dagens tolv case spänner över AI-säkerhetschockens direkt d
         <button class="org-node" style="left:50%; top:56.9%; animation-delay:.4s" data-agent="risk" type="button">
           <div class="head"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="10.3" cy="10.3" r="6.3"/><line x1="15.2" y1="15.2" x2="20" y2="20"/></svg></span><span class="role">Riskgranskare</span></div>
           <p class="blurb">Testar Chefens hypotes och flaggar det som skaver.</p>
-        </button>
-        <button class="org-node" style="left:19.7%; top:33.1%; animation-delay:.6s" data-agent="broker" type="button">
-          <div class="head"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V9l7-5 7 5v12"/><path d="M10 21v-6h4v6"/></svg></span><span class="role">Portföljmäklare</span></div>
-          <p class="blurb">Granskar ägarens egna innehav — levereras privat, inte här.</p>
         </button>
         <button class="org-node feeder" style="left:8.4%; top:80.8%; animation-delay:.2s" data-agent="news" type="button">
           <div class="head"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="17" r="1.4"/><path d="M8.3 17a3.7 3.7 0 0 1 7.4 0"/><path d="M5.3 17a6.7 6.7 0 0 1 13.4 0"/><line x1="12" y1="4" x2="12" y2="8.3"/></svg></span><span class="role">Nyhetsspanare</span></div>
@@ -1147,7 +1142,10 @@ Sammanställning: Dagens tolv case spänner över AI-säkerhetschockens direkt d
   var orderList = document.getElementById("orderList");
   function synthHeadline(c){
     // Mockup only: real version needs a dedicated short headline written daily.
-    var s = c.thesis || "";
+    // Thesis-sentences all open with the same "föll/steg X% till Y (dagsintervall ...)"
+    // boilerplate, which made every headline look alike — skip past it to the actual news.
+    var s = (c.thesis || "").replace(/^.*?\(dagsintervall[^)]*\)[,]?\s*/i, "");
+    s = s.charAt(0).toUpperCase() + s.slice(1);
     var cut = s.length;
     var comma = s.indexOf(", ");
     var paren = s.indexOf(" (");
@@ -1273,12 +1271,6 @@ Sammanställning: Dagens tolv case spänner över AI-säkerhetschockens direkt d
       from:["Chefsstrateg"], to:["Riskgranskare"],
       output:"Ingen enskild nedgradering förklarar dagens ras i Meta, AMD, Oracle och Marvell. Sandvik nedgraderades till Behåll trots höjd riktkurs. Evolutions budsituation är i praktiken avslutad efter att Candle Lakes bud fick nästan inget gensvar.",
       status:"Klar · ingen nedgradering förklarar techraset, Evolutions budsituation avslutad"
-    },
-    broker: {
-      role:"Portföljmäklare", blurb:"Granskar ägarens egna innehav mot dagens nyhetsläge och säger rakt ut: behåll, sälj eller köp mer. Skickas som ett kort meddelande direkt till ägaren varje morgon — privat, visas inte i den här delade vyn.",
-      from:["Chefsstrateg"], to:["Du (VD), via privat meddelande"],
-      output:"Granskningen av ägarens innehav levereras som ett privat meddelande direkt till ägaren, inte här på sidan.",
-      status:"Privat — levereras via meddelande, inte i delad vy"
     }
   };
 
