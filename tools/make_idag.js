@@ -22,7 +22,7 @@ function fail(msg, code) { console.error('FEL: ' + msg); process.exit(code || 1)
 if (!opt.b || !opt.repo) fail('Användning: node tools/make_idag.js --b <golvet_b.html> --repo <REPO> [--idag idag.json] [--strict|--allow-missing]');
 
 const decode = s => String(s == null ? '' : s).replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'");
-const txt = s => decode(String(s == null ? '' : s).replace(/<[^>]+>/g, '')).replace(/\s+/g, ' ').trim();
+const txt = s => decode(String(s == null ? '' : s).replace(/<\/?(?:b|i|em|strong|span|br|p|a|small|sup|sub|div|h[1-6]|li|ul)(?:\s[^>]*)?\/?>/gi, '')).replace(/\s+/g, ' ').trim();
 const esc = s => txt(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const attr = s => esc(s).replace(/"/g, '&quot;');
 
@@ -84,6 +84,7 @@ else {
     if (!c.h || c.h.length > 75) errors.push(t + ': h saknas eller är längre än 75 tecken');
     if (!c.w || c.w.length > 150) errors.push(t + ': w saknas eller är längre än 150 tecken');
   });
+  if (idag.wish && (!idag.wish.by || !idag.wish.q || !idag.wish.a)) errors.push('wish saknar by/q/a');
   (idag.calendar || []).forEach(e => { if (!e.d || !e.t) errors.push('calendar-rad saknar d/t'); (e.tickers || []).forEach(t => { if (tickers.indexOf(t) < 0) errors.push('calendar nämner okänd ticker ' + t); }); });
 }
 errors.forEach(e => console.warn('VALIDERING: ' + e));
@@ -267,6 +268,8 @@ details[open] summary::after{content:" \2039"}
 .chip2{text-decoration:none;color:var(--ink);padding:2px 10px;border:1px solid var(--line);border-radius:999px;background:var(--surface);font-size:12.5px}
 .chip2:hover{border-color:var(--brass)}
 .legend{font-size:12.5px;color:var(--ink-faint);margin-top:12px;max-width:70ch}
+.wishnow{padding-block:34px 0}
+.wishnow .wa{margin-top:10px;font-size:15px;line-height:1.6;max-width:62ch}
 .back{margin-top:34px;border-top:1px solid var(--line);padding-top:6px}
 .back summary{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;padding-block:12px}
 .lens{display:flex;flex-direction:column;gap:10px;margin-top:6px;font-size:13.5px;color:var(--ink-soft)}
@@ -354,6 +357,10 @@ const js = String.raw`
   const calHtml = calRows.map(e => '<li><span class="cd">' + esc(e.d) + '</span><div><span>' + esc(e.t) + '</span>' +
     ((e.tickers || []).filter(t => tickers.indexOf(t) > -1).length ? '<div class="berors"><span>Berörs:</span>' + e.tickers.filter(t => tickers.indexOf(t) > -1).map(t => '<a class="chip2" href="#c-' + attr(t) + '">' + nameOf(t) + '</a>').join('') + '</div>' : '') + '</div></li>').join('');
 
+  const wishHtml = (idag && idag.wish && idag.wish.by && idag.wish.q && idag.wish.a)
+    ? '<section class="wishnow"><p class="eyebrow">Dagens önskemål</p><h2>' + esc(idag.wish.q) + '</h2><p class="gsum">Önskat av ' + esc(idag.wish.by) + '</p>' +
+      String(idag.wish.a).split(/\n\s*\n/).map(p => '<p class="wa">' + esc(p) + '</p>').join('') + '</section>\n' : '';
+
   const groupHtml = groups.map(g => '<section class="group"><h2>' + esc(g.t) + '</h2><p class="gsum">' + esc(g.s) + '</p><ul class="rows">' +
     g.tickers.map(t => row(candidates.find(c => c.ticker === t), T[t])).join('') + '</ul></section>').join('');
 
@@ -382,7 +389,7 @@ const js = String.raw`
     '<div class="glance">' + glanceRows.map(g => '<div class="g"><span class="gl">' + esc(g.l) + '</span><span class="gt">' + esc(g.t) + '</span></div>').join('') + '</div>\n' +
     '<div class="mine" id="mine"></div>\n' +
     '<section class="week"><h2>Veckan framåt</h2><p class="gsum">Händelser som kan svänga marknaden, och bolagen i dagens lista som är känsliga för dem.</p><ul class="cal">' + calHtml + '</ul>' +
-    '<p class="legend">Kopplingarna är vår bedömning av vilka bolag som är känsliga, inte en prognos.</p></section>\n' +
+    '<p class="legend">Kopplingarna är vår bedömning av vilka bolag som är känsliga, inte en prognos.</p></section>\n' + wishHtml +
     '<p class="legend" style="margin-top:34px">Trend visar hur kursen betett sig mot sina 50- och 200-dagars medelvärden. Det är historik, inte en prognos eller en rekommendation.</p>\n' +
     groupHtml + '\n' + readTool('onskemal.html') + '\n' +
     '<details class="back"><summary>Så togs dagens läge fram</summary>' + radarHtml + '</details>\n' +
