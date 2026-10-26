@@ -1,0 +1,1460 @@
+<!doctype html><html lang="sv"><head><meta name="robots" content="noindex"><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><title>Golvet</title><meta name="description" content="AI-analysdesk som bevakar världsläget och föreslår idéer. Delad läsvy."><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%88%3C/text%3E%3C/svg%3E"></head><body>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --paper:#E6E5D3;
+    --paper-2:#F2F1E5;
+    --ink:#1B2420;
+    --ink-soft:#54604E;
+    --ink-faint:#8B9480;
+    --line:#C7CAAF;
+    --desk:#1F2E28;
+    --desk-2:#26372F;
+    --desk-ink:#ECE8D6;
+    --desk-ink-soft:#B7BFA9;
+    --desk-line:#38493F;
+    --brass:#8F6A1B;
+    --brass-strong:#6E5114;
+    --brass-soft:#E7D6A6;
+    --up:#2E7D4A;
+    --down:#B23A32;
+    --info:#3E5C86;
+    --shadow:0 1px 2px rgba(27,36,32,.08), 0 10px 24px -14px rgba(27,36,32,.28);
+    --radius-s:6px;
+    --radius-m:12px;
+    --font-display:'Fraunces', Georgia, serif;
+    --font-body:'Work Sans', system-ui, -apple-system, sans-serif;
+    --font-mono:'IBM Plex Mono', ui-monospace, 'Courier New', monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#13160E;
+      --paper-2:#1A1E14;
+      --ink:#E7E4D2;
+      --ink-soft:#AEB39C;
+      --ink-faint:#6E7362;
+      --line:#2B3024;
+      --desk:#171E17;
+      --desk-2:#1E2721;
+      --desk-ink:#EFEBD8;
+      --desk-ink-soft:#9BA48D;
+      --desk-line:#374035;
+      --brass:#D9A53F;
+      --brass-strong:#EFC46B;
+      --brass-soft:#3B2E14;
+      --up:#4CAF6E;
+      --down:#E2645F;
+      --info:#84A3D6;
+      --shadow:0 1px 2px rgba(0,0,0,.5), 0 12px 28px -16px rgba(0,0,0,.7);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#13160E;
+    --paper-2:#1A1E14;
+    --ink:#E7E4D2;
+    --ink-soft:#AEB39C;
+    --ink-faint:#6E7362;
+    --line:#2B3024;
+    --desk:#171E17;
+    --desk-2:#1E2721;
+    --desk-ink:#EFEBD8;
+    --desk-ink-soft:#9BA48D;
+    --desk-line:#374035;
+    --brass:#D9A53F;
+    --brass-strong:#EFC46B;
+    --brass-soft:#3B2E14;
+    --up:#4CAF6E;
+    --down:#E2645F;
+    --info:#84A3D6;
+    --shadow:0 1px 2px rgba(0,0,0,.5), 0 12px 28px -16px rgba(0,0,0,.7);
+  }
+
+  *{ box-sizing:border-box; }
+  html{ text-size-adjust:100%; }
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--font-body);
+    font-size:15px;
+    line-height:1.5;
+  }
+  .wrap{ max-width:1180px; margin:0 auto; padding:22px 22px 70px; }
+  h1,h2,h3{ font-family:var(--font-display); margin:0; text-wrap:balance; }
+  a{ color:inherit; }
+  button{ font-family:var(--font-body); }
+  ::selection{ background:var(--brass-soft); color:var(--ink); }
+  :focus-visible{ outline:2px solid var(--brass); outline-offset:2px; }
+
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:.09em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+  }
+  .section-label{
+    font-family:var(--font-mono);
+    font-size:12px;
+    letter-spacing:.07em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin:0 0 14px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .section-label::after{ content:""; flex:1; height:1px; background:var(--line); }
+
+  /* ---------- hero / förstagångsvy ---------- */
+  .hero{
+    position:relative; margin-top:18px; padding:16px 44px 16px 18px;
+    background:var(--brass-soft); border:1px solid var(--brass); border-radius:var(--radius-m);
+  }
+  .hero-lede{ margin:0; font-size:13.5px; line-height:1.55; color:var(--ink); max-width:760px; }
+  .hero-steps{ display:flex; gap:18px; margin-top:12px; flex-wrap:wrap; }
+  .hero-step{ display:flex; align-items:center; gap:8px; }
+  .hero-step-num{
+    width:20px; height:20px; border-radius:50%; background:var(--brass); color:#fff;
+    font-family:var(--font-mono); font-size:11px; font-weight:600;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .hero-step p{ margin:0; font-size:12.5px; color:var(--ink-soft); }
+  .hero-dismiss{
+    position:absolute; top:10px; right:10px; background:none; border:none;
+    color:var(--ink-faint); font-size:18px; line-height:1; cursor:pointer; padding:4px;
+  }
+  .hero-dismiss:hover{ color:var(--ink); }
+  @media (max-width:600px){ .hero-steps{ flex-direction:column; gap:8px; } }
+
+  /* ---------- masthead ---------- */
+  .masthead{ padding-top:6px; }
+  .masthead-top{
+    display:flex; justify-content:space-between; align-items:flex-end; gap:16px;
+    flex-wrap:wrap;
+    border-bottom:1px solid var(--line);
+    padding-bottom:16px;
+  }
+  .brand{ display:flex; align-items:center; gap:14px; }
+  .brand svg{ width:38px; height:38px; color:var(--brass); flex-shrink:0; }
+  .brand h1{ font-size:32px; font-weight:600; letter-spacing:-.01em; }
+  .brand .tagline{ margin:2px 0 0; font-size:13px; color:var(--ink-soft); }
+  .session-meta{ text-align:right; display:flex; flex-direction:column; gap:6px; align-items:flex-end; }
+  .session-meta .date{ font-family:var(--font-mono); font-size:12.5px; color:var(--ink-soft); }
+  .status-pill{
+    font-family:var(--font-mono); font-size:11px; letter-spacing:.04em;
+    padding:3px 9px; border-radius:999px; border:1px solid var(--line);
+    color:var(--ink-soft); display:inline-flex; align-items:center; gap:6px;
+  }
+  .status-pill .dot{ width:6px; height:6px; border-radius:50%; background:var(--ink-faint); }
+  .status-pill.live .dot{ background:var(--up); }
+  .status-pill.offline .dot{ background:var(--down); }
+
+  .portfolio-strip{
+    display:grid; grid-template-columns:1fr; max-width:220px; gap:1px;
+    background:var(--line); border:1px solid var(--line); border-radius:var(--radius-s);
+    margin-top:16px; overflow:hidden;
+  }
+  .ps-cell{ background:var(--paper-2); padding:12px 16px; }
+  .ps-cell .k{ font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-faint); }
+  .ps-cell .v{ font-family:var(--font-mono); font-size:19px; font-variant-numeric:tabular-nums; margin-top:3px; }
+
+  /* ---------- ticker ---------- */
+  .ticker{
+    margin-top:18px; border-top:1px solid var(--desk-line); border-bottom:1px solid var(--desk-line);
+    background:var(--desk); overflow:hidden; white-space:nowrap;
+  }
+  .ticker-track{
+    display:inline-flex; align-items:center; padding:9px 0;
+    animation:scroll-left 75s linear infinite;
+  }
+  @keyframes scroll-left{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+  @media (prefers-reduced-motion:reduce){ .ticker-track{ animation:none; } .ticker{ overflow-x:auto; } }
+  @media (max-width:600px){ .ticker-track{ animation-duration:110s; } }
+  .ticker-item{
+    font-family:var(--font-mono); font-size:12.5px; color:var(--desk-ink-soft);
+    padding:0 22px; border-right:1px solid var(--desk-line);
+  }
+  .ticker-item b{ color:var(--desk-ink); font-weight:600; }
+
+  /* ---------- trend radar ---------- */
+  .radar{ margin-top:28px; }
+  .radar-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+  @media (max-width:900px){ .radar-grid{ grid-template-columns:repeat(2,1fr); } }
+  .radar-card{ background:var(--paper-2); border:1px solid var(--line); border-radius:var(--radius-s); padding:10px 12px; }
+  .radar-card.active{ border-color:var(--brass); }
+  .radar-card .lens{
+    font-family:var(--font-mono); font-size:10.5px; letter-spacing:.03em; text-transform:uppercase;
+    color:var(--ink-faint); display:flex; align-items:center; gap:6px;
+  }
+  .radar-card.active .lens{ color:var(--brass-strong); }
+  .radar-card .dot{ width:6px; height:6px; border-radius:50%; background:var(--line); flex-shrink:0; }
+  .radar-card.active .dot{ background:var(--brass); }
+  .radar-card p{ margin:6px 0 0; font-size:12px; line-height:1.4; color:var(--ink-soft); }
+
+  /* ---------- news feature (Trendspanare + Nyhetsspanare som artikel) ---------- */
+  .news-feature{ margin-top:28px; }
+  .news-feature-card{
+    position:relative; overflow:hidden;
+    background:var(--paper-2); border:1px solid var(--line); border-radius:var(--radius-m);
+    padding:28px 32px 30px;
+  }
+  .news-feature-card::before{
+    content:""; position:absolute; top:0; left:0; right:0; height:3px; background:var(--brass);
+  }
+  .news-feature-headline{
+    font-family:var(--font-display); font-size:24px; font-weight:600; line-height:1.28;
+    margin:0 0 16px; max-width:800px; color:var(--ink);
+  }
+  .news-feature-body{ max-width:760px; }
+  .news-feature-body p{ margin:0 0 14px; font-size:14.5px; line-height:1.65; color:var(--ink); }
+  .news-feature-body p:last-child{ margin-bottom:0; }
+  .news-feature-body p b{ color:var(--ink); }
+  .news-feature-divider{ margin:24px 0 20px; border:none; border-top:1px solid var(--line); max-width:760px; }
+  .news-feature-subhead{
+    font-family:var(--font-display); font-size:16px; font-weight:600; margin:0 0 10px; color:var(--ink);
+  }
+  .news-feature-calendar{ font-size:13px; color:var(--ink-soft); }
+  @media (max-width:600px){
+    .news-feature-card{ padding:20px 18px 22px; }
+    .news-feature-headline{ font-size:19px; }
+  }
+
+  /* ---------- desks ---------- */
+  .desks{ margin-top:34px; }
+  .desk-list{
+    display:flex; flex-direction:column; background:var(--desk); border:1px solid var(--desk-line);
+    border-radius:var(--radius-m); box-shadow:var(--shadow); overflow:hidden;
+  }
+  .desk-item{ border-top:1px solid var(--desk-line); }
+  .desk-item:first-child{ border-top:none; }
+  .desk-item > summary{
+    list-style:none; cursor:pointer; display:flex; align-items:center; gap:11px;
+    padding:14px 16px; color:var(--desk-ink);
+  }
+  .desk-item > summary::-webkit-details-marker{ display:none; }
+  .desk-item > summary svg.role-icon{ width:18px; height:18px; color:var(--brass-strong); flex-shrink:0; }
+  .desk-role{ font-size:13.5px; font-weight:600; flex:1; }
+  .desk-output{ font-size:13px; color:var(--desk-ink-soft); line-height:1.6; margin:0; white-space:pre-line; }
+  .desk-output b{ color:var(--desk-ink); }
+  .desk-status{
+    font-family:var(--font-mono); font-size:10.5px; letter-spacing:.03em; text-transform:uppercase;
+    color:var(--brass-strong); margin:0; display:flex; align-items:center; gap:6px; white-space:nowrap; flex-shrink:0;
+  }
+  .desk-status .dot{ width:5px; height:5px; border-radius:50%; background:var(--up); }
+  .desk-item > summary svg.chevron{
+    width:14px; height:14px; color:var(--desk-ink-soft); flex-shrink:0; transition:transform .2s ease;
+  }
+  .desk-item[open] > summary svg.chevron{ transform:rotate(180deg); }
+  .desk-item[open] > summary{ border-bottom:1px solid var(--desk-line); }
+  .desk-item-body{ padding:13px 16px 16px 45px; display:flex; flex-direction:column; gap:6px; }
+  .desk-status-full{
+    font-family:var(--font-mono); font-size:10.5px; letter-spacing:.03em; text-transform:uppercase;
+    color:var(--brass-strong); margin:0;
+  }
+  @media (prefers-reduced-motion:no-preference){
+    .desk-item-body{ animation:deskItemIn .2s ease; }
+  }
+  @keyframes deskItemIn{ from{ opacity:0; } to{ opacity:1; } }
+
+  /* ---------- main grid ---------- */
+  .orderbook{ margin-top:36px; }
+  .lower-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:18px; margin-top:32px; align-items:start; }
+
+  .order-list{ display:flex; flex-direction:column; gap:12px; }
+  @keyframes cardRise{ from{ opacity:0; transform:translateY(14px); } to{ opacity:1; transform:translateY(0); } }
+  .order-row{
+    position:relative; overflow:hidden;
+    background:var(--paper-2); border:1px solid var(--line); border-radius:var(--radius-m);
+    padding:14px 16px 14px; display:flex; flex-direction:column; gap:8px;
+    transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  @media (prefers-reduced-motion:no-preference){
+    .order-row{ animation:cardRise .5s cubic-bezier(.2,.8,.2,1) backwards; }
+  }
+  .order-row:hover{ transform:translateY(-3px); box-shadow:var(--shadow); border-color:var(--ink-faint); }
+  .order-row::before{
+    content:""; position:absolute; top:0; left:0; right:0; height:3px;
+    background:var(--line); transform:scaleX(0); transform-origin:left;
+    transition:transform .5s ease;
+  }
+  .order-row.impact-pos::before{ background:var(--up); }
+  .order-row.impact-neg::before{ background:var(--down); }
+  .order-row.impact-blandad::before{ background:var(--info); }
+  .order-row.card-in::before{ transform:scaleX(1); }
+  .news-head-row{ display:flex; align-items:flex-start; gap:10px; }
+  .news-headline{
+    font-family:var(--font-display); font-size:15.5px; font-weight:600; line-height:1.4;
+    margin:0; color:var(--ink); flex:1; min-width:0;
+  }
+  .news-tags{ display:flex; flex-wrap:wrap; align-items:center; gap:6px; flex-shrink:0; }
+  .company-chip{
+    display:inline-flex; align-items:center; gap:4px;
+    font-family:var(--font-mono); font-size:10.5px; padding:3px 9px 3px 7px;
+    border-radius:999px; background:var(--paper); border:1px solid var(--line); color:var(--ink-soft);
+    white-space:nowrap;
+  }
+  .company-chip b{ color:var(--brass-strong); font-weight:700; }
+  .order-id .ticker-sym{ font-family:var(--font-mono); font-size:19px; font-weight:600; }
+  .order-id .company{ font-size:12.5px; color:var(--ink-soft); margin-top:2px; }
+  .order-id .exch{ font-size:10.5px; color:var(--ink-faint); font-family:var(--font-mono); margin-top:6px; }
+  .order-id{ min-width:0; }
+  .trend{ display:flex; align-items:center; gap:6px; margin-top:10px; }
+  .trend svg{ width:56px; height:20px; flex-shrink:0; overflow:visible; }
+  .trend-badge{
+    display:inline-flex; align-items:center; gap:3px; font-family:var(--font-mono); font-size:11px;
+    font-weight:600; font-variant-numeric:tabular-nums;
+  }
+  .trend-badge.pos{ color:var(--up); }
+  .trend-badge.neg{ color:var(--down); }
+  .trend-badge svg{ width:9px; height:9px; }
+  .trend-note{ font-size:10px; color:var(--ink-faint); margin-top:3px; }
+  .badges{ display:flex; flex-wrap:wrap; gap:6px; margin-top:9px; }
+  .pill{
+    font-family:var(--font-mono); font-size:10.5px; letter-spacing:.02em; padding:3px 8px;
+    border-radius:var(--radius-s); border:none; color:var(--ink-soft);
+    background:color-mix(in srgb, var(--ink-soft) 12%, transparent);
+    white-space:normal; word-break:break-word; max-width:100%;
+  }
+  .pill.theme{ color:var(--info); background:color-mix(in srgb, var(--info) 14%, transparent); }
+  .pill.impact-pos{ background:var(--up); color:#fff; border-radius:999px; }
+  .pill.impact-neg{ background:var(--down); color:#fff; border-radius:999px; }
+  .pill.impact-blandad{ color:var(--ink-soft); background:color-mix(in srgb, var(--ink-soft) 12%, transparent); border-radius:999px; }
+  .pill.horizon{ color:var(--ink-soft); background:color-mix(in srgb, var(--ink-soft) 10%, transparent); }
+  .pill.sent-pos{ color:var(--up); background:color-mix(in srgb, var(--up) 14%, transparent); }
+  .pill.sent-neg{ color:var(--down); background:color-mix(in srgb, var(--down) 14%, transparent); }
+  .pill.sent-neu{ color:var(--ink-soft); background:color-mix(in srgb, var(--ink-soft) 10%, transparent); }
+  .wish-banner{
+    grid-column:1 / -1;
+    display:flex; align-items:center; gap:10px;
+    background:var(--brass); border:1px solid var(--brass-strong); border-radius:var(--radius-s);
+    padding:10px 14px; margin-bottom:4px; box-shadow:var(--shadow);
+  }
+  .wish-banner .wish-banner-icon{ font-size:20px; line-height:1; flex-shrink:0; }
+  .wish-banner span:last-child{ font-size:13px; color:#fff; line-height:1.4; font-weight:500; }
+  .wish-banner b{ font-family:var(--font-mono); letter-spacing:.03em; text-transform:uppercase; font-size:12.5px; color:#fff; }
+  .order-body p{ margin:0; font-size:13.5px; line-height:1.55; white-space:pre-line; }
+  .order-body .thesis{ margin-bottom:0; }
+  .order-more{ margin-top:12px; }
+  .order-more > summary{
+    list-style:none; cursor:pointer; display:inline-flex; align-items:center; gap:6px;
+    padding:5px 11px 5px 10px; border:1px solid var(--line); border-radius:999px;
+    font-family:var(--font-mono); font-size:11px; letter-spacing:.02em;
+    color:var(--ink-soft); background:transparent;
+    transition:background .15s ease, border-color .15s ease, color .15s ease;
+  }
+  .order-more > summary::-webkit-details-marker{ display:none; }
+  .order-more > summary:hover{ border-color:var(--brass); color:var(--ink); }
+  .order-more > summary:focus-visible{ outline:2px solid var(--brass); outline-offset:2px; }
+  .order-more > summary svg{ width:10px; height:10px; flex-shrink:0; transition:transform .2s ease; }
+  .order-more[open] > summary{ background:var(--paper); border-color:var(--brass); color:var(--ink); }
+  .order-more[open] > summary svg{ transform:rotate(180deg); }
+  .order-more-body{
+    margin-top:11px; padding-top:11px; border-top:1px dashed var(--line);
+    display:flex; flex-direction:column; gap:2px;
+  }
+  @media (prefers-reduced-motion:no-preference){
+    .order-more-body{ animation:deskItemIn .2s ease; }
+  }
+  .order-body .risk{
+    margin-top:9px; font-size:12px; color:var(--ink-soft); border-left:2px solid var(--down);
+    padding-left:9px; font-style:italic;
+  }
+  .order-body .meta-line{ margin-top:7px; font-size:12px; color:var(--ink-soft); line-height:1.5; }
+  .order-body .meta-line b{ color:var(--ink); }
+  .order-body .meta-line .sent-pos{ color:var(--up); font-weight:600; }
+  .order-body .meta-line .sent-neg{ color:var(--down); font-weight:600; }
+  .order-body .meta-line .sent-neu{ color:var(--ink-soft); font-weight:600; }
+  .order-body .align-line{
+    margin-top:9px; font-size:12px; color:var(--ink-soft); line-height:1.5;
+    background:var(--paper); border-radius:6px; padding:7px 10px; display:flex; gap:7px; align-items:flex-start;
+  }
+  .order-body .align-line svg{ width:14px; height:14px; flex-shrink:0; margin-top:1px; }
+  .order-body .align-line.match svg{ color:var(--up); }
+  .order-body .align-line.mismatch svg{ color:var(--down); }
+  .order-body .align-line.partial svg{ color:var(--ink-faint); }
+  .order-body .align-line b{ color:var(--ink); }
+  .order-body .src{ margin-top:8px; font-size:11px; color:var(--ink-faint); font-family:var(--font-mono); }
+  /* ---------- sidebar panels ---------- */
+  .panel{
+    background:var(--paper-2); border:1px solid var(--line); border-radius:var(--radius-m); padding:16px 18px;
+  }
+  .panel h3{ font-size:14.5px; font-weight:600; margin-bottom:11px; }
+  .empty-note{ font-size:12.5px; color:var(--ink-faint); font-style:italic; }
+
+  .watch-item{ border-top:1px solid var(--line); padding:10px 0; }
+  .watch-item:first-child{ border-top:none; padding-top:0; }
+  .watch-head{ display:flex; justify-content:space-between; align-items:baseline; }
+  .watch-head .sym{ font-family:var(--font-mono); font-weight:600; font-size:13px; }
+  .watch-head .flag{ font-size:10px; font-family:var(--font-mono); color:var(--info); text-transform:uppercase; }
+  .watch-item p{ margin:5px 0 0; font-size:12.5px; color:var(--ink-soft); line-height:1.5; }
+
+  .macro-item{ display:flex; gap:9px; padding:9px 0; border-top:1px solid var(--line); }
+  .macro-item:first-child{ border-top:none; padding-top:0; }
+  .macro-item svg{ width:15px; height:15px; color:var(--down); flex-shrink:0; margin-top:2px; }
+  .macro-item p{ margin:0; font-size:12.5px; line-height:1.5; color:var(--ink-soft); }
+  .macro-item b{ color:var(--ink); }
+
+  .hist-row{ display:flex; align-items:center; justify-content:space-between; gap:8px; border-top:1px solid var(--line); padding:8px 0; }
+  .hist-row:first-child{ border-top:none; padding-top:0; }
+  .hist-left{ display:flex; flex-direction:column; }
+  .hist-left .sym{ font-family:var(--font-mono); font-size:12.5px; font-weight:600; }
+  .hist-left .date{ font-size:10.5px; color:var(--ink-faint); font-family:var(--font-mono); }
+  .hist-actions{ display:flex; gap:4px; }
+  .hist-btn{
+    font-family:var(--font-mono); font-size:9.5px; padding:3px 6px; border-radius:5px;
+    border:1px solid var(--line); background:transparent; color:var(--ink-faint); cursor:pointer; text-transform:uppercase;
+  }
+  .hist-btn.active-hit{ background:var(--up); color:#fff; border-color:var(--up); }
+  .hist-btn.active-miss{ background:var(--down); color:#fff; border-color:var(--down); }
+  .hist-btn.active-pending{ background:var(--info); color:#fff; border-color:var(--info); }
+
+  .order-legend{ margin:-4px 0 12px; font-size:11.5px; color:var(--ink-faint); font-family:var(--font-mono); }
+  footer{ margin-top:44px; border-top:1px solid var(--line); padding-top:16px; }
+  footer p{ font-size:11.5px; color:var(--ink-faint); line-height:1.6; max-width:900px; }
+
+  @media (max-width:900px){
+    .lower-grid{ grid-template-columns:1fr; }
+  }
+  @media (max-width:600px){
+    .order-row{ grid-template-columns:1fr; }
+    .masthead-top{ align-items:flex-start; }
+    .session-meta{ align-items:flex-start; text-align:left; }
+    .desk-item > summary .desk-status{ display:none; }
+    .desk-item-body{ padding-left:16px; }
+  }
+
+  /* ---------- tabs ---------- */
+  .tabs{ display:flex; gap:6px; margin-top:20px; }
+  .tab-btn{
+    font-family:var(--font-mono); font-size:11.5px; letter-spacing:.04em; text-transform:uppercase;
+    padding:9px 16px 8px; border:1px solid var(--line); border-bottom:none; border-radius:8px 8px 0 0;
+    background:var(--paper); color:var(--ink-faint); cursor:pointer; position:relative; top:1px;
+  }
+  .tab-btn.active{ background:var(--paper-2); color:var(--ink); }
+  .tab-btn:not(.active):hover{ color:var(--ink-soft); }
+
+  /* ---------- organisation ---------- */
+  .org-view{
+    border:1px solid var(--line); border-top:none; background:var(--paper-2);
+    border-radius:0 0 var(--radius-m) var(--radius-m); padding:26px 26px 32px;
+  }
+  .org-intro{ font-size:13.5px; color:var(--ink-soft); max-width:660px; margin:0 0 26px; line-height:1.55; }
+
+  .org-diagram{ position:relative; width:100%; max-width:740px; margin:26px auto 0; padding:34px 10px 10px; isolation:isolate; }
+  .org-diagram::before{
+    content:""; position:absolute; inset:0; z-index:-1; border-radius:var(--radius-m);
+    background:
+      radial-gradient(ellipse 70% 55% at 50% 8%, var(--brass-soft) 0%, transparent 62%),
+      linear-gradient(var(--line) 1px, transparent 1px) 0 0/36px 36px,
+      linear-gradient(90deg, var(--line) 1px, transparent 1px) 0 0/36px 36px;
+    opacity:.4;
+    -webkit-mask-image: radial-gradient(ellipse 60% 60% at 50% 45%, black 45%, transparent 92%);
+    mask-image: radial-gradient(ellipse 60% 60% at 50% 45%, black 45%, transparent 92%);
+  }
+  .org-diagram svg{ width:100%; height:auto; display:block; }
+  .org-line{ stroke-dashoffset:0; }
+  .org-node{
+    position:absolute; width:182px; padding:11px 13px; border-radius:var(--radius-m);
+    background:var(--desk); color:var(--desk-ink); border:1px solid var(--desk-line);
+    box-shadow:var(--shadow); cursor:pointer; text-align:left; transform:translate(-50%,-50%);
+    font-family:var(--font-body); opacity:1;
+  }
+  .org-node:hover, .org-node.active{ outline:2px solid var(--brass); outline-offset:2px; }
+  .org-node .head{ display:flex; align-items:center; gap:8px; }
+  .org-node .icon-badge{
+    width:25px; height:25px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    background:var(--desk-2); flex-shrink:0;
+  }
+  .org-node svg{ width:13px; height:13px; color:var(--brass-strong); flex-shrink:0; }
+  .org-node.feeder{ width:128px; }
+  .org-node .role{ font-size:12.5px; font-weight:600; }
+  .org-node .blurb{ font-size:10.5px; color:var(--desk-ink-soft); margin-top:4px; line-height:1.4; }
+
+  @media (prefers-reduced-motion:no-preference){
+    .org-line{ stroke-dasharray:1; stroke-dashoffset:1; animation:orgLineIn .55s ease forwards; }
+    .org-node{ animation:orgNodeIn .5s ease backwards; }
+  }
+  @keyframes orgLineIn{ to{ stroke-dashoffset:0; } }
+  @keyframes orgNodeIn{
+    from{ opacity:0; transform:translate(-50%,-50%) translateY(10px) scale(.92); }
+    to{ opacity:1; transform:translate(-50%,-50%) translateY(0) scale(1); }
+  }
+
+  .org-drawer{
+    margin-top:22px; border-top:2px solid var(--brass); background:var(--paper);
+    border-radius:0 0 var(--radius-m) var(--radius-m); padding:18px 20px; box-shadow:var(--shadow); max-width:740px; margin-left:auto; margin-right:auto;
+  }
+  @media (prefers-reduced-motion:no-preference){
+    .org-drawer.anim-in{ animation:orgFadeUp .3s ease; }
+  }
+  @keyframes orgFadeUp{ from{ opacity:0; transform:translateY(8px); } to{ opacity:1; transform:translateY(0); } }
+  .org-drawer .drawer-head{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+  .org-drawer h4{ font-size:16px; font-weight:600; }
+  .org-drawer .close-drawer{ background:none; border:none; color:var(--ink-faint); font-size:20px; cursor:pointer; line-height:1; padding:0 4px; }
+  .org-drawer .blurb-line{ margin:8px 0 0; font-size:12.5px; color:var(--ink-soft); }
+  .org-drawer .flow-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:14px; }
+  .org-drawer .flow-col .k{ font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-faint); margin-bottom:5px; }
+  .org-drawer .flow-col ul{ margin:0; padding-left:16px; font-size:12.5px; color:var(--ink-soft); }
+  .org-drawer .status-line{ margin-top:14px; font-family:var(--font-mono); font-size:10.5px; letter-spacing:.03em; text-transform:uppercase; color:var(--brass-strong); }
+  .org-drawer .output-box{ margin-top:8px; font-size:13px; line-height:1.55; background:var(--paper-2); border-left:2px solid var(--brass); padding:10px 12px; border-radius:0 6px 6px 0; }
+
+  @media (max-width:760px){
+    .org-node:not(.feeder){ width:164px; }
+  }
+  @media (max-width:640px){
+    .org-node{ width:132px; padding:8px 9px; }
+    .org-node:not(.feeder){ width:104px; padding:7px 8px; }
+    .org-node:not(.feeder) .icon-badge{ display:none; }
+    .org-node .role{ font-size:10.5px; }
+    .org-node .blurb{ display:none; }
+    .org-drawer .flow-grid{ grid-template-columns:1fr; }
+  }
+  @media (max-width:480px){
+    .org-node:not(.feeder){ width:84px; padding:6px; }
+    .org-node:not(.feeder) .role{ font-size:9px; overflow-wrap:anywhere; }
+    .org-node.feeder{ width:58px !important; padding:4px 5px !important; }
+    .org-node.feeder .role{ font-size:6.5px !important; line-height:1.1; }
+    .org-node.feeder .icon-badge{ width:14px !important; height:14px !important; }
+    .org-node.feeder .icon-badge svg{ width:8px !important; height:8px !important; }
+  }
+
+  /* ---------- önskemål till Trendspanaren (prototyp) ---------- */
+  .wish{ margin-top:32px; }
+  .wish-grid{ display:grid; grid-template-columns:minmax(0,1.25fr) minmax(0,1fr); gap:18px; align-items:start; }
+  .wish .panel{ position:relative; }
+  .wish-badge{
+    font-family:var(--font-mono); font-size:10.5px; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--brass-strong); background:var(--brass-soft); border-radius:99px; padding:2px 9px; white-space:nowrap;
+  }
+  .wish-lead{ margin:0 0 14px; font-size:14px; color:var(--ink-soft); max-width:60ch; }
+  .wish label, .wish legend{ display:block; font-size:12px; font-weight:600; color:var(--ink); margin:0 0 5px; padding:0; }
+  .wish .opt{ font-weight:400; color:var(--ink-faint); }
+  .wish fieldset{ border:0; margin:0 0 14px; padding:0; min-width:0; }
+  .wish textarea, .wish input[type=text], .wish input[type=email]{
+    width:100%; font-family:var(--font-body); font-size:14px; line-height:1.45; padding:9px 11px;
+    border:1px solid var(--line); border-radius:var(--radius-s); background:var(--paper); color:var(--ink);
+  }
+  .wish textarea{ min-height:96px; resize:vertical; }
+  .wish textarea::placeholder, .wish input::placeholder{ color:var(--ink-faint); }
+  .wish textarea:focus, .wish input:focus{ outline:2px solid var(--brass); outline-offset:1px; border-color:var(--brass); }
+  .wish-field{ margin-bottom:14px; }
+  .wish-count{ display:flex; justify-content:space-between; gap:10px; margin-top:4px; font-family:var(--font-mono); font-size:11px; color:var(--ink-faint); }
+  .wish-count .err{ color:var(--down); }
+  .wish-count .over{ color:var(--down); }
+  .wish-types{ display:flex; flex-wrap:wrap; gap:8px; }
+  .wish-types input{ position:absolute; opacity:0; pointer-events:none; }
+  .wish-types label{
+    margin:0; font-weight:500; font-size:13px; padding:6px 13px; border:1px solid var(--line);
+    border-radius:99px; background:var(--paper); color:var(--ink-soft); cursor:pointer;
+  }
+  .wish-types label:hover{ border-color:var(--ink-soft); color:var(--ink); }
+  .wish-types input:checked + label{ background:var(--brass-soft); border-color:var(--brass); color:var(--brass-strong); }
+  .wish-types input:focus-visible + label{ outline:2px solid var(--brass); outline-offset:2px; }
+  .wish-row{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .wish label.wish-check{ display:flex; gap:8px; align-items:flex-start; margin:0 0 14px; font-size:12.5px; font-weight:400; color:var(--ink-soft); }
+  .wish-check input{ margin-top:3px; accent-color:var(--brass); }
+  .wish-hp{ position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
+  .wish-actions{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+  .wish .btn{ padding:10px 16px; font-size:12px; }
+  .wish-msg{ font-size:12.5px; color:var(--ink-soft); }
+  .wish-msg.err{ color:var(--down); }
+  .wish-fine{ margin:12px 0 0; font-size:11.5px; color:var(--ink-faint); line-height:1.45; }
+  .wish-done{ text-align:left; }
+  .wish-done h4{ font-family:var(--font-display); font-size:17px; margin:0 0 6px; }
+  .wish-done p{ margin:0 0 12px; font-size:14px; color:var(--ink-soft); }
+  .wish-quote{
+    margin:0 0 14px; padding:10px 13px; border-left:3px solid var(--brass); background:var(--paper);
+    border-radius:0 var(--radius-s) var(--radius-s) 0; font-size:14px; color:var(--ink);
+  }
+  .wish-side h3{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
+  .wish-list{ list-style:none; margin:0; padding:0; }
+  .wish-item{ display:flex; gap:12px; align-items:flex-start; padding:11px 0; border-top:1px solid var(--line); }
+  .wish-item:first-child{ border-top:0; padding-top:2px; }
+  .wish-vote{
+    flex:none; width:44px; padding:5px 0; text-align:center; border:1px solid var(--line); border-radius:var(--radius-s);
+    background:var(--paper); color:var(--ink-soft); cursor:pointer; font-family:var(--font-mono); font-size:12px; line-height:1.2;
+  }
+  .wish-vote b{ display:block; font-size:14px; color:var(--ink); }
+  .wish-vote:hover{ border-color:var(--ink-soft); }
+  .wish-vote[aria-pressed=true]{ background:var(--brass-soft); border-color:var(--brass); color:var(--brass-strong); }
+  .wish-vote[aria-pressed=true] b{ color:var(--brass-strong); }
+  .wish-item-body{ min-width:0; }
+  .wish-item-body p{ margin:0; font-size:13.5px; color:var(--ink); }
+  .wish-meta{ margin-top:2px; font-family:var(--font-mono); font-size:11px; color:var(--ink-faint); }
+  .wish-status{ display:inline-block; padding:0 7px; border-radius:99px; border:1px solid var(--line); margin-right:6px; }
+  .wish-status.next{ color:var(--up); border-color:var(--up); }
+  .wish-today{ margin-top:18px; }
+  .wish-today .panel{ border-left:3px solid var(--brass); }
+  .wish-today h3{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .wish-today p{ margin:0 0 8px; font-size:14px; color:var(--ink-soft); }
+  .wish-today p:last-child{ margin-bottom:0; }
+  .wish-today p b{ color:var(--ink); }
+  @media (max-width:820px){
+    .wish-grid{ grid-template-columns:1fr; }
+  }
+  @media (max-width:480px){
+    .wish-row{ grid-template-columns:1fr; }
+    .wish .btn{ width:100%; }
+  }
+  .wish-steps{ margin:0 0 12px; padding:0 0 0 20px; font-size:13.5px; color:var(--ink-soft); }
+  .wish-steps li{ margin:0 0 10px; padding-left:4px; }
+  .wish-steps li::marker{ font-family:var(--font-mono); color:var(--brass-strong); }
+  .wish-steps b{ color:var(--ink); }
+</style>
+
+<div class="wrap">
+  <header class="masthead">
+    <div class="masthead-top">
+      <div class="brand">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="18" height="18" rx="1.5"/><line x1="3" y1="11" x2="21" y2="11"/><line x1="3" y1="16" x2="21" y2="16"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
+        <div>
+          <h1>Golvet</h1>
+          <p class="tagline">AI-analysdesk — bevakar världsläget och föreslår idéer. Delad läsvy, utan privata innehav.</p>
+        </div>
+      </div>
+      <div class="session-meta">
+        <span class="date">Måndag 26 oktober 2026 · vecka 44</span>
+      </div>
+    </div>
+    <div class="portfolio-strip" style="grid-template-columns:1fr; max-width:180px;">
+      <div class="ps-cell"><div class="k">Idéer idag</div><div class="v">12</div></div>
+    </div>
+  </header>
+
+  <section class="hero" id="heroIntro">
+    <button class="hero-dismiss" id="heroDismissBtn" type="button" aria-label="Dölj">&times;</button>
+    <p class="hero-lede">Golvet läser nyheterna varje morgon, kartlägger vilka bolag som påverkas — positivt och negativt — och ger dig en snabb överblick. Ingen rådgivning, bara research.</p>
+    <div class="hero-steps">
+      <div class="hero-step"><span class="hero-step-num">1</span><p>Vi läser nyheterna</p></div>
+      <div class="hero-step"><span class="hero-step-num">2</span><p>Vi kartlägger vem som påverkas</p></div>
+      <div class="hero-step"><span class="hero-step-num">3</span><p>Du får en snabb överblick</p></div>
+    </div>
+  </section>
+
+  <div class="tabs">
+    <button class="tab-btn active" id="tabDeskBtn" type="button">Skrivbordet</button>
+    <button class="tab-btn" id="tabOrgBtn" type="button">Organisationen</button>
+  </div>
+
+  <div id="viewDesk">
+
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track" id="tickerTrack"></div>
+  </div>
+
+  <section class="news-feature">
+    <p class="section-label">Nyheter</p>
+    <article class="news-feature-card">
+      <h2 class="news-feature-headline">Ojämn stabilisering efter räntechocken — gruvbolag och verkstad vänder upp, bankerna fortsatte falla</h2>
+      <div class="news-feature-body">
+        <p><b>Fredagens handel blev en ojämn rekyl efter förra veckans breda riskoff: Sandvik, Boliden och Marvell återhämtade en del av sina kraftiga fall, medan SEB, ABB och Volvo Group föll ytterligare.</b> Ingen enskild nyhet förklarar hela mönstret — det är tydligare en omfördelning inom börsen än en vändning av sentimentet.</p>
+        <p>Investor AB:s substansvärde steg enligt uppgifter cirka 4 procent under tredje kvartalet till runt 411 kronor per aktie, där merparten av ökningen kom från de onoterade innehaven i Patricia Industries snarare än de börsnoterade — bland annat väntas Mölnlycke delas i två fristående bolag. Saab publicerade sin niomånadersrapport på fredagen med en exceptionellt hög orderingång, drivet av redan kända Gripen-ordrar till Ukraina och tyska fregatter, men aktien rörde sig knappt — ett tecken på att mycket redan var inprisat.</p>
+        <p>Den mindre hälsovårdsaktien Egetis Therapeutics fick i slutet av september amerikanskt godkännande för läkemedlet Emcitate mot den sällsynta sjukdomen MCT8-brist, och väntas sälja en prioritetsvoucher kopplad till godkännandet under fjärde kvartalet. På råvaru- och transportsidan föll den danska rederijätten A.P. Møller-Mærsk kraftigt på fredagen, utan någon bekräftad enskild nyhet, i en vecka då containerfraktraterna enligt branschanalytiker ligger på sin topp efter höstens Hormuz-oro och väntas normaliseras något de kommande månaderna.</p>
+        <p>Kreditoron kring AI-bolagens datacenterfinansiering fortsatte att tynga vissa halvledar- och molnbolag: Oracles obligationer har handlats med rabatt och kreditswappar för branschen ligger kvar nära rekordnivåer, vilket pressade Oracle-aktien ytterligare på fredagen, samtidigt som Marvell återhämtade en del av sitt tidigare ras. SEB föll vidare efter sin rapport i förra veckan, och amerikanska regionala banker fortsätter att redovisa kreditförluster kopplade till tidigare uppmärksammade konkurser.</p>
+      </div>
+      <hr class="news-feature-divider">
+      <h3 class="news-feature-subhead">Vad är på gång</h3>
+      <div class="news-feature-body">
+        <p><b>Denna vecka avgörs av tre centralbanksbesked på fyra dagar — Fed på onsdag, ECB och Bank of Japan på torsdag och fredag — samtidigt som Boliden rapporterar och den nordiska rapportsäsongen går mot sitt slut.</b> Marknaden räknar enligt de senaste prognoserna med att Fed håller räntan oförändrad på sitt möte 27–28 oktober.</p>
+        <p>ECB:s råd sammanträder torsdagen den 29 oktober och Bank of Japan dagen efter, den 30 oktober — båda besked kommer samma dag som Boliden väntas presentera sin niomånadersrapport, vilket kan ge en ovanligt händelserik torsdag för både makro och nordiska råvarubolag.</p>
+        <p>Containerfraktraterna är ett tema att följa de kommande veckorna: branschanalytikern Xeneta bedömer att marknaden nått sin topp efter höstens oro kring Hormuzsundet, och väntar sig att raterna på väg till USA:s östkust och västkust kan falla tillbaka med runt en tredjedel under de kommande tre månaderna — en lättnad för importberoende bolag men en motvind för rederier.</p>
+        <p>I USA pågår också en längre dragkamp om handelstullar: tullintäkterna satte i oktober ett nytt månadsrekord på 31,4 miljarder dollar, samtidigt som domstolar fortsätter pröva giltigheten i flera av de tullar som införts med stöd av undantagslagstiftning — ett utfall som kan påverka handelsklimatet långt in i nästa år.</p>
+        <p class="news-feature-calendar"><b>Kalender kommande 14 dagar:</b> 27–28 oktober Fed-besked (FOMC), 29 oktober Boliden rapporterar och ECB lämnar räntebesked, 30 oktober Bank of Japan-besked, 3 november USA:s mellanårsval, 4 november Riksbankens räntebesked, 6 november amerikansk arbetsmarknadsrapport för oktober.</p>
+      </div>
+    </article>
+  </section>
+
+  <section class="radar">
+    <p class="section-label">Trendradar — de linser vi scannar varje dag</p>
+    <div class="radar-grid" id="radarGrid"></div>
+  </section>
+
+  <section class="desks">
+    <p class="section-label">Dagens skift</p>
+    <div class="desk-list">
+      <details class="desk-item">
+        <summary>
+          <svg class="role-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="20" x2="20" y2="20"/><rect x="6" y="13" width="3" height="7"/><rect x="11" y="9" width="3" height="11"/><rect x="16" y="5" width="3" height="15"/></svg>
+          <span class="desk-role">Bolag &amp; Analytiker-desk</span>
+          <span class="desk-status"><span class="dot"></span>Klar — ojämn rekyl efter räntechocken, Sandvik och Boliden vände upp</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="desk-item-body">
+          <p class="desk-output"><b>Fredagens handel blev en ojämn rekyl efter förra veckans breda nedgång, med en tydlig skiljelinje mellan cykliska bolag som vände upp och banker som fortsatte falla.</b> Sandvik och Boliden återhämtade en del av sina kraftiga fall från i veckan, medan SEB föll ytterligare dagen efter sin rapport och Volvo Group samt ABB gav tillbaka mer mark.
+
+Investor AB:s niomånadersrapport visade enligt uppgifter ett substansvärde som stigit cirka 4 procent till runt 411 kronor per aktie, med merparten av ökningen i de onoterade innehaven i Patricia Industries snarare än i de börsnoterade bolagen. Saab publicerade sin rapport på fredagen med en exceptionellt hög orderingång kopplad till redan kända Gripen- och fregattordrar, men aktien rörde sig knappt.
+
+Den mindre hälsovårdsaktien Egetis Therapeutics väntas sälja en prioritetsvoucher kopplad till sitt amerikanska godkännande för Emcitate under fjärde kvartalet. A.P. Møller-Mærsk föll kraftigt utan någon bekräftad enskild nyhet, i en vecka då containerfraktraterna enligt branschanalytiker ligger nära sin topp.</p>
+          <p class="desk-status-full">Klar — ojämn rekyl efter räntechocken, Sandvik och Boliden vände upp</p>
+        </div>
+      </details>
+      <details class="desk-item">
+        <summary>
+          <svg class="role-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 17 9 10 13 14 21 5"/><polyline points="15 5 21 5 21 11"/></svg>
+          <span class="desk-role">Kursanalytiker</span>
+          <span class="desk-status"><span class="dot"></span>Klar — Sandvik och Marvell starkast, Mærsk och SEB svagast</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="desk-item-body">
+          <p class="desk-output" id="chartDeskOutput"><b>Sandvik och Marvell var dagens starkaste bevakade bolag med uppgångar på 3,00 respektive 2,26 procent, medan A.P. Møller-Mærsk och SEB var svagast.</b> Sandvik steg till 346,60 kronor (dagsintervall 339,50–348,00 kronor, volym 2 407 301 aktier), och Marvell steg till 228,51 dollar (dagsintervall 221,38–231,62 dollar, volym 13 039 757 aktier).
+
+Boliden steg 1,13 procent till 483,20 kronor (intervall 476,20–487,20, volym 1 369 868) inför torsdagens kvartalsrapport, och Investor B steg 0,72 procent till 412,00 kronor (intervall 407,55–412,00, volym 2 566 866). Egetis Therapeutics och Saab rörde sig båda marginellt, -0,11 respektive -0,23 procent.
+
+A.P. Møller-Mærsk föll 6,12 procent till 22 870 danska kronor (intervall 22 400–22 920, volym 10 854 aktier), dagens kraftigaste rörelse bland bevakade bolag. SEB föll vidare 1,23 procent till 201,10 kronor.
+
+ABB föll 1,04 procent till 817,00 kronor trots ett starkt kvartalsresultat tidigare i veckan, Oracle föll 1,61 procent till 126,16 dollar, Netflix föll 1,79 procent till 65,85 dollar och UnitedHealth föll 1,62 procent till 418,09 dollar.</p>
+          <p class="desk-status-full">Klar — Sandvik och Marvell starkast, Mærsk och SEB svagast</p>
+        </div>
+      </details>
+      <details class="desk-item">
+        <summary>
+          <svg class="role-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="6" y1="4" x2="6" y2="20"/><rect x="4" y="9" width="4" height="6"/><line x1="12" y1="2" x2="12" y2="22"/><rect x="10" y="6" width="4" height="10"/><line x1="18" y1="6" x2="18" y2="18"/><rect x="16" y="10" width="4" height="5"/></svg>
+          <span class="desk-role">Teknisk analytiker</span>
+          <span class="desk-status"><span class="dot"></span>Klar — Mærsk bryter ner genom stöd, Sandvik studsar efter raset</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="desk-item-body">
+          <p class="desk-output" id="technicalDeskOutput"><b>A.P. Møller-Mærsk bröt ner genom sin tidigare handelsrange på fredagen, medan Sandvik studsade tillbaka efter förra veckans kraftiga ras.</b> Mærsk-aktien föll till 22 870 danska kronor, klart under sitt senaste veckointervall, ett tecken på att säljtrycket är brett snarare än begränsat till en kort svacka.
+
+Sandvik vände upp till 346,60 kronor efter att ha testat nivåer runt 332–336 kronor i veckan som gick — en studs som ger en första indikation på att förra veckans nedgång var en överreaktion, men som behöver bekräftas av ytterligare några dagars handel.
+
+Marvell fortsatte att röra sig volatilt inom sitt handelsintervall från förra veckan, utan att ännu ha brutit upp genom den tidigare motståndsnivån kring 236 dollar. Netflix gav tillbaka en del av förra veckans studs från stödet vid 65 dollar, vilket gör att stödnivån behöver testas igen för att bekräfta att den fortfarande håller.
+
+För övriga dagens bolag — SEB, ABB, Boliden, Investor B, Saab, Egetis, Oracle och UnitedHealth — hittades ingen tillförlitlig, tillräckligt färsk teknisk avläsning, vilket noteras ärligt hellre än att en signal hittas på.</p>
+          <p class="desk-status-full">Klar — Mærsk bryter ner genom stöd, Sandvik studsar efter raset</p>
+        </div>
+      </details>
+      <details class="desk-item">
+        <summary>
+          <svg class="role-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 4h16v12H8l-4 4V4z"/></svg>
+          <span class="desk-role">Sentimentanalytiker</span>
+          <span class="desk-status"><span class="dot"></span>Klar — rekylen är ojämn, bankerna hänger kvar i veckans nedgång</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="desk-item-body">
+          <p class="desk-output" id="sentimentDeskOutput"><b>Marknadens sentiment var splittrat på fredagen: köpare återvände till de hårdast sålda cykliska bolagen, medan oron kring banksektorn och tungt skuldfinansierade verkstadsbolag höll i sig.</b> Sandvik och Boliden drog nytta av att investerare sökte efter överreaktioner att köpa tillbaka, medan SEB fortsatte att tyngas av osäkerheten kring sitt rapportutfall.
+
+Investor AB:s starka substansvärdestillväxt, driven av de onoterade innehaven snarare än de börsnoterade, möttes av en förhållandevis odramatisk kursreaktion (+0,72%) — ett tecken på att marknaden redan väntat sig styrka i Patricia Industries. Saabs rekordhöga orderingång gav på liknande sätt ingen större kursreaktion, vilket tyder på att mycket av nyheten redan var inprisad efter sommarens offentliggjorda kontrakt.
+
+Kreditoron kring AI-bolagens datacenterfinansiering fortsatte att tynga sentimentet för Oracle, vars obligationer handlats med rabatt de senaste veckorna, medan Marvell istället sågs som en möjlig överreaktion från förra veckans kraftiga ras och återhämtade sig. A.P. Møller-Mærscks kraftiga fall utan en bekräftad nyhet tyder på ett sentiment som redan prisar in normaliserande fraktrater snarare än att vänta på bolagets egen rapport.</p>
+          <p class="desk-status-full">Klar — rekylen är ojämn, bankerna hänger kvar i veckans nedgång</p>
+        </div>
+      </details>
+      <details class="desk-item">
+        <summary>
+          <svg class="role-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="10.3" cy="10.3" r="6.3"/><line x1="15.2" y1="15.2" x2="20" y2="20"/><line x1="10.3" y1="7.3" x2="10.3" y2="10.7"/><circle cx="10.3" cy="13.3" r="0.5" fill="currentColor" stroke="none"/></svg>
+          <span class="desk-role">Riskgranskare</span>
+          <span class="desk-status"><span class="dot"></span>Klar · 12 avvägningar — hypotesen håller, en ojämn snarare än enhetlig rekyl</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="desk-item-body">
+          <p class="desk-output"><b>Hypotesen håller: fredagens handel var en ojämn rekyl snarare än en enhetlig vändning, med en tydlig skiljelinje mellan tidigare hårt sålda cykliska bolag och fortsatt pressade banker.</b> Den största osäkerheten är om denna veckas tre centralbanksbesked (Fed, ECB, Bank of Japan) förstärker eller bryter det mönstret, och om Boliden kan bekräfta styrkan i sin rapport på torsdag.
+
+Bull mot bear, cykliskt och gruvor: <b>Sandvik</b> — Bull: studsen efter förra veckans ras tyder på en överreaktion som nu rättas till. Bear: ingen ny bolagsspecifik nyhet bekräftar vändningen, vilket gör den känslig för nya makrochocker. <b>Boliden</b> — Bull: ett stabilt kopparpris och en stundande rapport kan ge ytterligare stöd. Bear: aktien har redan svängt kraftigt utan tydlig nyhet den senaste veckan, vilket ökar risken för besvikelse på torsdag.
+
+Bull mot bear, bank och industri: <b>SEB</b> — Bull: ett fortsatt fall utan ny nyhet kan vara en sen överreaktion på förra veckans rapport. Bear: att nedgången fortsätter flera dagar efter rapporten tyder på att marknaden fortfarande smälter något negativt i den. <b>ABB</b> — Bull: ett starkt kvartalsresultat med 40 procents orderökning borde på sikt stödja aktien. Bear: aktien har fortsatt falla efter rapporten, vilket visar att den breda ränteoron väger tyngre än bolagets egna siffror just nu.
+
+Bull mot bear, nordiska specialfall: <b>Investor B</b> — Bull: en starkare substansvärdestillväxt än väntat, driven av Patricia Industries, ger en tydlig fundamental grund. Bear: den modesta kursreaktionen tyder på att marknaden redan prisat in styrkan, vilket begränsar uppsidan på kort sikt. <b>Saab</b> — Bull: en exceptionellt hög orderingång stärker intäktssynligheten flera år framåt. Bear: aktiens uteblivna reaktion visar att förväntningarna redan var högt ställda efter sommarens kontraktsnyheter. <b>Egetis Therapeutics</b> — Bull: ett nytt FDA-godkännande och en väntad voucherförsäljning i fjärde kvartalet ger en konkret kurstrigger. Bear: aktien har inte rört sig nämnvärt sedan godkännandet, vilket kan betyda att marknaden väntar på att se faktiska voucher-intäkter innan den omvärderar bolaget.
+
+Bull mot bear, halvledare och moln: <b>Marvell</b> — Bull: studsen efter förra veckans kraftiga ras talar för en överreaktion som rättas till. Bear: kreditoron kring AI-datacenterbyggande som utlöste raset är inte löst, bara tillfälligt lugnare. <b>Oracle</b> — Bull: bolaget har fortfarande investment-grade-tillgång till kapital till skillnad från mer skuldtyngda AI-infrastrukturbolag. Bear: obligationer som handlas med rabatt är ett tidigt varningstecken som historiskt ofta föregått vidare kursfall.
+
+Bull mot bear, transport och media/hälsovård: <b>A.P. Møller-Mærsk</b> — Bull: ett kraftigt fall utan bekräftad nyhet kan vara en överreaktion på redan väntade, normaliserande fraktrater. Bear: en nedgång av den storleken utan nyhet är ovanlig och kan dölja information om fjärde kvartalet som ännu inte är offentlig. <b>Netflix</b> — Bull: det långsiktiga tekniska stödet har ännu inte brutits, bara testats. Bear: att ge tillbaka hela förra veckans studs redan efter en dag väcker frågor om hur hållbar vändningen egentligen var. <b>UnitedHealth</b> — Bull: bolaget är fortfarande i en flerårig återhämtning med stöd av positiva analytikerreaktioner. Bear: att ge tillbaka hela förra veckans uppgång visar att den defensiva styrkan är känslig för att riskaptiten återvänder.</p>
+          <p class="desk-status-full">Klar · 12 avvägningar — hypotesen håller, en ojämn snarare än enhetlig rekyl</p>
+        </div>
+      </details>
+      <details class="desk-item">
+        <summary>
+          <svg class="role-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="6" y1="4" x2="6" y2="20"/><path d="M6 5h11l-3 4 3 4H6"/></svg>
+          <span class="desk-role">Chefsstrateg</span>
+          <span class="desk-status"><span class="dot"></span>Uppdaterad idag — tolv idéer, sex nya sedan senast</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="desk-item-body">
+          <p class="desk-output">Dagens sökområde (satt utifrån Trendspanarens teman): (1) Ojämn stabilisering efter räntechocken — fredagens handel blev en rekyl snarare än en enhetlig vändning, med cykliska bolag och gruvor som återhämtade sig medan banker fortsatte falla, (2) Centralbanksvecka — Fed, ECB och Bank of Japan lämnar alla räntebesked inom loppet av fyra dagar, (3) Nordisk rapportsäsong fortsätter — Investor AB:s substansvärde steg på starka onoterade innehav, Saab redovisade rekordhög orderingång och Boliden rapporterar på torsdag, (4) Fraktrater och sjöfart — containerraterna ligger nära sin topp och A.P. Møller-Mærsk föll kraftigt.
+
+<b>Hypotes: fredagens handel var en ojämn rekyl efter förra veckans breda räntechock snarare än en enhetlig vändning — tidigare hårt sålda cykliska bolag och gruvor återhämtade sig, medan banker och vissa verkstadsbolag fortsatte falla och förra veckans två defensiva vinnare gav tillbaka sina uppgångar.</b> Motbevisas om denna veckas centralbanksbesked utlöser en ny, enhetlig rörelse i endera riktningen, eller om Bolidens rapport på torsdag visar att gruvsektorns studs var obefogad.
+
+Sammanställning: Dagens tolv case spänner över verkstad/industri, gruvor/koppar, bank, investmentbolag, försvar, hälsovård/biotech, halvledare, molntjänster, sjöfart, media och sjukförsäkring — sex av tolv är nya bolag sedan senaste körningen. Två av tolv är halvledar-/molnrelaterade, inom den satta sektorgränsen. Sex av tolv är nordiska bolag, och ytterligare ett (A.P. Møller-Mærsk) är danskt. Sandvik, Boliden, SEB, Marvell, Netflix och UnitedHealth återkommer från förra körningen, men alla sex med en konkret ny utveckling sedan då.</p>
+          <p class="desk-status-full">Uppdaterad idag — tolv idéer, sex nya sedan senast</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <section class="orderbook">
+    <p class="section-label">Dagens påverkan — vem drabbas av det som hänt</p>
+    <p class="order-legend">🙋 markerar en idé som kommer från ett önskemål skickat in via sidan.</p>
+    <div class="order-list" id="orderList"></div>
+  </section>
+
+  <div class="lower-grid">
+      <section class="panel">
+        <h3>Bevakningslista</h3>
+        <div class="watch-item">
+          <div class="watch-head"><span class="sym">Fed / ECB / BoJ</span><span class="flag">Centralbanksvecka</span></div>
+          <p>Tre räntebesked inom fyra dagar (27–30 oktober) avgör om fredagens ojämna rekyl blir startskottet på en bredare vändning eller bara en kort paus.</p>
+        </div>
+        <div class="watch-item">
+          <div class="watch-head"><span class="sym">Boliden</span><span class="flag">Rapport torsdag</span></div>
+          <p>Niomånadersrapporten den 29 oktober, samma dag som ECB:s räntebesked, blir ett tidigt test av om fredagens uppgång var befogad.</p>
+        </div>
+        <div class="watch-item">
+          <div class="watch-head"><span class="sym">A.P. Møller-Mærsk / fraktrater</span><span class="flag">Normalisering väntas</span></div>
+          <p>Containerraterna ligger enligt Xeneta nära sin topp och väntas falla med upp till en tredjedel de kommande tre månaderna — värt att följa om Mærsk-aktien stabiliseras i takt med det.</p>
+        </div>
+        <div class="watch-item">
+          <div class="watch-head"><span class="sym">Oracle / AI-kreditmarknad</span><span class="flag">Obligationsrabatt</span></div>
+          <p>Oracles obligationer har handlats till rabatt de senaste veckorna; en fortsatt vidgning av kreditspreadarna för AI-infrastruktur kan sprida sig vidare till fler bolag.</p>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h3>Makro att hålla koll på</h3>
+        <div class="macro-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><line x1="6" y1="4" x2="6" y2="20"/><rect x="4" y="9" width="4" height="6"/><line x1="12" y1="2" x2="12" y2="22"/><rect x="10" y="6" width="4" height="10"/><line x1="18" y1="6" x2="18" y2="18"/><rect x="16" y="10" width="4" height="5"/></svg>
+          <p><b>Tre centralbanksbesked på fyra dagar</b> — Fed 27–28 oktober, ECB 29 oktober, Bank of Japan 30 oktober. Marknaden väntar sig enligt senaste prognoser att Fed håller räntan oförändrad.</p>
+        </div>
+        <div class="macro-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 19V10M9 19V5M14 19v-7M19 19V8"/></svg>
+          <p><b>Amerikanska tullintäkter satte rekord i oktober</b> — 31,4 miljarder dollar, samtidigt som domstolar fortsätter pröva giltigheten i flera undantagstullar.</p>
+        </div>
+        <div class="macro-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5 A8.5 8.5 0 0 1 20.5 12"/></svg>
+          <p><b>Containerfraktraterna nära sin topp</b> — Xeneta väntar sig att raterna till USA:s östkust och västkust kan falla tillbaka med runt en tredjedel de kommande tre månaderna.</p>
+        </div>
+        <div class="macro-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4l16 16M4 20L20 4"/><circle cx="12" cy="12" r="9"/></svg>
+          <p><b>USA:s mellanårsval 3 november</b> — ett resultat som kan forma handels- och finanspolitiken under de kommande två åren.</p>
+        </div>
+      </section>
+  </div>
+
+
+  <section class="wish" id="onska" aria-labelledby="wishTitle">
+    <p class="section-label">Önska till Trendspanaren</p>
+    <div class="wish-grid">
+
+      <div class="panel" id="wishPanel">
+        <h3 id="wishTitle">Vad ska vi titta på i morgon?</h3>
+
+        <form id="wishForm" novalidate autocomplete="off">
+          <p class="wish-lead">Föreslå ett tema, en bransch, ett bolag eller en fråga. Ett önskemål väljs varje dag, och svaret hamnar i Trendspanarens avdelning i nästa morgons rapport.</p>
+
+          <fieldset>
+            <legend>Gäller det…</legend>
+            <div class="wish-types">
+              <input type="radio" name="wishType" id="wt1" value="tema" checked><label for="wt1">Tema eller bransch</label>
+              <input type="radio" name="wishType" id="wt2" value="bolag"><label for="wt2">Ett bolag</label>
+              <input type="radio" name="wishType" id="wt3" value="fraga"><label for="wt3">En fråga</label>
+            </div>
+          </fieldset>
+
+          <div class="wish-field">
+            <label for="wishText">Ditt önskemål</label>
+            <textarea id="wishText" maxlength="200" placeholder="T.ex. Vad är hett inom amerikanska REITs just nu?" aria-describedby="wishCount"></textarea>
+            <div class="wish-count" id="wishCount"><span id="wishHint">Minst 10 tecken</span><span id="wishNum">0 / 200</span></div>
+          </div>
+
+          <div class="wish-row">
+            <div class="wish-field">
+              <label for="wishName">Förnamn <span class="opt">(valfritt)</span></label>
+              <input type="text" id="wishName" maxlength="30" placeholder="Visas som ”önskat av …”">
+            </div>
+            <div class="wish-field">
+              <label for="wishMail">E-post <span class="opt">(valfritt)</span></label>
+              <input type="email" id="wishMail" maxlength="80" placeholder="Om du vill ha ett svar direkt">
+            </div>
+          </div>
+
+          <div class="wish-hp" aria-hidden="true"><label>Lämna tomt<input type="text" id="wishWeb" tabindex="-1" autocomplete="off"></label></div>
+
+          <label class="wish-check" for="wishConflict">
+            <input type="checkbox" id="wishConflict">
+            <span>Jag äger aktier i något bolag som önskemålet gäller <span class="opt">(vi redovisar det i så fall)</span></span>
+          </label>
+
+          <div class="wish-actions">
+            <button class="btn" type="submit" id="wishSubmit">Skicka önskemål</button>
+            <span class="wish-msg" id="wishMsg" role="status" aria-live="polite"></span>
+          </div>
+          <p class="wish-fine">Önskemålet och de uppgifter du väljer att fylla i skickas till Golvets ägare via tjänsten Formspree och används bara för att välja och besvara önskemål. Svaret är allmän information och inte personlig rådgivning.</p>
+        </form>
+
+        <div class="wish-done" id="wishDone" hidden>
+          <h4>Tack, önskemålet är mottaget</h4>
+          <p>Så här lyder det:</p>
+          <blockquote class="wish-quote" id="wishEcho"></blockquote>
+          <p id="wishEchoNote">Vi väljer ett önskemål per dag. Blir det ditt står svaret i Trendspanarens avdelning nästa morgon.</p>
+          <button class="btn ghost" type="button" id="wishAgain">Skicka ett till</button>
+        </div>
+      </div>
+
+      <div class="panel wish-side">
+        <h3>Så funkar det</h3>
+        <ol class="wish-steps">
+          <li><b>Du skickar in</b> ett tema, en bransch, ett bolag eller en fråga.</li>
+          <li><b>Vi väljer ett per dag,</b> utifrån vad som är relevant för dagens läge. Vi kan avstå från önskemål som inte går att besvara sakligt.</li>
+          <li><b>Trendspanaren undersöker</b> det med riktiga kursdata och källor. Svaret står under ”Dagens önskemål” i dess avdelning nästa morgon.</li>
+        </ol>
+        <p class="wish-fine">Äger du aktier i bolaget önskemålet gäller, kryssa i rutan så redovisar vi det. Underlag som är tunt eller motstridigt säger vi uttryckligen.</p>
+      </div>
+    </div>
+  </section>
+  </div>
+
+
+  <div id="viewOrg" class="org-view" hidden>
+    <p class="org-intro">Golvet växer som en liten koncern — varje avdelning är ett eget litet "bolag" med egna agenter. Just nu finns en avdelning i drift: Aktieanalys. Klicka på en agent för att se vad den gör, vem den pratar med och vad den levererat idag.</p>
+
+    <div>
+      <div class="org-diagram">
+        <svg viewBox="0 0 760 530" role="img" aria-label="Organisationsschema för Golvet Aktieanalys: Trendspanaren söker brett efter veckans teman och lämnar dem till Chefsstrategen. Chefsstrategen sätter dagens sökområde och skickar ut Nyhetsspanaren, Sentimentanalytikern, Kursanalytikern, Teknisk analytiker och Bolag- och analytikerdesken. De skickar sin research till Riskgranskaren, som testar Chefens hypotes och ställer fundamental bild mot teknisk bild, och lämnar den granskade analysen tillbaka till Chefsstrategen.">
+          <defs>
+            <marker id="orgArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M0,0 L10,5 L0,10 z" fill="var(--ink-faint)"/>
+            </marker>
+          </defs>
+          <rect x="2" y="355" width="756" height="145" rx="14" fill="none" stroke="var(--line)" stroke-width="1.2" stroke-dasharray="4 4" opacity=".8"/>
+          <path class="org-line" pathLength="1" style="animation-delay:.15s" d="M64,401 V357 H380 V349" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" marker-end="url(#orgArrow)"/>
+          <path class="org-line" pathLength="1" style="animation-delay:.15s" d="M222,401 V367 H380 V349" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" marker-end="url(#orgArrow)"/>
+          <path class="org-line" pathLength="1" style="animation-delay:.15s" d="M380,401 V349" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" marker-end="url(#orgArrow)"/>
+          <path class="org-line" pathLength="1" style="animation-delay:.15s" d="M538,401 V377 H380 V349" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" marker-end="url(#orgArrow)"/>
+          <path class="org-line" pathLength="1" style="animation-delay:.15s" d="M696,401 V387 H380 V349" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" marker-end="url(#orgArrow)"/>
+          <path class="org-line" pathLength="1" style="animation-delay:.5s" d="M380,271 V219" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" marker-end="url(#orgArrow)"/>
+          <path class="org-line" pathLength="1" style="animation-delay:.3s" d="M526,155 H473" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" marker-end="url(#orgArrow)"/>
+          <path d="M455,208 V228 H500 V351" fill="none" stroke="var(--ink-faint)" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#orgArrow)"/>
+          <text x="367" y="242" text-anchor="end" font-size="11" fill="var(--ink-soft)" font-family="IBM Plex Mono, monospace">granskad research</text>
+          <text x="500" y="146" text-anchor="middle" font-size="10" fill="var(--ink-soft)" font-family="IBM Plex Mono, monospace">teman</text>
+          <text x="510" y="290" font-size="11" fill="var(--ink-soft)" font-family="IBM Plex Mono, monospace">sökområde</text>
+        </svg>
+
+        <button class="org-node" style="left:50%; top:33.1%; animation-delay:.6s" data-agent="chef" type="button">
+          <div class="head"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="4" x2="6" y2="20"/><path d="M6 5h11l-3 4 3 4H6"/></svg></span><span class="role">Chefsstrateg</span></div>
+          <p class="blurb">Sätter sökområdet, skickar ut teamet och väger ihop svaren.</p>
+        </button>
+        <button class="org-node" style="left:50%; top:56.9%; animation-delay:.4s" data-agent="risk" type="button">
+          <div class="head"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="10.3" cy="10.3" r="6.3"/><line x1="15.2" y1="15.2" x2="20" y2="20"/></svg></span><span class="role">Riskgranskare</span></div>
+          <p class="blurb">Testar Chefens hypotes och flaggar det som skaver.</p>
+        </button>
+        <button class="org-node feeder" style="left:8.4%; top:80.8%; animation-delay:.2s" data-agent="news" type="button">
+          <div class="head"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="17" r="1.4"/><path d="M8.3 17a3.7 3.7 0 0 1 7.4 0"/><path d="M5.3 17a6.7 6.7 0 0 1 13.4 0"/><line x1="12" y1="4" x2="12" y2="8.3"/></svg></span><span class="role">Nyhetsspanare</span></div>
+          <p class="blurb">Rapporterar vad som hänt de senaste 24 timmarna.</p>
+        </button>
+        <button class="org-node feeder" style="left:29.2%; top:80.8%; animation-delay:.2s" data-agent="sentiment" type="button">
+          <div class="head"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H8l-4 4V4z"/></svg></span><span class="role">Sentimentanalytiker</span></div>
+          <p class="blurb">Känner av vad marknaden faktiskt tycker.</p>
+        </button>
+        <button class="org-node feeder" style="left:50%; top:80.8%; animation-delay:.2s" data-agent="chart" type="button">
+          <div class="head"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 17 9 10 13 14 21 5"/></svg></span><span class="role">Kursanalytiker</span></div>
+          <p class="blurb">Gräver fram halvårets kursutveckling per bolag.</p>
+        </button>
+        <button class="org-node feeder" style="left:70.8%; top:80.8%; animation-delay:.2s" data-agent="technical" type="button">
+          <div class="head"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="4" x2="6" y2="20"/><rect x="4" y="9" width="4" height="6"/><line x1="12" y1="2" x2="12" y2="22"/><rect x="10" y="6" width="4" height="10"/><line x1="18" y1="6" x2="18" y2="18"/><rect x="16" y="10" width="4" height="5"/></svg></span><span class="role">Teknisk analytiker</span></div>
+          <p class="blurb">Läser bara kursmönster — struntar i vinster och nyheter.</p>
+        </button>
+        <button class="org-node feeder" style="left:91.6%; top:80.8%; animation-delay:.2s" data-agent="analyst" type="button">
+          <div class="head"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="20" x2="20" y2="20"/><rect x="6" y="13" width="3" height="7"/><rect x="11" y="9" width="3" height="11"/><rect x="16" y="5" width="3" height="15"/></svg></span><span class="role">Bolag &amp; Analytiker-desk</span></div>
+          <p class="blurb">Håller koll på riktkurser och rapporter.</p>
+        </button>
+        <button class="org-node" style="left:80.3%; top:33.1%; animation-delay:0s" data-agent="trend" type="button">
+          <div class="head"><span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 12 L17.5 7.5"/><path d="M12 3.5 A8.5 8.5 0 0 1 20.5 12"/></svg></span><span class="role">Trendspanare</span></div>
+          <p class="blurb">Söker brett och tar sig tid — veckans teman.</p>
+        </button>
+      </div>
+
+      <div class="org-drawer" id="orgDrawer" hidden></div>
+    </div>
+  </div>
+
+  <footer>
+    <p><b>Golvet</b> är en AI-driven analysdesk. Innehållet är research och allmän information sammanställd av flera AI-agenter — det är inte personlig investeringsrådgivning och tar inte hänsyn till din ekonomiska situation, dina mål eller din riskprofil. Bedömningar som övertygelsegrad, teknisk vy och sentiment är analysens egna tolkningar, inte fastslagna fakta, och bör inte ensamma ligga till grund för ett investeringsbeslut. Ägaren till Golvet kan ha egna privata positioner i värdepapper som nämns eller lyfts fram som case ovan; det redovisas inte per enskilt bolag. Underlag: Yahoo Finance, Placera, Inderes, Capital.com, RTTNews, Xeneta, Affärsvärlden m.fl. — se respektive agents källor. Medelhög/medel konfidens-poster bör dubbelkollas innan de tas som fakta.</p>
+  </footer>
+</div>
+<script>
+(function(){
+  var TODAY = "2026-10-26";
+
+  var candidates = [
+    {
+      ticker:"SAND", exch:"Stockholmsbörsen", company:"Sandvik",
+      price:"346,60 SEK", changePct:"+3,00%",
+      theme:"Verkstad &amp; industri / Norden", impact:"pos", impactLabel:"Positiv",
+      thesis:"Sandvik steg 3,00 procent till 346,60 kronor (dagsintervall 339,50–348,00 kronor, volym 2 407 301 aktier) och återtog därmed en del av förra veckans kraftiga ras, i en session där flera tidigare hårt sålda verkstadsbolag lockade tillbaka köpare. Ingen ny bolagsspecifik nyhet hittades för fredagen, vilket tyder på att uppgången var en bred marknadsrörelse snarare än en reaktion på egna siffror.",
+      risk:"En studs utan egen nyhet kan vara en tillfällig överreaktion som vänder tillbaka om räntedrivet säljtryck återkommer denna centralbanksvecka, snarare än en bekräftad vändning i den underliggande efterfrågan.",
+      src:"Källa: Yahoo Finance (23/10).",
+      sentiment:{ label:"Köpare söker överreaktioner att köpa tillbaka", cls:"pos", note:"Flera tidigare hårt sålda verkstadsbolag lockade tillbaka köpare på fredagen utan någon gemensam, bekräftad utlösande nyhet.", src:"—" },
+      horizon:{ type:"kort", label:"Avgörs av denna veckas centralbanksbesked", note:"Fed, ECB och Bank of Japan lämnar alla räntebesked inom loppet av fyra dagar, vilket kan antingen bekräfta eller bryta fredagens rekyl." },
+      technical:{ label:"Studsar efter att ha testat nivåer kring 332–336 kronor", cls:"pos", note:"Uppgången ger en första indikation på att förra veckans nedgång var en överreaktion, men behöver bekräftas av fler dagars handel.", src:"—" },
+      alignment:{ status:"partial", note:"En teknisk studs utan egen bekräftad nyhet gör det svårt att avgöra om fundamenta verkligen har förbättrats eller om det bara är en kortsiktig marknadsrörelse." }
+    },
+    {
+      ticker:"BOL", exch:"Stockholmsbörsen", company:"Boliden",
+      price:"483,20 SEK", changePct:"+1,13%",
+      theme:"Gruvor &amp; koppar / Norden", impact:"pos", impactLabel:"Positiv",
+      thesis:"Boliden steg 1,13 procent till 483,20 kronor (dagsintervall 476,20–487,20 kronor, volym 1 369 868 aktier) och återhämtade därmed en del av förra veckans kraftiga nedgång, inför bolagets niomånadersrapport som väntas presenteras torsdagen den 29 oktober.",
+      risk:"Aktien har svängt kraftigt i båda riktningarna den senaste veckan utan tydlig bolagsspecifik nyhet, vilket ökar risken för en besvikande kursreaktion om torsdagens rapport inte bekräftar den förbättrade stämningen.",
+      src:"Källa: Yahoo Finance (23/10), Boliden (rapportinbjudan, 9/10).",
+      sentiment:{ label:"Stämningen förbättras inför torsdagens rapport", cls:"pos", note:"Ingen ny bolagsspecifik nyhet hittades för fredagen; uppgången följer den bredare rekylen i tidigare hårt sålda råvarubolag.", src:"—" },
+      horizon:{ type:"kort", label:"Avgörs av niomånadersrapporten på torsdag", note:"Boliden presenterar sin rapport klockan 13.00 den 29 oktober, samma dag som ECB:s räntebesked." },
+      technical:{ label:"Ingen tillförlitlig avläsning hittad", cls:"neu", note:"—", src:"—" },
+      alignment:{ status:"partial", note:"En positiv kursreaktion utan egen nyhet, dagar före en viktig rapport, gör det svårt att dra en säker slutsats om vad marknaden egentligen prisar in." }
+    },
+    {
+      ticker:"SEB-A", exch:"Stockholmsbörsen", company:"SEB",
+      price:"201,10 SEK", changePct:"-1,23%",
+      theme:"Bank &amp; finans / Norden", impact:"neg", impactLabel:"Negativ",
+      thesis:"SEB föll ytterligare 1,23 procent till 201,10 kronor (dagsintervall 200,70–204,80 kronor, volym 6 109 999 aktier), tredje handelsdagen i rad med nedgång efter bankens kvartalsrapport förra veckan. Att fallet fortsätter flera dagar efter rapporten, snarare än att stanna på rapportdagen, tyder på att marknaden fortfarande smälter detaljer i resultatet eller ledningens kommentarer.",
+      risk:"Utan bekräftade analytikerkommentarer går det inte att avgöra om den fortsatta nedgången beror på kvardröjande oro kring kreditförluster eller enbart på den bredare bankoron som präglat flera veckor.",
+      src:"Källa: Yahoo Finance (23/10).",
+      sentiment:{ label:"Nedgången har nu pågått i flera dagar efter rapporten", cls:"neg", note:"Ett fall som sträcker sig över flera handelsdagar efter en rapport skiljer sig från bankens tidigare mönster av en kraftig men kort reaktion på själva rapportdagen.", src:"—" },
+      horizon:{ type:"kort", label:"Väntar på att säljtrycket avtar", note:"Om inga nya negativa detaljer tillkommer bör nedgången plana ut; fortsätter den in i nästa vecka tyder det på ett djupare problem." },
+      technical:{ label:"Ingen tillförlitlig avläsning hittad", cls:"neu", note:"—", src:"—" },
+      alignment:{ status:"partial", note:"En nedgång som sträcker sig över flera dagar efter rapporten gör det svårt att isolera hur mycket som är bolagsspecifikt och hur mycket som är bredare bankoro." }
+    },
+    {
+      ticker:"NFLX", exch:"Nasdaq", company:"Netflix",
+      price:"65,85 USD", changePct:"-1,79%",
+      theme:"Media &amp; streaming / USA", impact:"blandad", impactLabel:"Blandad",
+      thesis:"Netflix föll 1,79 procent till 65,85 dollar (dagsintervall 65,78–67,82 dollar, volym 37 861 543 aktier) och gav därmed tillbaka en del av torsdagens kraftiga studs från det bevakade stödet vid 65 dollar. Ingen ny bolagsspecifik nyhet hittades för fredagen.",
+      risk:"Att hela torsdagens uppgång ätas upp redan nästa handelsdag väcker frågan om stödet vid 65 dollar verkligen håller, eller om det bara var en tillfällig paus i en fortsatt nedgång driven av oro för fjärde kvartalets marginalprognos.",
+      src:"Källa: Yahoo Finance (23/10).",
+      sentiment:{ label:"Torsdagens studs delvis uppäten redan på fredagen", cls:"neu", note:"Ingen ny negativ nyhet hittades; rörelsen kan spegla vinsthemtagning efter torsdagens kraftiga uppgång snarare än en ny oro.", src:"—" },
+      horizon:{ type:"kort", label:"Stödet vid 65 dollar testas på nytt", note:"En stabil handel ovanför 65 dollar de kommande dagarna skulle stärka bilden av att nivån håller trots fredagens tillbakagång." },
+      technical:{ label:"Testar det bevakade stödet vid 65 dollar på nytt", cls:"neu", note:"Fredagens fall förde aktien tillbaka mot samma stödzon (64–66 dollar) som höll i torsdags — ett nytt test av samma kritiska nivå.", src:"CME Group, TradingView (tidigare)" },
+      alignment:{ status:"partial", note:"Ett nytt test av samma stödnivå dagen efter en studs gör det svårt att avgöra om nivån verkligen håller eller bara skjuter upp en fortsatt nedgång." }
+    },
+    {
+      ticker:"UNH", exch:"NYSE", company:"UnitedHealth",
+      price:"418,09 USD", changePct:"-1,62%",
+      theme:"Hälsovård &amp; sjukförsäkring / USA", impact:"blandad", impactLabel:"Blandad",
+      thesis:"UnitedHealth föll 1,62 procent till 418,09 dollar (dagsintervall 416,37–425,25 dollar, volym 3 887 329 aktier) och gav därmed tillbaka torsdagens uppgång, i en session där flera tidigare defensiva vinnare istället föll tillbaka.",
+      risk:"Att den defensiva styrkan som synts sedan det starka kvartalsresultatet den 13 oktober nu vänder kan spegla att riskaptiten delvis återvänder till marknaden, vilket skulle minska bolagets relativa attraktivitet som skydd mot nedgångar.",
+      src:"Källa: Yahoo Finance (23/10).",
+      sentiment:{ label:"Defensiv styrka pausar efter flera dagars uppgång", cls:"neu", note:"Ingen ny negativ nyhet hittades; nedgången kan spegla en naturlig paus efter den gradvisa återhämtningen sedan rapporten den 13 oktober.", src:"—" },
+      horizon:{ type:"medel", label:"Återhämtningen är fortsatt gradvis trots fredagens paus", note:"Bolaget är fortfarande i en flerårig återhämtning efter två år av höga sjukvårdskostnader; en enskild svag dag ändrar inte den bilden." },
+      technical:{ label:"Ingen tillförlitlig, färsk avläsning hittad", cls:"neu", note:"—", src:"—" },
+      alignment:{ status:"partial", note:"En paus efter flera dagars uppgång, utan egen negativ nyhet, är svår att skilja från en mer bestående vändning i sentimentet." }
+    },
+    {
+      ticker:"ABB", exch:"Stockholmsbörsen", company:"ABB",
+      price:"817,00 SEK", changePct:"-1,04%",
+      theme:"Industriell automation &amp; elektrifiering / Europa", impact:"blandad", impactLabel:"Blandad",
+      thesis:"ABB föll 1,04 procent till 817,00 kronor (dagsintervall 811,80–837,80 kronor, volym 833 475 aktier), trots att bolaget tidigare i veckan redovisade ett starkt tredje kvartal med 40 procents orderökning till 12,1 miljarder dollar och 14 procents intäktstillväxt, driven av efterfrågan från datacenter och elektrifiering. Aktien har fortsatt att falla efter rapporten i takt med den bredare räntedrivna börsnedgången.",
+      risk:"Att aktien faller trots starka siffror tyder på att den breda ränteoron för tillfället väger tyngre än bolagets egna resultat — om det mönstret håller i sig kan även välskötta bolag fortsätta tyngas oavsett rapportutfall.",
+      src:"Källa: Yahoo Finance (23/10), ABB (Q3-rapport, 20/10).",
+      sentiment:{ label:"Starka siffror överskuggas av bredare ränteoro", cls:"neu", note:"Orderingången steg 40 procent och det operativa EBITA-resultatet uppgick till 2 026 miljoner dollar med en marginal på 20,8 procent, men aktien har ändå fallit sedan rapporten.", src:"capital.com, webdisclosure.com (20/10)" },
+      horizon:{ type:"medel", label:"Väntar på att den breda ränteoron lättar", note:"Om börsklimatet stabiliseras efter denna veckas centralbanksbesked finns utrymme för att de starka rapportsiffrorna till slut återspeglas i kursen." },
+      technical:{ label:"Ingen tillförlitlig avläsning hittad", cls:"neu", note:"—", src:"—" },
+      alignment:{ status:"mismatch", note:"Ett starkt kvartalsresultat och en fallande aktiekurs pekar inte i samma riktning — en tydlig divergens mellan fundamenta och marknadens reaktion just nu." }
+    },
+    {
+      ticker:"INVE-B", exch:"Stockholmsbörsen", company:"Investor",
+      price:"412,00 SEK", changePct:"+0,72%",
+      theme:"Investmentbolag &amp; finans / Norden", impact:"pos", impactLabel:"Positiv",
+      thesis:"Investor B steg 0,72 procent till 412,00 kronor (dagsintervall 407,55–412,00 kronor, volym 2 566 866 aktier) sedan bolaget enligt uppgifter redovisat ett substansvärde som stigit cirka 4 procent under tredje kvartalet till runt 411 kronor per aktie. Merparten av ökningen, uppskattningsvis omkring 34 miljarder kronor, kom från de onoterade innehaven i Patricia Industries snarare än från de börsnoterade bolagen, som enligt samma uppgifter bara gav en avkastning på runt 1 procent.",
+      risk:"En substansvärdestillväxt driven nästan uteslutande av onoterade innehav är svårare för marknaden att oberoende verifiera än resultat från börsnoterade bolag, vilket kan göra värderingen mer känslig om Patricia Industries senare behöver skrivas ned.",
+      src:"Källa: Yahoo Finance (23/10), Investor AB (delårsredogörelse, 16/10).",
+      sentiment:{ label:"Modest kursreaktion trots stark substansvärdestillväxt", cls:"pos", note:"En uppgång på bara 0,72 procent efter en rapporterad substansvärdesökning på 4 procent tyder på att marknaden redan väntat sig styrka i de onoterade innehaven.", src:"—" },
+      horizon:{ type:"medel", label:"Mölnlycke-uppdelningen blir nästa att följa", note:"Enligt rapporten planeras Mölnlycke delas i två fristående bolag, vilket kan bli en egen värderingsdrivare för Patricia Industries framöver." },
+      technical:{ label:"Ingen tillförlitlig avläsning hittad", cls:"neu", note:"—", src:"—" },
+      alignment:{ status:"match", note:"En rapporterad substansvärdesökning och en positiv, om än modest, kursreaktion pekar åt samma håll." }
+    },
+    {
+      ticker:"SAAB-B", exch:"Stockholmsbörsen", company:"Saab",
+      price:"646,50 SEK", changePct:"-0,23%",
+      theme:"Försvarsindustri / Norden", impact:"blandad", impactLabel:"Blandad",
+      thesis:"Saab föll marginellt, 0,23 procent till 646,50 kronor (dagsintervall 624,00–652,80 kronor, volym 1 977 286 aktier), trots att bolaget i sin niomånadersrapport på fredagen enligt analytikerförväntningar redovisade en exceptionellt hög orderingång på omkring 56 miljarder kronor, driven av redan kända Gripen-order till Ukraina och tyska fregattbeställningar.",
+      risk:"Att aktien knappt rörde sig trots en stark rapport tyder på att mycket av nyheten redan var inprisad efter sommarens offentliggjorda kontrakt — fokus ligger nu i stället på leveranstakt och kassaflöde under ett säsongsmässigt svagare kvartal, enligt analytiker inför rapporten.",
+      src:"Källa: Yahoo Finance (23/10), Inderes (förhandskommentar, 19/10).",
+      sentiment:{ label:"Rekordorder redan inprisad, fokus skiftar till leverans", cls:"neu", note:"Analytiker hade inför rapporten lyft fram leveranstakt och kassaflöde som viktigare än orderingången, eftersom de stora systemordrarna redan var kända.", src:"inderes.se (19/10)" },
+      horizon:{ type:"medel", label:"Leveranstakten under kommande kvartal blir avgörande", note:"Den höga orderingången ger en lång intäktssynlighet, men aktiens utveckling beror nu mer på hur snabbt ordrarna omsätts i fakturerad försäljning." },
+      technical:{ label:"Ingen tillförlitlig avläsning hittad", cls:"neu", note:"—", src:"—" },
+      alignment:{ status:"partial", note:"En stark rapport utan kursreaktion gör det svårt att avgöra om marknaden redan sett allt den behöver se, eller väntar på mer konkreta leveransbesked." }
+    },
+    {
+      ticker:"EGTX", exch:"Stockholmsbörsen", company:"Egetis Therapeutics",
+      price:"9,06 SEK", changePct:"-0,11%",
+      theme:"Hälsovård &amp; biotech / Norden", impact:"pos", impactLabel:"Positiv",
+      thesis:"Egetis Therapeutics handlades i princip oförändrat, -0,11 procent till 9,06 kronor (dagsintervall 8,96–9,22 kronor, volym 1 510 430 aktier), efter att den amerikanska läkemedelsmyndigheten FDA i slutet av september godkänt bolagets läkemedel Emcitate mot den sällsynta sjukdomen MCT8-brist — det första godkända behandlingsalternativet för sjukdomen i USA.",
+      risk:"Aktien steg kraftigt och nådde en 52-veckorshögsta direkt efter godkännandet i slutet av september, men har sedan handlats sidledes — en signal om att marknaden nu väntar på konkreta kommersiella besked, som försäljningen av den prioritetsvoucher godkännandet gav bolaget, innan den omvärderar aktien ytterligare.",
+      src:"Källa: Yahoo Finance (23/10), RTTNews (29/9), mfn.se (Egetis, 31/7).",
+      sentiment:{ label:"Godkännandet redan inprisat, väntar på voucherförsäljning", cls:"pos", note:"Aktien steg omkring 13 procent och nådde en 52-veckorshögsta direkt efter FDA-godkännandet i slutet av september; sedan har kursen varit stillastående.", src:"mydailybyte.com (29/9)" },
+      horizon:{ type:"medel", label:"Voucherförsäljning väntas under fjärde kvartalet", note:"Bolaget har sagt att det kan sälja sin prioritetsvoucher för sällsynta barnsjukdomar under fjärde kvartalet, beroende på marknadsläget — en konkret kommande kurstrigger." },
+      technical:{ label:"Ingen tillförlitlig avläsning hittad", cls:"neu", note:"—", src:"—" },
+      alignment:{ status:"match", note:"Ett bekräftat godkännande och en stillastående men stabil kurs efter den initiala uppgången pekar åt samma håll — marknaden har redan prisat in nyheten." }
+    },
+    {
+      ticker:"MAERSK-B", exch:"Köpenhamnsbörsen", company:"A.P. Møller-Mærsk",
+      price:"22 870,00 DKK", changePct:"-6,12%",
+      theme:"Sjöfart &amp; containertransport / Europa", impact:"neg", impactLabel:"Negativ",
+      thesis:"A.P. Møller-Mærsk föll kraftigt, 6,12 procent till 22 870 danska kronor (dagsintervall 22 400–22 920 danska kronor, volym 10 854 aktier), dagens klart största rörelse bland bevakade bolag. Ingen bolagsspecifik nyhet hittades som förklarar fallet, men det kommer i en vecka då containerfraktraterna enligt branschanalytiker ligger nära sin topp efter höstens oro kring Hormuzsundet och väntas falla tillbaka de kommande månaderna.",
+      risk:"Ett fall av den här storleken utan bekräftad nyhet är ovanligt och kan antingen vara en tidig reaktion på väntade, normaliserande fraktrater, eller dölja en specifik händelse som ännu inte nått publika källor.",
+      src:"Källa: Yahoo Finance (23/10), Xeneta (hellenicshippingnews.com, 1/10).",
+      sentiment:{ label:"Kraftig nedgång utan egen bekräftad nyhet", cls:"neg", note:"Ingen analytikerkommentar eller bolagsnyhet specifik för Mærsk hittades för fredagen; nedgången kan spegla att marknaden redan börjar prisa in fallande fraktrater.", src:"—" },
+      horizon:{ type:"medel", label:"Fraktraternas normalisering blir avgörande de kommande månaderna", note:"Xeneta väntar sig att raterna till USA:s öst- och västkust kan falla med runt en tredjedel under tre månader — en motvind för rederiets intäkter om prognosen håller." },
+      technical:{ label:"Bröt ner genom sin senaste handelsrange", cls:"neg", note:"Fredagens fall förde aktien klart under veckans tidigare handelsintervall, ett svagt tekniskt tecken som ännu inte bekräftats av fler dagars handel.", src:"—" },
+      alignment:{ status:"match", note:"Väntade, fallande fraktrater och en kraftigt fallande aktiekurs pekar åt samma håll, även om den exakta utlösande faktorn för just fredagen inte kunde bekräftas." }
+    },
+    {
+      ticker:"ORCL", exch:"Nasdaq", company:"Oracle",
+      price:"126,16 USD", changePct:"-1,61%",
+      theme:"Molntjänster &amp; AI-infrastruktur / USA", impact:"neg", impactLabel:"Negativ",
+      thesis:"Oracle föll 1,61 procent till 126,16 dollar (dagsintervall 124,40–128,33 dollar, volym 19 159 076 aktier), i en fortsatt svag session för bolag kopplade till AI-infrastrukturens finansiering. Flera av Oracles längre obligationer har enligt uppgifter handlats till rabatt de senaste veckorna, och kreditswappar för branschen ligger kvar nära rekordnivåer.",
+      risk:"Till skillnad från mer skuldtyngda AI-infrastrukturbolag har Oracle fortfarande tillgång till kapital med investment-grade-villkor, men om obligationsmarknadens oro fortsätter att fördjupas kan det ändå på sikt påverka bolagets finansieringskostnader för sin datacenterexpansion.",
+      src:"Källa: Yahoo Finance (23/10), businessday.co.za (15/10), letsdatascience.com (18/10).",
+      sentiment:{ label:"Smittad av bredare AI-kreditoro trots investment-grade-status", cls:"neg", note:"Kreditswappar för AI-infrastrukturbolag har stigit mer än 50 procent de senaste sex månaderna enligt Barclays, och Oracles obligationer har följt med nedåt trots bolagets starka mjukvaruaffär.", src:"businessday.co.za" },
+      horizon:{ type:"medel", label:"Beror på om kreditmarknaden för AI-datacenter stabiliseras", note:"En fortsatt vidgning av kreditspreadarna för branschen kan på sikt göra Oracles egen datacenterexpansion dyrare att finansiera." },
+      technical:{ label:"Ingen tillförlitlig, färsk avläsning hittad", cls:"neu", note:"—", src:"—" },
+      alignment:{ status:"partial", note:"En försvagad kreditmarknad för sektorn och en fallande aktiekurs pekar åt samma håll, men Oracles egna, investment-grade finansierade affär skiljer sig fortfarande fundamentalt från mer skuldtyngda konkurrenter." }
+    },
+    {
+      ticker:"MRVL", exch:"Nasdaq", company:"Marvell Technology",
+      price:"228,51 USD", changePct:"+2,26%",
+      theme:"Halvledare &amp; AI-infrastruktur / USA", impact:"pos", impactLabel:"Positiv",
+      thesis:"Marvell Technology steg 2,26 procent till 228,51 dollar (dagsintervall 221,38–231,62 dollar, volym 13 039 757 aktier) och återhämtade därmed en del av förra veckans kraftiga ras på 8,70 procent, utan någon ny bolagsspecifik nyhet. Uppgången kommer i en vecka då kreditoron kring AI-datacenterbyggande fortsatt ligger nära rekordnivåer för branschen i stort.",
+      risk:"En studs efter ett kraftigt ras kan vara en ren teknisk rekyl snarare än ett tecken på att den underliggande kreditoron för branschen har lösts — båda tolkningarna är möjliga utifrån dagens underlag.",
+      src:"Källa: Yahoo Finance (23/10).",
+      sentiment:{ label:"Återhämtar en del av förra veckans ras", cls:"pos", note:"Ingen ny bolagsspecifik nyhet hittades; uppgången kan spegla att förra veckans fall uppfattades som en överreaktion av vissa köpare.", src:"—" },
+      horizon:{ type:"kort", label:"Fortsatt känslig för kreditmarknadens utveckling", note:"Aktien kan vara mer volatil än bredare marknaden tills kreditoron kring AI-datacenterbyggande lägger sig mer varaktigt." },
+      technical:{ label:"Ingen tillförlitlig avläsning hittad", cls:"neu", note:"—", src:"—" },
+      alignment:{ status:"partial", note:"En teknisk studs utan egen bekräftad nyhet gör det svårt att avgöra om fundamenta för branschen faktiskt har förbättrats sedan förra veckan." }
+    }
+  ];
+  var trendRadar = [
+    {lens:"Geopolitik &amp; handel", active:true, note:"Amerikanska tullintäkter nådde i oktober ett nytt månadsrekord på 31,4 miljarder dollar, samtidigt som domstolar fortsätter pröva giltigheten i flera av tullarna som infördes med stöd av undantagslagstiftning — ett utfall som kan forma handelsklimatet långt in i nästa år."},
+    {lens:"Makro &amp; räntor", active:true, note:"Tre centralbanker lämnar räntebesked inom loppet av fyra dagar — Fed på onsdag, ECB på torsdag och Bank of Japan på fredag — där marknaden enligt de senaste prognoserna väntar sig att Fed håller räntan oförändrad."},
+    {lens:"Sektorrotation", active:true, note:"Fredagens handel blev en ojämn rekyl efter förra veckans breda nedgång: tidigare hårt sålda cykliska bolag som Sandvik och Boliden återhämtade sig, medan banker och viss verkstad fortsatte falla och förra veckans två defensiva vinnare vände ner."},
+    {lens:"Reglering &amp; politik", active:false, note:"Inget nytt, dagsfärskt regleringsbeslut hittades sedan förra körningen — rättsprocessen kring amerikanska undantagstullar pågår fortfarande men utan ett nytt avgörande denna vecka, så linsen lämnas ärligt inaktiv."},
+    {lens:"Teknik &amp; innovation", active:true, note:"Kreditoron kring AI-bolagens datacenterbyggande ligger kvar nära rekordnivåer — Oracles obligationer har handlats med rabatt och kreditswapparna för branschen är fortsatt kraftigt förhöjda, vilket pressade Oracle-aktien ytterligare på fredagen."},
+    {lens:"Norden &amp; small-cap", active:true, note:"Investor AB:s substansvärde steg enligt uppgifter cirka 4 procent i tredje kvartalet, mest tack vare de onoterade innehaven i Patricia Industries, och Saab redovisade en exceptionellt hög orderingång i sin niomånadersrapport på fredagen utan att aktien rörde sig nämnvärt."},
+    {lens:"Råvaror &amp; energi", active:true, note:"Containerfraktraterna ligger enligt Xeneta på sin topp efter höstens Hormuz-oro och väntas falla tillbaka med runt en tredjedel de kommande tre månaderna — ett tema som redan pressade rederijätten A.P. Møller-Mærsk kraftigt på fredagen."},
+    {lens:"Demografi &amp; struktur", active:false, note:"Inget nytt, dagsfärskt demografiunderlag hittades sedan förra körningen — linsen lämnas ärligt inaktiv i stället för att upprepa äldre material."}
+  ];
+
+  function impactClass(c){ return "pill impact-" + c; }
+
+  var ALIGN_ICON = {
+    match: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="8 12 11 15 16 9"/></svg>',
+    partial: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="8" y1="12" x2="16" y2="12"/></svg>',
+    mismatch: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>'
+  };
+  var ALIGN_LABEL = { match:"Samstämmigt", partial:"Delvis samstämmigt", mismatch:"Motstridigt" };
+  var ALIGN_CLASS = { match:"match", partial:"partial", mismatch:"mismatch" };
+
+  function trendHtml(sm){
+    if(!sm || !sm.points || sm.points.length < 2) return "";
+    var vals = sm.points.map(function(p){ return p.price; });
+    var min = Math.min.apply(null, vals), max = Math.max.apply(null, vals);
+    var range = (max - min) || 1;
+    var w = 56, h = 20, pad = 3;
+    var n = vals.length;
+    var xs = vals.map(function(v,i){ return pad + i * ((w - 2*pad) / (n - 1)); });
+    var ys = vals.map(function(v){ return h - pad - ((v - min) / range) * (h - 2*pad); });
+    var pos = sm.changePct >= 0;
+    var color = pos ? "var(--up)" : "var(--down)";
+    var pts = xs.map(function(x,i){ return x.toFixed(1) + "," + ys[i].toFixed(1); }).join(" ");
+    var titleText = sm.points.map(function(p){ return p.label + ": " + p.price; }).join(" · ");
+    var arrow = pos
+      ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 18 10 10 14 14 20 4"/></svg>'
+      : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 6 10 14 14 10 20 20"/></svg>';
+    return (
+      '<div class="trend">' +
+        '<svg viewBox="0 0 ' + w + ' ' + h + '" role="img" aria-label="Kursutveckling 6 mån: ' + titleText + '"><title>' + titleText + '</title>' +
+          '<polyline points="' + pts + '" fill="none" stroke="' + color + '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' +
+          '<circle cx="' + xs[n-1].toFixed(1) + '" cy="' + ys[n-1].toFixed(1) + '" r="2.5" fill="' + color + '"/>' +
+        '</svg>' +
+        '<span class="trend-badge ' + (pos ? "pos" : "neg") + '">' + arrow + (pos ? "+" : "") + sm.changePct.toFixed(0) + '% · 6 mån</span>' +
+      '</div>' +
+      '<p class="trend-note">' + sm.note + '</p>'
+    );
+  }
+
+  var orderList = document.getElementById("orderList");
+  function synthHeadline(c){
+    // Mockup only: real version needs a dedicated short headline written daily.
+    // Thesis-sentences all open with the same "föll/steg X% till Y (dagsintervall ...)"
+    // boilerplate, which made every headline look alike — skip past it to the actual news.
+    var s = (c.thesis || "").replace(/^.*?\(dagsintervall[^)]*\)[,]?\s*/i, "");
+    s = s.charAt(0).toUpperCase() + s.slice(1);
+    var cut = s.length;
+    var comma = s.indexOf(", ");
+    var paren = s.indexOf(" (");
+    if(comma > 15 && comma < cut) cut = comma;
+    if(paren > 15 && paren < cut) cut = paren;
+    if(cut > 90) cut = s.indexOf(" ", 80) > 0 ? s.indexOf(" ", 80) : 90;
+    return s.slice(0, cut).replace(/[,.]$/, "") + (cut < s.length ? "…" : "");
+  }
+  candidates.forEach(function(c, i){
+    var row = document.createElement("div");
+    row.className = "order-row impact-" + c.impact;
+    row.style.animationDelay = (i * 0.06) + "s";
+    row.innerHTML =
+      (c.wish ? '<div class="wish-banner"><span class="wish-banner-icon">🙋</span><span><b>Önskemål från användare</b> — föreslaget av ' + c.wish.by + '</span></div>' : '') +
+      '<div class="news-head-row">' +
+        '<h3 class="news-headline">' + synthHeadline(c) + '</h3>' +
+        '<div class="news-tags">' +
+          '<span class="company-chip"><b>' + c.ticker + '</b> ' + c.company + '</span>' +
+          '<span class="' + impactClass(c.impact) + '">' + c.impactLabel + '</span>' +
+        '</div>' +
+      '</div>' +
+      trendHtml(c.sixMonth) +
+      '<div class="order-body">' +
+        '<p class="thesis">' + c.thesis + '</p>' +
+        '<details class="order-more">' +
+          '<summary><span>Visa detaljer</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></summary>' +
+          '<div class="order-more-body">' +
+            '<p class="risk">Risk: ' + c.risk + '</p>' +
+            (c.horizon ? '<p class="meta-line"><b>Horisont:</b> ' + c.horizon.note + '</p>' : '') +
+            (c.sentiment ? '<p class="meta-line"><b>Sentiment:</b> <span class="sent-' + c.sentiment.cls + '">' + c.sentiment.label + '</span> — ' + c.sentiment.note + '</p>' : '') +
+            (c.technical ? '<p class="meta-line"><b>Teknisk analys:</b> <span class="sent-' + c.technical.cls + '">' + c.technical.label + '</span> — ' + c.technical.note + '</p>' : '') +
+            (c.alignment ? '<p class="align-line ' + ALIGN_CLASS[c.alignment.status] + '">' + ALIGN_ICON[c.alignment.status] + '<span><b>Fundamentalt vs tekniskt: ' + ALIGN_LABEL[c.alignment.status] + '.</b> ' + c.alignment.note + '</span></p>' : '') +
+            '<p class="src">' + c.src + '</p>' +
+          '</div>' +
+        '</details>' +
+      '</div>';
+    orderList.appendChild(row);
+    setTimeout(function(){ row.classList.add("card-in"); }, 80 + i * 60);
+  });
+
+  var radarGrid = document.getElementById("radarGrid");
+  trendRadar.forEach(function(r){
+    var card = document.createElement("div");
+    card.className = "radar-card" + (r.active ? " active" : "");
+    card.innerHTML =
+      '<div class="lens"><span class="dot"></span>' + r.lens + '</div>' +
+      '<p>' + r.note + '</p>';
+    radarGrid.appendChild(card);
+  });
+
+  var tickerItems = candidates.map(function(c){
+    return '<span class="ticker-item"><b>' + c.ticker + '</b> · ' + c.price + ' · ' + c.changePct + '</span>';
+  }).concat([
+    '<span class="ticker-item"><b>CENTRALBANKSVECKA</b> · Fed, ECB och Bank of Japan lämnar besked 27–30 oktober</span>',
+    '<span class="ticker-item"><b>FRAKTRATER</b> · Containerraterna nära sin topp efter Hormuz-oron</span>',
+    '<span class="ticker-item"><b>RAPPORTVECKA</b> · Boliden rapporterar torsdag 29 oktober</span>'
+  ]);
+  var trackHtml = tickerItems.join("") ;
+  document.getElementById("tickerTrack").innerHTML = trackHtml + trackHtml;
+
+  // ---------- tabs ----------
+  var tabDeskBtn = document.getElementById("tabDeskBtn");
+  var tabOrgBtn = document.getElementById("tabOrgBtn");
+  var viewDesk = document.getElementById("viewDesk");
+  var viewOrg = document.getElementById("viewOrg");
+  function showView(v){
+    viewDesk.hidden = v !== "desk";
+    viewOrg.hidden = v !== "org";
+    tabDeskBtn.classList.toggle("active", v === "desk");
+    tabOrgBtn.classList.toggle("active", v === "org");
+  }
+  tabDeskBtn.addEventListener("click", function(){ showView("desk"); });
+  tabOrgBtn.addEventListener("click", function(){ showView("org"); });
+
+  // ---------- organisation: bolag + agent hierarki ----------
+  var AGENTS = {
+    chef: {
+      role:"Chefsstrateg", blurb:"Sätter dagens sökområde utifrån Trendspanarens teman, skickar ut research-teamet och tar emot det granskade resultatet — och väger ihop det till konkreta case, med tydlig tes, risk och källa per idé, som lämnas vidare till dig.",
+      from:["Trendspanare","Riskgranskare"], to:["Nyhetsspanare","Sentimentanalytiker","Kursanalytiker","Teknisk analytiker","Bolag &amp; Analytiker-desk"],
+      output:"Dagens sökområde: (1) Ojämn stabilisering efter räntechocken, (2) Centralbanksvecka (Fed/ECB/BoJ), (3) Nordisk rapportsäsong, (4) Fraktrater och sjöfart. Hypotes: fredagens rekyl var ojämn snarare än enhetlig. Sammanställning: tolv case, sex helt nya. Rapport klar.",
+      status:"Uppdaterad idag — tolv idéer, sex nya sedan senast"
+    },
+    risk: {
+      role:"Riskgranskare", blurb:"Testar Chefens hypotes: läser igenom det de fem hittat, väger bull mot bear per case, ställer fundamental bild mot teknisk bild och flaggar det som skaver innan det når Chefsstrategen.",
+      from:["Nyhetsspanare","Sentimentanalytiker","Kursanalytiker","Teknisk analytiker","Bolag &amp; Analytiker-desk"], to:["Chefsstrateg"],
+      output:"Hypotesen håller — fredagens rekyl var ojämn: cykliska bolag och gruvor återhämtade sig medan banker fortsatte falla. 12 bull/bear-avvägningar genomförda.",
+      status:"Klar · 12 avvägningar — hypotesen håller, en ojämn snarare än enhetlig rekyl"
+    },
+    chart: {
+      role:"Kursanalytiker", blurb:"Gräver fram verklig kursdata ur publika källor för de aktuella casen — var priset låg för sex och tre månader sedan, och hur resan dit har sett ut.",
+      from:["Chefsstrateg"], to:["Riskgranskare"],
+      output:"Riktig Yahoo Finance-data hämtad idag (26/10, fredagens stängning). Sandvik (+3,00%) och Marvell (+2,26%) starkast, A.P. Møller-Mærsk (-6,12%) och SEB (-1,23%) svagast.",
+      status:"Klar — Sandvik och Marvell starkast, Mærsk och SEB svagast"
+    },
+    technical: {
+      role:"Teknisk analytiker", blurb:"Bryr sig inte om vinster eller nyheter — läser bara kursmönster: trend, momentum och publicerade tekniska signaler från TradingView, Barchart och liknande.",
+      from:["Chefsstrateg"], to:["Riskgranskare"],
+      output:"A.P. Møller-Mærsk bröt ner genom sin handelsrange, och Sandvik studsade efter förra veckans ras — för övriga bolag hittades ingen tillförlitlig, färsk teknisk avläsning.",
+      status:"Klar — Mærsk bryter ner genom stöd, Sandvik studsar efter raset"
+    },
+    sentiment: {
+      role:"Sentimentanalytiker", blurb:"Kollar analytikerkonsensus, blankarintresse och optionsflöde för att se vad marknaden faktiskt känner — inte bara vad den skriver i rapporter.",
+      from:["Chefsstrateg"], to:["Riskgranskare"],
+      output:"Sentimentet var splittrat: köpare återvände till hårt sålda cykliska bolag, medan oron kring banker och skuldtyngd verkstad höll i sig.",
+      status:"Klar — rekylen är ojämn, bankerna hänger kvar i veckans nedgång"
+    },
+    news: {
+      role:"Nyhetsspanare", blurb:"Rapporterar vad som hänt de senaste 24 timmarna inom dagens sökområde — bolags- och sektornyheter med datum och källa.",
+      from:["Chefsstrateg"], to:["Riskgranskare"],
+      output:"Bred marknadssvepning: fredagens handel blev en ojämn rekyl, Investor AB och Saab rapporterade, Egetis fick FDA-godkännande, och A.P. Møller-Mærsk föll kraftigt inför en vecka med tre centralbanksbesked.",
+      status:"Klar — ojämn rekyl och nordisk rapportflod dominerar, bred svepning genomförd"
+    },
+    trend: {
+      role:"Trendspanare", blurb:"Söker brett och tar sig tid: veckans teman, vart pengarna rör sig och vad som kommer de närmaste två veckorna — och lämnar det vidare till Chefsstrategen.",
+      from:[], to:["Chefsstrateg"],
+      output:"Åtta linser scannade; makro/räntor, sektorrotation, teknik/AI-kredit, Norden/small-cap, geopolitik och råvaror/energi aktiva idag — reglering och demografi utan ny belagd händelse ändå redovisade ärligt. Centralbanksveckan och den ojämna sektorrekylen dominerar bilden.",
+      status:"Klar · 6 av 8 linser aktiva, centralbanksvecka och ojämn rekyl dominerar"
+    },
+    analyst: {
+      role:"Bolag &amp; Analytiker-desk", blurb:"Följer riktkurser, rapporter, kontrakt och insiderhandel bolag för bolag, över sektorer och börser.",
+      from:["Chefsstrateg"], to:["Riskgranskare"],
+      output:"Fredagens handel blev en ojämn rekyl. Investor AB och Saab rapporterade, och A.P. Møller-Mærsk föll kraftigt i en vecka med tre centralbanksbesked.",
+      status:"Klar — ojämn rekyl efter räntechocken, Sandvik och Boliden vände upp"
+    }
+  };
+
+  var orgDrawer = document.getElementById("orgDrawer");
+  function renderDrawer(a){
+    orgDrawer.hidden = false;
+    orgDrawer.classList.remove("anim-in");
+    void orgDrawer.offsetWidth;
+    orgDrawer.classList.add("anim-in");
+    var fromHtml = a.from.length
+      ? a.from.map(function(x){ return "<li>" + x + "</li>"; }).join("")
+      : "<li>Ingen — startar kedjan</li>";
+    var toHtml = a.to.length
+      ? a.to.map(function(x){ return "<li>" + x + "</li>"; }).join("")
+      : "<li>Ingen — sista steget</li>";
+    orgDrawer.innerHTML =
+      '<div class="drawer-head"><h4>' + a.role + '</h4><button class="close-drawer" type="button" aria-label="Stäng">&times;</button></div>' +
+      '<p class="blurb-line">' + a.blurb + '</p>' +
+      '<div class="flow-grid">' +
+        '<div class="flow-col"><div class="k">Tar emot från</div><ul>' + fromHtml + '</ul></div>' +
+        '<div class="flow-col"><div class="k">Skickar till</div><ul>' + toHtml + '</ul></div>' +
+      '</div>' +
+      '<p class="status-line">' + a.status + '</p>' +
+      '<div class="output-box">' + a.output + '</div>';
+    orgDrawer.querySelector(".close-drawer").addEventListener("click", function(){
+      orgDrawer.hidden = true;
+      document.querySelectorAll(".org-node").forEach(function(n){ n.classList.remove("active"); });
+    });
+    orgDrawer.scrollIntoView({behavior:"smooth", block:"nearest"});
+  }
+  document.querySelectorAll(".org-node").forEach(function(btn){
+    btn.addEventListener("click", function(e){
+      e.stopPropagation();
+      document.querySelectorAll(".org-node").forEach(function(n){ n.classList.remove("active"); });
+      btn.classList.add("active");
+      renderDrawer(AGENTS[btn.getAttribute("data-agent")]);
+    });
+  });
+
+  // ---------- hero / förstagångsvy (döljs efter första besöket, per webbläsare) ----------
+  (function(){
+    var hero = document.getElementById("heroIntro");
+    if(!hero) return;
+    var seen = false;
+    try { seen = localStorage.getItem("golvetHeroSeen") === "1"; } catch(e){}
+    if(seen){ hero.hidden = true; return; }
+    var dismissBtn = document.getElementById("heroDismissBtn");
+    if(dismissBtn){
+      dismissBtn.addEventListener("click", function(){
+        hero.hidden = true;
+        try { localStorage.setItem("golvetHeroSeen", "1"); } catch(e){}
+      });
+    }
+  })();
+})();
+</script>
+
+
+<script>
+(function(){
+  var WISH_ENDPOINT = "https://formspree.io/f/mnpndddz";
+  var MIN = 10, MAX = 200;
+  var LS_LAST = "golvet_wish_last";
+
+  var form = document.getElementById("wishForm");
+  if (!form) return;
+  var text = document.getElementById("wishText");
+  var num = document.getElementById("wishNum");
+  var hint = document.getElementById("wishHint");
+  var msg = document.getElementById("wishMsg");
+  var submit = document.getElementById("wishSubmit");
+  var done = document.getElementById("wishDone");
+  var echo = document.getElementById("wishEcho");
+
+  function sentRecently(){
+    try { return Date.now() - Number(localStorage.getItem(LS_LAST) || 0) < 30000; } catch (e) { return false; }
+  }
+  function markSent(){
+    try { localStorage.setItem(LS_LAST, String(Date.now())); } catch (e) {}
+  }
+
+  function clean(s){
+    var o = "";
+    for (var k = 0; k < s.length; k++) {
+      var c = s.charCodeAt(k);
+      o += (c < 32 || c === 127) ? " " : s.charAt(k);
+    }
+    return o.replace(/ +/g, " ").trim();
+  }
+
+  function updateCount(){
+    var n = clean(text.value).length;
+    num.textContent = n + " / " + MAX;
+    num.className = n > MAX ? "over" : "";
+    hint.textContent = n < MIN ? "Minst " + MIN + " tecken" : "";
+  }
+  text.addEventListener("input", function(){ msg.textContent = ""; msg.className = "wish-msg"; updateCount(); });
+
+  function fail(t, field){
+    msg.textContent = t;
+    msg.className = "wish-msg err";
+    (field || text).focus();
+  }
+
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    if (document.getElementById("wishWeb").value) return; // botfälla
+    if (sentRecently()) return fail("Vänta en liten stund innan du skickar nästa.");
+    var t = clean(text.value);
+    if (t.length < MIN) return fail("Skriv lite mer, minst " + MIN + " tecken.");
+    if (t.length > MAX) return fail("Det blev för långt, högst " + MAX + " tecken.");
+    var mailEl = document.getElementById("wishMail");
+    var mail = mailEl.value.trim();
+    if (mail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)) return fail("E-postadressen ser inte riktig ut.", mailEl);
+    var name = clean(document.getElementById("wishName").value).slice(0, 30);
+    var payload = {
+      _subject: "Golvet: nytt önskemål",
+      text: t,
+      type: (form.querySelector("input[name=wishType]:checked") || {}).value || "tema",
+      name: name,
+      email: mail,
+      owns: document.getElementById("wishConflict").checked,
+      sent: new Date().toISOString()
+    };
+
+    submit.disabled = true;
+    msg.textContent = "Skickar…";
+    msg.className = "wish-msg";
+
+    fetch(WISH_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify(payload)
+    }).then(function(r){
+      if (!r.ok) throw new Error("http " + r.status);
+      markSent();
+      echo.textContent = t + (payload.owns ? "  (du har uppgett att du äger aktier i bolaget)" : "");
+      form.hidden = true;
+      done.hidden = false;
+    }).catch(function(){
+      fail("Det gick inte att skicka just nu. Försök igen om en stund.");
+    }).then(function(){
+      submit.disabled = false;
+    });
+  });
+
+  document.getElementById("wishAgain").addEventListener("click", function(){
+    form.reset();
+    updateCount();
+    msg.textContent = "";
+    form.hidden = false;
+    done.hidden = true;
+    text.focus();
+  });
+
+  updateCount();
+})();
+</script>
+</body></html>

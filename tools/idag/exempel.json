@@ -1,0 +1,192 @@
+{
+ "date": "2026-10-26",
+ "glance": [
+  {
+   "l": "Marknaden",
+   "t": "Rekyl efter förra veckans fall. Sandvik, Boliden och Marvell studsade, SEB, ABB och Volvo föll vidare. Ingen enskild nyhet förklarar rörelsen."
+  },
+  {
+   "l": "Störst rörelse",
+   "t": "Mærsk föll 6,1 procent utan bekräftad nyhet."
+  }
+ ],
+ "groups": [
+  {
+   "t": "Rapportsäsongen: bra siffror, svag reaktion",
+   "s": "Starka siffror hos ABB och Saab räckte inte för att lyfta aktierna.",
+   "tickers": [
+    "SEB-A",
+    "ABB",
+    "INVE-B",
+    "SAAB-B"
+   ]
+  },
+  {
+   "t": "Kreditoron kring AI ligger kvar",
+   "s": "Oron gäller hur datacenterbyggena finansieras.",
+   "tickers": [
+    "ORCL",
+    "MRVL"
+   ]
+  },
+  {
+   "t": "Rekylen går åt båda håll",
+   "s": "Sandvik och Boliden studsade. Netflix och UnitedHealth gav tillbaka torsdagens uppgång.",
+   "tickers": [
+    "SAND",
+    "BOL",
+    "UNH",
+    "NFLX"
+   ]
+  },
+  {
+   "t": "Två enskilda bolag",
+   "s": "Mærsk föll utan känd orsak. Egetis väntar på nästa steg efter FDA.",
+   "tickers": [
+    "MAERSK-B",
+    "EGTX"
+   ]
+  }
+ ],
+ "calendar": [
+  {
+   "d": "27–28 okt",
+   "t": "Fed-besked (FOMC). Marknaden räknar med oförändrad ränta.",
+   "tickers": [
+    "SEB-A",
+    "ORCL",
+    "MRVL"
+   ]
+  },
+  {
+   "d": "29 okt",
+   "t": "Boliden rapporterar niomånaders. ECB lämnar räntebesked.",
+   "tickers": [
+    "BOL",
+    "SEB-A"
+   ]
+  },
+  {
+   "d": "30 okt",
+   "t": "Bank of Japan lämnar besked.",
+   "tickers": []
+  },
+  {
+   "d": "3 nov",
+   "t": "Mellanval i USA. Dragkampen om tullar pågår.",
+   "tickers": [
+    "MAERSK-B"
+   ]
+  },
+  {
+   "d": "4 nov",
+   "t": "Riksbankens räntebesked.",
+   "tickers": [
+    "SEB-A"
+   ]
+  },
+  {
+   "d": "6 nov",
+   "t": "Amerikansk arbetsmarknadsrapport för oktober.",
+   "tickers": []
+  }
+ ],
+ "cards": {
+  "SAND": {
+   "h": "Sandvik studsar, men utan egen nyhet",
+   "w": "Hårt sålda verkstadsbolag lockade tillbaka köpare. En bred rörelse, inte egna siffror.",
+   "ana": "Sandvik och Boliden återhämtade en del av sina kraftiga fall från i veckan.",
+   "bull": "studsen efter förra veckans ras tyder på en överreaktion som nu rättas till.",
+   "bear": "ingen ny bolagsspecifik nyhet bekräftar vändningen, vilket gör den känslig för nya makrochocker.",
+   "world": "Räntedrivet säljtryck kan återvända under veckans tre centralbanksbesked: Fed 28 okt, ECB 29 okt och Bank of Japan 30 okt."
+  },
+  "BOL": {
+   "h": "Boliden återhämtar sig inför torsdagens rapport",
+   "w": "Aktien har svängt kraftigt åt båda håll den senaste veckan.",
+   "ana": "Sandvik och Boliden återhämtade en del av sina kraftiga fall från i veckan.",
+   "bull": "ett stabilt kopparpris och en stundande rapport kan ge ytterligare stöd.",
+   "bear": "aktien har redan svängt kraftigt utan tydlig nyhet den senaste veckan, vilket ökar risken för besvikelse på torsdag.",
+   "world": "Rapport torsdag 29 okt. Samma dag lämnar ECB räntebesked."
+  },
+  "SEB-A": {
+   "h": "SEB fortsätter ner efter rapporten",
+   "w": "Tredje dagen i rad. Marknaden verkar fortfarande smälta rapporten.",
+   "ana": "SEB föll ytterligare dagen efter sin rapport och Volvo Group samt ABB gav tillbaka mer mark.",
+   "bull": "ett fortsatt fall utan ny nyhet kan vara en sen överreaktion på förra veckans rapport.",
+   "bear": "att nedgången fortsätter flera dagar efter rapporten tyder på att marknaden fortfarande smälter något negativt i den.",
+   "world": "Räntebesked från Fed (28 okt) och ECB (29 okt), och sedan Riksbanken 4 nov, kan styra hur bankerna handlas."
+  },
+  "NFLX": {
+   "h": "Netflix tappar torsdagens studs",
+   "w": "Aktien testar stödet vid 65 dollar på nytt.",
+   "ana": "",
+   "bull": "det långsiktiga tekniska stödet har ännu inte brutits, bara testats.",
+   "bear": "att ge tillbaka hela förra veckans studs redan efter en dag väcker frågor om hur hållbar vändningen egentligen var.",
+   "world": ""
+  },
+  "UNH": {
+   "h": "UnitedHealth ger tillbaka torsdagens uppgång",
+   "w": "Flera tidigare defensiva vinnare föll tillbaka under sessionen.",
+   "ana": "",
+   "bull": "bolaget är fortfarande i en flerårig återhämtning med stöd av positiva analytikerreaktioner.",
+   "bear": "att ge tillbaka hela förra veckans uppgång visar att den defensiva styrkan är känslig för att riskaptiten återvänder.",
+   "world": ""
+  },
+  "ABB": {
+   "h": "ABB faller trots 40 procents orderökning",
+   "w": "Ett starkt kvartal överskuggas av den räntedrivna börsnedgången.",
+   "ana": "SEB föll ytterligare dagen efter sin rapport och Volvo Group samt ABB gav tillbaka mer mark.",
+   "bull": "ett starkt kvartalsresultat med 40 procents orderökning borde på sikt stödja aktien.",
+   "bear": "aktien har fortsatt falla efter rapporten, vilket visar att den breda ränteoron väger tyngre än bolagets egna siffror just nu.",
+   "world": "Veckans räntebesked kan fortsätta överskugga bolagets starka rapport."
+  },
+  "INVE-B": {
+   "h": "Investors substansvärde upp cirka 4 procent",
+   "w": "Enligt uppgifter kom det mesta från onoterade innehav, som är svårare att verifiera.",
+   "ana": "Investor AB:s niomånadersrapport visade enligt uppgifter ett substansvärde som stigit cirka 4 procent till runt 411 kronor per aktie, med merparten av ökningen i de onoterade innehaven i Patricia Industries snarare än i de börsnoterade bolagen.",
+   "bull": "en starkare substansvärdestillväxt än väntat, driven av Patricia Industries, ger en tydlig fundamental grund.",
+   "bear": "den modesta kursreaktionen tyder på att marknaden redan prisat in styrkan, vilket begränsar uppsidan på kort sikt.",
+   "world": "Mölnlycke väntas delas i två fristående bolag, enligt uppgifter."
+  },
+  "SAAB-B": {
+   "h": "Rekordorder på 56 miljarder, aktien rör sig knappt",
+   "w": "Ordern var redan känd (Gripen till Ukraina, tyska fregatter), så nyheten var inprisad.",
+   "ana": "Saab publicerade sin rapport på fredagen med en exceptionellt hög orderingång kopplad till redan kända Gripen- och fregattordrar, men aktien rörde sig knappt.",
+   "bull": "en exceptionellt hög orderingång stärker intäktssynligheten flera år framåt.",
+   "bear": "aktiens uteblivna reaktion visar att förväntningarna redan var högt ställda efter sommarens kontraktsnyheter.",
+   "world": "Gripen-ordern till Ukraina och de tyska fregattbeställningarna är redan kända. Fokus flyttas till leveranserna."
+  },
+  "EGTX": {
+   "h": "Egetis: FDA-godkännandet är inprisat",
+   "w": "Emcitate godkändes i slutet av september. Nästa steg är försäljning av en prioritetsvoucher.",
+   "ana": "Den mindre hälsovårdsaktien Egetis Therapeutics väntas sälja en prioritetsvoucher kopplad till sitt amerikanska godkännande för Emcitate under fjärde kvartalet.",
+   "bull": "ett nytt FDA-godkännande och en väntad voucherförsäljning i fjärde kvartalet ger en konkret kurstrigger.",
+   "bear": "aktien har inte rört sig nämnvärt sedan godkännandet, vilket kan betyda att marknaden väntar på att se faktiska voucher-intäkter innan den omvärderar bolaget.",
+   "world": "Försäljning av prioritetsvouchern kopplad till FDA-godkännandet väntas under fjärde kvartalet."
+  },
+  "MAERSK-B": {
+   "h": "Mærsk rasar 6 procent utan känd orsak",
+   "w": "Dagens största rörelse. Fraktraterna ligger nära toppen, men ingen nyhet bekräftar att det var orsaken.",
+   "ana": "A.P. Møller-Mærsk föll kraftigt utan någon bekräftad enskild nyhet, i en vecka då containerfraktraterna enligt branschanalytiker ligger nära sin topp.",
+   "bull": "ett kraftigt fall utan bekräftad nyhet kan vara en överreaktion på redan väntade, normaliserande fraktrater.",
+   "bear": "en nedgång av den storleken utan nyhet är ovanlig och kan dölja information om fjärde kvartalet som ännu inte är offentlig.",
+   "world": "Containerraterna väntas enligt Xeneta falla med runt en tredjedel på tre månader. Tullstriderna i USA och mellanvalet 3 nov kan påverka handelsklimatet."
+  },
+  "ORCL": {
+   "h": "Obligationsoro tynger Oracle",
+   "w": "Enligt uppgifter handlas flera av bolagets obligationer till rabatt, och branschens kreditswappar ligger nära rekord.",
+   "ana": "",
+   "bull": "bolaget har fortfarande investment-grade-tillgång till kapital till skillnad från mer skuldtyngda AI-infrastrukturbolag.",
+   "bear": "obligationer som handlas med rabatt är ett tidigt varningstecken som historiskt ofta föregått vidare kursfall.",
+   "world": "Obligationsmarknadens oro kring AI-datacenter, och Fed-beskedet 28 okt."
+  },
+  "MRVL": {
+   "h": "Marvell studsar efter förra veckans ras på 8,7 procent",
+   "w": "Ingen egen nyhet. Studsen kommer i en vecka med fortsatt kreditoro kring AI.",
+   "ana": "",
+   "bull": "studsen efter förra veckans kraftiga ras talar för en överreaktion som rättas till.",
+   "bear": "kreditoron kring AI-datacenterbyggande som utlöste raset är inte löst, bara tillfälligt lugnare.",
+   "world": "Samma kreditoro kring AI-datacenter, och Fed-beskedet 28 okt."
+  }
+ }
+}

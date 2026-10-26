@@ -1,0 +1,214 @@
+{
+ "days": [
+  {
+   "d": "2026-10-08",
+   "t": [
+    "MRVL",
+    "NVDA",
+    "ORCL",
+    "AMZN",
+    "JPM",
+    "BOL",
+    "VOLCAR-B",
+    "INVE-B",
+    "MU",
+    "TSM"
+   ]
+  },
+  {
+   "d": "2026-10-09",
+   "t": [
+    "MU",
+    "TSM",
+    "ORCL",
+    "AMZN",
+    "JPM",
+    "BOL",
+    "VOLCAR-B",
+    "ABB",
+    "HM-B",
+    "TELIA",
+    "SHOP",
+    "U",
+    "SHOT"
+   ]
+  },
+  {
+   "d": "2026-10-12",
+   "t": [
+    "ORCL",
+    "MRVL",
+    "ANTO",
+    "BHP",
+    "SHB-A",
+    "NDA-SE",
+    "JPM",
+    "SKF-B",
+    "ATCO-A",
+    "SHOP"
+   ]
+  },
+  {
+   "d": "2026-10-13",
+   "t": [
+    "BHP",
+    "ANTO",
+    "JPM",
+    "WFC",
+    "C",
+    "SSAB-B",
+    "TSM",
+    "MRVL",
+    "NVDA",
+    "SHOP"
+   ]
+  },
+  {
+   "d": "2026-10-14",
+   "t": [
+    "GS",
+    "JPM",
+    "C",
+    "BHP",
+    "ANTO",
+    "FCX",
+    "TSM",
+    "ASML",
+    "HEXA-B",
+    "VOLCAR-B",
+    "NDA-SE"
+   ]
+  },
+  {
+   "d": "2026-10-15",
+   "t": [
+    "ERIC-B",
+    "NDA-SE",
+    "KINV-B",
+    "AQ",
+    "LUMI",
+    "ALVO",
+    "TSM",
+    "BHP",
+    "ANTO",
+    "PRY",
+    "NKT"
+   ]
+  },
+  {
+   "d": "2026-10-16",
+   "t": [
+    "TSM",
+    "GS",
+    "WFC",
+    "JPM",
+    "ANTO",
+    "BOL",
+    "VOLCAR-B",
+    "INVE-B",
+    "FCX",
+    "ASML",
+    "MU",
+    "RWE",
+    "LUMI"
+   ]
+  },
+  {
+   "d": "2026-10-19",
+   "t": [
+    "CRWV",
+    "ORCL",
+    "AMD",
+    "MU",
+    "ANTO",
+    "BHP",
+    "LUMI",
+    "EQNR",
+    "STNG",
+    "NDA-SE",
+    "SHB-A",
+    "TEL2-B"
+   ]
+  },
+  {
+   "d": "2026-10-20",
+   "t": [
+    "ABB",
+    "TEL2-B",
+    "NFLX",
+    "RHM",
+    "VOW3",
+    "CRWV",
+    "ORCL",
+    "NVO",
+    "JPM",
+    "FCX"
+   ]
+  },
+  {
+   "d": "2026-10-21",
+   "t": [
+    "ABB",
+    "NFLX",
+    "BOL",
+    "SEB-A",
+    "RHM",
+    "SAAB-B",
+    "DHI",
+    "ORCL",
+    "MRVL",
+    "TGT",
+    "MAERSK-B",
+    "CRWV"
+   ]
+  },
+  {
+   "d": "2026-10-22",
+   "t": [
+    "RHM",
+    "SAAB-B",
+    "SEB-A",
+    "ESSITY-B",
+    "SAND",
+    "BEIJ-B",
+    "GETI-B",
+    "FCX",
+    "NFLX",
+    "UNH"
+   ]
+  },
+  {
+   "d": "2026-10-23",
+   "t": [
+    "NVDA",
+    "MRVL",
+    "SEB-A",
+    "SAND",
+    "ATCO-A",
+    "BOL",
+    "VOLV-B",
+    "ELUX-B",
+    "NFLX",
+    "UNH",
+    "RHM"
+   ]
+  },
+  {
+   "d": "2026-10-26",
+   "t": [
+    "SAND",
+    "BOL",
+    "SEB-A",
+    "NFLX",
+    "UNH",
+    "ABB",
+    "INVE-B",
+    "SAAB-B",
+    "EGTX",
+    "MAERSK-B",
+    "ORCL",
+    "MRVL"
+   ]
+  }
+ ]
+}
