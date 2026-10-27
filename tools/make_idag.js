@@ -85,7 +85,7 @@ else {
     if (!c.w || c.w.length > 150) errors.push(t + ': w saknas eller är längre än 150 tecken');
   });
   if (idag.wish && (!idag.wish.by || !idag.wish.q || !idag.wish.a)) errors.push('wish saknar by/q/a');
-  (idag.calendar || []).forEach(e => { if (!e.d || !e.t) errors.push('calendar-rad saknar d/t'); (e.tickers || []).forEach(t => { if (tickers.indexOf(t) < 0) errors.push('calendar nämner okänd ticker ' + t); }); });
+  (idag.calendar || []).forEach(e => { if (!e.d || !e.t) errors.push('calendar-rad saknar d/t'); if (e.x && String(e.x).length > 240) errors.push('calendar-rad ' + e.d + ': x är längre än 240 tecken'); (e.tickers || []).forEach(t => { if (tickers.indexOf(t) < 0) errors.push('calendar nämner okänd ticker ' + t); }); });
 }
 errors.forEach(e => console.warn('VALIDERING: ' + e));
 if (errors.length && opt.strict) fail('idag.json underkänd (' + errors.length + ' fel), inget skrevs', 2);
@@ -264,6 +264,7 @@ details[open] summary::after{content:" \2039"}
 .cal{margin-top:10px}
 .cal li{display:grid;grid-template-columns:92px 1fr;gap:12px;padding-block:10px;border-top:1px solid var(--line);font-size:14px}
 .cd{font-family:var(--f-mono);font-size:12px;color:var(--brass);padding-top:2px}
+.cx{margin:3px 0 0;color:var(--ink-soft);font-size:13px;line-height:1.45}
 .berors{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:6px;font-size:12.5px;color:var(--ink-soft)}
 .chip2{text-decoration:none;color:var(--ink);padding:2px 10px;border:1px solid var(--line);border-radius:999px;background:var(--surface);font-size:12.5px}
 .chip2:hover{border-color:var(--brass)}
@@ -354,7 +355,22 @@ const js = String.raw`
 
   let calRows = (idag && Array.isArray(idag.calendar) && idag.calendar.length) ? idag.calendar : [];
   if (!calRows.length && calB) calRows = calB.split(/,\s*(?=\d)/).map(s => { const m = s.match(/^(\d+(?:[–-]\d+)?\s+\S+)\s+(.*)$/); return m ? { d: m[1], t: m[2], tickers: [] } : null; }).filter(Boolean);
-  const calHtml = calRows.map(e => '<li><span class="cd">' + esc(e.d) + '</span><div><span>' + esc(e.t) + '</span>' +
+  const GLOSS = [
+    [/\bfed\b|fomc/i, 'Fed är USA:s centralbank. På mötet bestäms styrräntan, som påverkar lånekostnader och hur aktier värderas över hela världen.'],
+    [/\becb\b/i, 'ECB är eurozonens centralbank. Räntebeskedet påverkar bland annat europeiska banker och bolag med mycket lån.'],
+    [/bank of japan|\bboj\b/i, 'Japans centralbank. Besked om räntan kan flytta valutan yen och internationella investerares pengar.'],
+    [/riksbank/i, 'Sveriges centralbank. Räntan styr bolåne- och företagslån och slår särskilt mot banker och fastighetsbolag.'],
+    [/bank of england|\bboe\b/i, 'Storbritanniens centralbank. Räntebeskedet påverkar pundet och brittiska banker.'],
+    [/opec/i, 'Oljeproducerande länder som bestämmer hur mycket olja som pumpas upp. Det styr oljepriset och därmed energibolag och industrins kostnader.'],
+    [/mellanårsval|mellanval|midterm/i, 'Val i USA halvvägs in i presidentperioden. Utfallet avgör vem som styr kongressen, vilket kan påverka skatter, tullar och regleringar.'],
+    [/arbetsmarknadsrapport|jobbrapport|nonfarm/i, 'Visar hur många jobb som tillkom i USA. Starka siffror kan göra att räntan hålls hög längre.'],
+    [/inflation|\bkpi\b/i, 'Visar hur snabbt priserna stiger. Det styr centralbankernas räntebeslut.'],
+    [/kapitalmarknadsdag/i, 'Bolaget går igenom mål och strategi för investerare. Brukar ge besked om framtida ambitioner.'],
+    [/rapporterar|delårsrapport|kvartalsrapport|niomånaders|bokslut/i, 'Bolaget redovisar hur det gått. Aktien rör sig ofta kraftigt om siffrorna avviker från förväntningarna.'],
+    [/börsnotering|\bipo\b/i, 'Ett bolag börjar handlas på börsen för första gången.']
+  ];
+  const explain = e => { if (e.x) return txt(e.x); const hit = GLOSS.filter(g => g[0].test(e.t)).slice(0, 2).map(g => g[1]); return hit.join(' '); };
+  const calHtml = calRows.map(e => '<li><span class="cd">' + esc(e.d) + '</span><div><span>' + esc(e.t) + '</span>' + (explain(e) ? '<p class="cx">' + esc(explain(e)) + '</p>' : '') +
     ((e.tickers || []).filter(t => tickers.indexOf(t) > -1).length ? '<div class="berors"><span>Berörs:</span>' + e.tickers.filter(t => tickers.indexOf(t) > -1).map(t => '<a class="chip2" href="#c-' + attr(t) + '">' + nameOf(t) + '</a>').join('') + '</div>' : '') + '</div></li>').join('');
 
   const wishHtml = (idag && idag.wish && idag.wish.by && idag.wish.q && idag.wish.a)
