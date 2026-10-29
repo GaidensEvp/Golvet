@@ -56,7 +56,8 @@
     "SEB-A",
     "ORCL",
     "MRVL"
-   ]
+   ],
+   "x": "Fed är USA:s centralbank. På mötet bestäms styrräntan, som påverkar lånekostnader och hur aktier värderas över hela världen."
   },
   {
    "d": "29 okt",
@@ -64,31 +65,36 @@
    "tickers": [
     "BOL",
     "SEB-A"
-   ]
+   ],
+   "x": "Bolaget redovisar hur det gått. Aktien rör sig ofta kraftigt om siffrorna avviker från förväntningarna. ECB är eurozonens centralbank, och räntebeskedet påverkar bland annat europeiska banker."
   },
   {
    "d": "30 okt",
    "t": "Bank of Japan lämnar besked.",
-   "tickers": []
+   "tickers": [],
+   "x": "Japans centralbank. Besked om räntan kan flytta valutan yen och internationella investerares pengar."
   },
   {
    "d": "3 nov",
    "t": "Mellanval i USA. Dragkampen om tullar pågår.",
    "tickers": [
     "MAERSK-B"
-   ]
+   ],
+   "x": "Val i USA halvvägs in i presidentperioden. Utfallet avgör vem som styr kongressen, vilket kan påverka skatter, tullar och regleringar."
   },
   {
    "d": "4 nov",
    "t": "Riksbankens räntebesked.",
    "tickers": [
     "SEB-A"
-   ]
+   ],
+   "x": "Sveriges centralbank. Räntan styr bolåne- och företagslån och slår särskilt mot banker och fastighetsbolag."
   },
   {
    "d": "6 nov",
    "t": "Amerikansk arbetsmarknadsrapport för oktober.",
-   "tickers": []
+   "tickers": [],
+   "x": "Visar hur många jobb som tillkom i USA. Starka siffror kan göra att räntan hålls hög längre."
   }
  ],
  "cards": {

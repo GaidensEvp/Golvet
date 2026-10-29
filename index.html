@@ -60,8 +60,15 @@ h3{font-family:var(--f-display);font-weight:500;font-size:18px;line-height:1.28;
 .tag.wish{background:var(--brass);color:var(--paper)}
 .follow{margin-left:auto;display:inline-flex;gap:5px;align-items:center;background:none;border:1px solid var(--line);border-radius:999px;padding:3px 10px 3px 8px;font:inherit;font-size:12px;color:var(--ink-soft);cursor:pointer}
 .follow svg{fill:none;stroke:currentColor}
-.follow[aria-pressed="true"]{color:var(--brass);border-color:var(--brass)}
+.follow{min-height:34px}
+.follow[aria-pressed="true"]{color:var(--paper);background:var(--brass);border-color:var(--brass);font-weight:600}
 .follow[aria-pressed="true"] svg{fill:currentColor}
+.chip.away{color:var(--ink-faint);font-family:var(--f-body)}
+.mine .note{display:block;margin-top:8px;font-size:12px;color:var(--ink-faint)}
+.toast{position:fixed;left:50%;bottom:20px;transform:translate(-50%,16px);max-width:min(92vw,440px);display:flex;gap:14px;align-items:center;padding:10px 14px;border-radius:10px;background:var(--desk);color:var(--desk-ink);font-size:14px;box-shadow:0 6px 24px rgba(0,0,0,.28);opacity:0;pointer-events:none;transition:opacity .18s,transform .18s;z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.toast button{background:none;border:0;padding:4px 2px;font:inherit;font-weight:600;color:var(--glance);cursor:pointer;text-decoration:underline;white-space:nowrap}
+@media (prefers-reduced-motion:reduce){.toast{transition:none}}
 .follow:hover{border-color:var(--ink-faint)}
 :focus-visible{outline:2px solid var(--brass);outline-offset:2px}
 details{margin-top:8px}
@@ -80,6 +87,7 @@ details[open] summary::after{content:" \2039"}
 .cal{margin-top:10px}
 .cal li{display:grid;grid-template-columns:92px 1fr;gap:12px;padding-block:10px;border-top:1px solid var(--line);font-size:14px}
 .cd{font-family:var(--f-mono);font-size:12px;color:var(--brass);padding-top:2px}
+.cx.out{color:var(--ink);font-size:14px;margin-top:5px}
 .cx{margin:3px 0 0;color:var(--ink-soft);font-size:13px;line-height:1.45}
 .berors{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:6px;font-size:12.5px;color:var(--ink-soft)}
 .chip2{text-decoration:none;color:var(--ink);padding:2px 10px;border:1px solid var(--line);border-radius:999px;background:var(--surface);font-size:12.5px}
@@ -277,45 +285,75 @@ footer a{color:var(--ink-soft)}
   </section>
 
 <details class="back"><summary>Så togs dagens läge fram</summary><ul class="lens"><li><b>Geopolitik &amp; handel</b> USA:s mellanårsval närmar sig (3 november) och är redan en bakgrundsfråga i veckans Fed-besked — Fed-ledamoten Kevin Warsh, som ledde gårdagens pressträff, avfärdade uttryckligen att valet spelat någon roll i räntebeslutet.</li><li><b>Makro &amp; räntor</b> Fed höll som väntat styrräntan oförändrad på 3,75–4,00 procent igår, men med en ovanligt hökaktig splittring (10–2, två ledamöter ville höja). Tioårsräntan är tillbaka över 5 procent, och marknaden prisar in runt 85 procents sannolikhet för en höjning i december. ECB lämnar besked senare idag, Bank of Japan imorgon.</li><li><b>Sektorrotation</b> En tydlig europeisk rapportdag drar flöden mot energi och bank (Shell, TechnipFMC, Lloyds och Haleon rapporterar idag), medan nordisk industri är mer splittrad: SKF och Atlas Copco steg modest, Boliden föll inför sin egen rapport.</li><li><b>Reglering &amp; politik</b> Federal Reserve meddelade i samband med gårdagens beslut att man minskar antalet ordinarie räntemöten från och med nästa år — en strukturell förändring av centralbankens kommunikation, inte bara ett enskilt räntebeslut.</li><li><b>Teknik &amp; innovation</b> Halvledarbolaget Marvell steg 3,3 procent utan egen bekräftad nyhet, i en fortsatt olöst oro kring hur AI-datacenterbyggandet ska finansieras — kreditswapparna kring sektorn har enligt tidigare uppgifter legat kvar förhöjda.</li><li><b>Norden &amp; small-cap</b> SKF:s avknoppning av fordonsdivisionen Vertevo går enligt plan mot notering 1 december, Volvo Cars fortsätter sin tekniska återhämtning efter förra veckans svaga rapport, och Boliden föll inför sin egen niomånadersrapport.</li><li><b>Råvaror &amp; energi</b> Råoljepriset har enligt de senast tillgängliga noteringarna legat kvar förhöjt, vilket underbygger dagens rapportdag för Shell och TechnipFMC. Analytikerprognoser pekar mot en fortsatt stigande bana för guldpriset mot slutet av året.</li></ul><p class="gsum">Inget nytt idag: Demografi &amp; struktur.</p></details>
-<footer><p><b>Golvet</b>är en AI-driven analysdesk. Innehållet är research och allmän information sammanställd av flera AI-agenter — det är inte personlig investeringsrådgivning och tar inte hänsyn till din ekonomiska situation, dina mål eller din riskprofil. Bedömningar som övertygelsegrad, teknisk vy och sentiment är analysens egna tolkningar, inte fastslagna fakta, och bör inte ensamma ligga till grund för ett investeringsbeslut. Ägaren till Golvet kan ha egna privata positioner i värdepapper som nämns eller lyfts fram som case ovan; det redovisas inte per enskilt bolag. Underlag: Yahoo Finance, Federal Reserve, Shell, Volvo Cars, Lloyds Banking Group, Bloomberg, Reuters m.fl. — se respektive agents källor. Medelhög/medel konfidens-poster bör dubbelkollas innan de tas som fakta.</p><p class="more"><a href="/klassisk/">Visa den utförliga versionen med alla skift</a></p></footer>
+<footer><p><b>Golvet</b>är en AI-driven analysdesk. Innehållet är research och allmän information sammanställd av flera AI-agenter — det är inte personlig investeringsrådgivning och tar inte hänsyn till din ekonomiska situation, dina mål eller din riskprofil. Bedömningar som övertygelsegrad, teknisk vy och sentiment är analysens egna tolkningar, inte fastslagna fakta, och bör inte ensamma ligga till grund för ett investeringsbeslut. Ägaren till Golvet kan ha egna privata positioner i värdepapper som nämns eller lyfts fram som case ovan; det redovisas inte per enskilt bolag. Underlag: Yahoo Finance, Placera, Inderes, Capital.com, RTTNews, Xeneta, Affärsvärlden m.fl. — se respektive agents källor. Medelhög/medel konfidens-poster bör dubbelkollas innan de tas som fakta.</p><p class="more">Sidan hämtar typsnitt från Google Fonts och skickar önskemål via Formspree. Dina följda bolag sparas bara i din egen webbläsare.</p><p class="more"><a href="/klassisk/">Visa den utförliga versionen med alla skift</a></p></footer>
 </div>
 <script>
 (function(){
-  var KEY='golvet_follow';
+  var KEY='golvet_follow', NK='golvet_follow_names';
   function load(){ try{ return JSON.parse(localStorage.getItem(KEY)||'[]'); }catch(e){ return []; } }
   function save(a){ try{ localStorage.setItem(KEY, JSON.stringify(a)); }catch(e){} }
+  function loadN(){ try{ return JSON.parse(localStorage.getItem(NK)||'{}'); }catch(e){ return {}; } }
+  function saveN(o){ try{ localStorage.setItem(NK, JSON.stringify(o)); }catch(e){} }
   var rows=[].slice.call(document.querySelectorAll('.row'));
   var mine=document.getElementById('mine');
+  var toast=document.createElement('div'); toast.className='toast'; toast.setAttribute('role','status'); toast.setAttribute('aria-live','polite');
+  document.body.appendChild(toast);
+  var timer=null;
+  function say(msg){
+    toast.textContent='';
+    var m=document.createElement('span'); m.textContent=msg; toast.appendChild(m);
+    var v=document.createElement('button'); v.type='button'; v.textContent='Visa';
+    v.addEventListener('click', function(){
+      var reduce=window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+      mine.scrollIntoView({behavior:reduce?'auto':'smooth', block:'center'});
+      toast.classList.remove('show');
+    });
+    toast.appendChild(v);
+    toast.classList.add('show');
+    clearTimeout(timer); timer=setTimeout(function(){ toast.classList.remove('show'); }, 5000);
+  }
+  function chip(label, move){
+    var c=document.createElement('span'); c.className='chip'+(move?'':' away');
+    c.appendChild(document.createTextNode(label+(move?' ':'')));
+    if(move){ var s=document.createElement('span'); s.className=move.charAt(0)==='+'?'up':'down'; s.textContent=move; c.appendChild(s); }
+    return c;
+  }
   function render(){
-    var f=load();
+    var f=load(), n=loadN();
     rows.forEach(function(r){
       var on=f.indexOf(r.getAttribute('data-t'))>-1;
       var b=r.querySelector('.follow');
       b.setAttribute('aria-pressed', on?'true':'false');
       b.querySelector('span').textContent=on?'Följer':'Följ';
     });
+    var today=rows.map(function(r){ return r.getAttribute('data-t'); });
     var hits=rows.filter(function(r){ return f.indexOf(r.getAttribute('data-t'))>-1; });
-    if(!hits.length){
-      mine.textContent='Dina bolag. Tryck på Följ vid ett bolag. De bolag du följer samlas här de dagar de finns med.';
-    } else {
-      mine.textContent='';
-      var b=document.createElement('b'); b.textContent='Dina bolag idag.'; mine.appendChild(b);
+    var away=f.filter(function(t){ return today.indexOf(t)<0; });
+    mine.textContent='';
+    if(!f.length){
+      mine.textContent='Dina bolag. Tryck på Följ vid ett bolag så samlas det här, högst upp.';
+      return;
+    }
+    var b=document.createElement('b'); b.textContent=hits.length?'Dina bolag idag.':'Dina bolag.'; mine.appendChild(b);
+    if(hits.length){
       var wrap=document.createElement('div'); wrap.className='chips';
-      hits.forEach(function(r){
-        var m=r.getAttribute('data-mv'); var cls=m.charAt(0)==='+'?'up':'down';
-        var c=document.createElement('span'); c.className='chip';
-        c.appendChild(document.createTextNode(r.getAttribute('data-co')+' '));
-        var s=document.createElement('span'); s.className=cls; s.textContent=m; c.appendChild(s);
-        wrap.appendChild(c);
-      });
+      hits.forEach(function(r){ wrap.appendChild(chip(r.getAttribute('data-co'), r.getAttribute('data-mv'))); });
       mine.appendChild(wrap);
     }
+    if(away.length){
+      var w2=document.createElement('div'); w2.className='chips';
+      away.forEach(function(t){ w2.appendChild(chip((n[t]||t)+', inte med idag', '')); });
+      mine.appendChild(w2);
+    }
+    var note=document.createElement('span'); note.className='note';
+    note.textContent='Sparas bara i den här webbläsaren. Du får ingen avisering, men ser dina bolag här varje gång du öppnar sidan.';
+    mine.appendChild(note);
   }
   rows.forEach(function(r){
     r.querySelector('.follow').addEventListener('click', function(){
-      var f=load(), t=r.getAttribute('data-t'), i=f.indexOf(t);
-      if(i>-1) f.splice(i,1); else f.push(t);
-      save(f); render();
+      var f=load(), n=loadN(), t=r.getAttribute('data-t'), co=r.getAttribute('data-co'), i=f.indexOf(t);
+      if(i>-1){ f.splice(i,1); save(f); render(); say('Du följer inte längre '+co+'.'); }
+      else { f.push(t); n[t]=co; save(f); saveN(n); render(); say('Du följer '+co+'. Dina bolag samlas högst upp.'); }
     });
   });
   render();

@@ -19,12 +19,60 @@ for (let i = 0; i < args.length; i++) {
   if (args[i].indexOf('--') === 0) { const k = args[i].slice(2); opt[k] = (args[i + 1] && args[i + 1].indexOf('--') !== 0) ? args[++i] : true; }
 }
 function fail(msg, code) { console.error('FEL: ' + msg); process.exit(code || 1); }
-if (!opt.b || !opt.repo) fail('Användning: node tools/make_idag.js --b <golvet_b.html> --repo <REPO> [--idag idag.json] [--strict|--allow-missing]');
+if ((!opt.b && !opt.pending) || !opt.repo) fail('Användning: node tools/make_idag.js --b <golvet_b.html> --repo <REPO> [--idag idag.json] [--strict|--allow-missing]');
 
 const decode = s => String(s == null ? '' : s).replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'");
 const txt = s => decode(String(s == null ? '' : s).replace(/<\/?(?:b|i|em|strong|span|br|p|a|small|sup|sub|div|h[1-6]|li|ul)(?:\s[^>]*)?\/?>/gi, '')).replace(/\s+/g, ' ').trim();
 const esc = s => txt(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const attr = s => esc(s).replace(/"/g, '&quot;');
+
+const GLOSS = [
+  [/\bfed\b|fomc/i, 'Fed är USA:s centralbank. På mötet bestäms styrräntan, som påverkar lånekostnader och hur aktier värderas över hela världen.'],
+  [/\becb\b/i, 'ECB är eurozonens centralbank. Räntebeskedet påverkar bland annat europeiska banker och bolag med mycket lån.'],
+  [/bank of japan|\bboj\b/i, 'Japans centralbank. Besked om räntan kan flytta valutan yen och internationella investerares pengar.'],
+  [/riksbank/i, 'Sveriges centralbank. Räntan styr bolåne- och företagslån och slår särskilt mot banker och fastighetsbolag.'],
+  [/bank of england|\bboe\b/i, 'Storbritanniens centralbank. Räntebeskedet påverkar pundet och brittiska banker.'],
+  [/opec/i, 'Oljeproducerande länder som bestämmer hur mycket olja som pumpas upp. Det styr oljepriset och därmed energibolag och industrins kostnader.'],
+  [/mellanårsval|mellanval|midterm/i, 'Val i USA halvvägs in i presidentperioden. Utfallet avgör vem som styr kongressen, vilket kan påverka skatter, tullar och regleringar.'],
+  [/arbetsmarknadsrapport|jobbrapport|nonfarm/i, 'Visar hur många jobb som tillkom i USA. Starka siffror kan göra att räntan hålls hög längre.'],
+  [/inflation|\bkpi\b/i, 'Visar hur snabbt priserna stiger. Det styr centralbankernas räntebeslut.'],
+  [/kapitalmarknadsdag/i, 'Bolaget går igenom mål och strategi för investerare. Brukar ge besked om framtida ambitioner.'],
+  [/rapporterar|delårsrapport|kvartalsrapport|niomånaders|bokslut/i, 'Bolaget redovisar hur det gått. Aktien rör sig ofta kraftigt om siffrorna avviker från förväntningarna.'],
+  [/börsnotering|\bipo\b/i, 'Ett bolag börjar handlas på börsen för första gången.']
+];
+const MON3 = { jan: 0, feb: 1, mar: 2, apr: 3, maj: 4, jun: 5, jul: 6, aug: 7, sep: 8, okt: 9, nov: 10, dec: 11 };
+function isoFromD(d, pageIso) {
+  const m = String(d).match(/(\d{1,2})(?:\s*[–-]\s*(\d{1,2}))?\s+([A-Za-zåäöÅÄÖ]{3})/);
+  if (!m) return null;
+  const mon = MON3[m[3].toLowerCase()];
+  if (mon === undefined) return null;
+  const day = parseInt(m[2] || m[1], 10);
+  const py = parseInt(pageIso.slice(0, 4), 10), pm = parseInt(pageIso.slice(5, 7), 10) - 1;
+  let y = py;
+  if (mon - pm > 6) y = py - 1; else if (pm - mon > 6) y = py + 1;
+  return y + '-' + String(mon + 1).padStart(2, '0') + '-' + String(day).padStart(2, '0');
+}
+/* samma händelse får samma nyckel även om formuleringen ändras: centralbanker m.fl. via ordlistan, annars första tecknen */
+function evKey(iso, t) {
+  const idx = []; GLOSS.forEach((g, i) => { if (i <= 8 && g[0].test(t)) idx.push(i); });
+  return iso + '|' + (idx.length ? 'k' + idx.join('.') : txt(t).toLowerCase().replace(/[^a-zåäö0-9]+/g, ' ').trim().slice(0, 28));
+}
+const addDays = (iso, n) => new Date(Date.parse(iso + 'T12:00:00Z') + n * 86400000).toISOString().slice(0, 10);
+const daysBetween = (a, b) => Math.round((Date.parse(b + 'T12:00:00Z') - Date.parse(a + 'T12:00:00Z')) / 86400000);
+const readJson = (p, dflt) => { try { return JSON.parse(fs.readFileSync(p, 'utf8')); } catch (e) { return dflt; } };
+
+/* --pending: lista händelser som inträffat de senaste dagarna och saknar utfall (för agenterna) */
+if (opt.pending) {
+  const pd = (typeof opt.date === 'string' && opt.date) || new Date().toISOString().slice(0, 10);
+  const ev = readJson(path.join(opt.repo, 'data', 'events.json'), { events: [] }).events || [];
+  const af = readJson(path.join(opt.repo, 'data', 'after.json'), { items: [] }).items || [];
+  const done = {}; af.forEach(a => { done[a.key] = 1; });
+  const list = ev.filter(e => e.iso < pd && e.iso >= addDays(pd, -3) && !done[evKey(e.iso, e.t)]).map(e => ({ d: e.d, t: e.t, tickers: e.tickers || [] }));
+  console.log(JSON.stringify(list, null, 1));
+  process.exit(0);
+}
+const cfg = readJson(path.join(opt.repo, 'tools', 'config.json'), {});
+const gcCode = /^[a-z0-9-]{2,40}$/.test(String(cfg.goatcounter || '')) ? cfg.goatcounter : '';
 
 const B = fs.readFileSync(opt.b, 'utf8');
 function evalArr(re, name) {
@@ -84,6 +132,8 @@ else {
     if (!c.h || c.h.length > 75) errors.push(t + ': h saknas eller är längre än 75 tecken');
     if (!c.w || c.w.length > 150) errors.push(t + ': w saknas eller är längre än 150 tecken');
   });
+  if (idag.after !== undefined && !Array.isArray(idag.after)) errors.push('after ska vara en lista');
+  (Array.isArray(idag.after) ? idag.after : []).forEach(a => { if (!a.d || !a.t || !a.s) errors.push('after-rad saknar d/t/s'); else { if (!isoFromD(a.d, date)) errors.push('after-rad ' + a.d + ': datumet kan inte tolkas'); if (String(a.s).length > 450) errors.push('after-rad ' + a.d + ': s är längre än 450 tecken'); } });
   if (idag.wish && (!idag.wish.by || !idag.wish.q || !idag.wish.a)) errors.push('wish saknar by/q/a');
   (idag.calendar || []).forEach(e => { if (!e.d || !e.t) errors.push('calendar-rad saknar d/t'); if (e.x && String(e.x).length > 240) errors.push('calendar-rad ' + e.d + ': x är längre än 240 tecken'); (e.tickers || []).forEach(t => { if (tickers.indexOf(t) < 0) errors.push('calendar nämner okänd ticker ' + t); }); });
 }
@@ -244,8 +294,15 @@ h3{font-family:var(--f-display);font-weight:500;font-size:18px;line-height:1.28;
 .tag.wish{background:var(--brass);color:var(--paper)}
 .follow{margin-left:auto;display:inline-flex;gap:5px;align-items:center;background:none;border:1px solid var(--line);border-radius:999px;padding:3px 10px 3px 8px;font:inherit;font-size:12px;color:var(--ink-soft);cursor:pointer}
 .follow svg{fill:none;stroke:currentColor}
-.follow[aria-pressed="true"]{color:var(--brass);border-color:var(--brass)}
+.follow{min-height:34px}
+.follow[aria-pressed="true"]{color:var(--paper);background:var(--brass);border-color:var(--brass);font-weight:600}
 .follow[aria-pressed="true"] svg{fill:currentColor}
+.chip.away{color:var(--ink-faint);font-family:var(--f-body)}
+.mine .note{display:block;margin-top:8px;font-size:12px;color:var(--ink-faint)}
+.toast{position:fixed;left:50%;bottom:20px;transform:translate(-50%,16px);max-width:min(92vw,440px);display:flex;gap:14px;align-items:center;padding:10px 14px;border-radius:10px;background:var(--desk);color:var(--desk-ink);font-size:14px;box-shadow:0 6px 24px rgba(0,0,0,.28);opacity:0;pointer-events:none;transition:opacity .18s,transform .18s;z-index:50}
+.toast.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.toast button{background:none;border:0;padding:4px 2px;font:inherit;font-weight:600;color:var(--glance);cursor:pointer;text-decoration:underline;white-space:nowrap}
+@media (prefers-reduced-motion:reduce){.toast{transition:none}}
 .follow:hover{border-color:var(--ink-faint)}
 :focus-visible{outline:2px solid var(--brass);outline-offset:2px}
 details{margin-top:8px}
@@ -264,6 +321,7 @@ details[open] summary::after{content:" \2039"}
 .cal{margin-top:10px}
 .cal li{display:grid;grid-template-columns:92px 1fr;gap:12px;padding-block:10px;border-top:1px solid var(--line);font-size:14px}
 .cd{font-family:var(--f-mono);font-size:12px;color:var(--brass);padding-top:2px}
+.cx.out{color:var(--ink);font-size:14px;margin-top:5px}
 .cx{margin:3px 0 0;color:var(--ink-soft);font-size:13px;line-height:1.45}
 .berors{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:6px;font-size:12.5px;color:var(--ink-soft)}
 .chip2{text-decoration:none;color:var(--ink);padding:2px 10px;border:1px solid var(--line);border-radius:999px;background:var(--surface);font-size:12.5px}
@@ -298,41 +356,71 @@ const cssOverride = '\n.wish-grid{ grid-template-columns:1fr !important; }\n.wis
 
 const js = String.raw`
 (function(){
-  var KEY='golvet_follow';
+  var KEY='golvet_follow', NK='golvet_follow_names';
   function load(){ try{ return JSON.parse(localStorage.getItem(KEY)||'[]'); }catch(e){ return []; } }
   function save(a){ try{ localStorage.setItem(KEY, JSON.stringify(a)); }catch(e){} }
+  function loadN(){ try{ return JSON.parse(localStorage.getItem(NK)||'{}'); }catch(e){ return {}; } }
+  function saveN(o){ try{ localStorage.setItem(NK, JSON.stringify(o)); }catch(e){} }
   var rows=[].slice.call(document.querySelectorAll('.row'));
   var mine=document.getElementById('mine');
+  var toast=document.createElement('div'); toast.className='toast'; toast.setAttribute('role','status'); toast.setAttribute('aria-live','polite');
+  document.body.appendChild(toast);
+  var timer=null;
+  function say(msg){
+    toast.textContent='';
+    var m=document.createElement('span'); m.textContent=msg; toast.appendChild(m);
+    var v=document.createElement('button'); v.type='button'; v.textContent='Visa';
+    v.addEventListener('click', function(){
+      var reduce=window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+      mine.scrollIntoView({behavior:reduce?'auto':'smooth', block:'center'});
+      toast.classList.remove('show');
+    });
+    toast.appendChild(v);
+    toast.classList.add('show');
+    clearTimeout(timer); timer=setTimeout(function(){ toast.classList.remove('show'); }, 5000);
+  }
+  function chip(label, move){
+    var c=document.createElement('span'); c.className='chip'+(move?'':' away');
+    c.appendChild(document.createTextNode(label+(move?' ':'')));
+    if(move){ var s=document.createElement('span'); s.className=move.charAt(0)==='+'?'up':'down'; s.textContent=move; c.appendChild(s); }
+    return c;
+  }
   function render(){
-    var f=load();
+    var f=load(), n=loadN();
     rows.forEach(function(r){
       var on=f.indexOf(r.getAttribute('data-t'))>-1;
       var b=r.querySelector('.follow');
       b.setAttribute('aria-pressed', on?'true':'false');
       b.querySelector('span').textContent=on?'Följer':'Följ';
     });
+    var today=rows.map(function(r){ return r.getAttribute('data-t'); });
     var hits=rows.filter(function(r){ return f.indexOf(r.getAttribute('data-t'))>-1; });
-    if(!hits.length){
-      mine.textContent='Dina bolag. Tryck på Följ vid ett bolag. De bolag du följer samlas här de dagar de finns med.';
-    } else {
-      mine.textContent='';
-      var b=document.createElement('b'); b.textContent='Dina bolag idag.'; mine.appendChild(b);
+    var away=f.filter(function(t){ return today.indexOf(t)<0; });
+    mine.textContent='';
+    if(!f.length){
+      mine.textContent='Dina bolag. Tryck på Följ vid ett bolag så samlas det här, högst upp.';
+      return;
+    }
+    var b=document.createElement('b'); b.textContent=hits.length?'Dina bolag idag.':'Dina bolag.'; mine.appendChild(b);
+    if(hits.length){
       var wrap=document.createElement('div'); wrap.className='chips';
-      hits.forEach(function(r){
-        var m=r.getAttribute('data-mv'); var cls=m.charAt(0)==='+'?'up':'down';
-        var c=document.createElement('span'); c.className='chip';
-        c.appendChild(document.createTextNode(r.getAttribute('data-co')+' '));
-        var s=document.createElement('span'); s.className=cls; s.textContent=m; c.appendChild(s);
-        wrap.appendChild(c);
-      });
+      hits.forEach(function(r){ wrap.appendChild(chip(r.getAttribute('data-co'), r.getAttribute('data-mv'))); });
       mine.appendChild(wrap);
     }
+    if(away.length){
+      var w2=document.createElement('div'); w2.className='chips';
+      away.forEach(function(t){ w2.appendChild(chip((n[t]||t)+', inte med idag', '')); });
+      mine.appendChild(w2);
+    }
+    var note=document.createElement('span'); note.className='note';
+    note.textContent='Sparas bara i den här webbläsaren. Du får ingen avisering, men ser dina bolag här varje gång du öppnar sidan.';
+    mine.appendChild(note);
   }
   rows.forEach(function(r){
     r.querySelector('.follow').addEventListener('click', function(){
-      var f=load(), t=r.getAttribute('data-t'), i=f.indexOf(t);
-      if(i>-1) f.splice(i,1); else f.push(t);
-      save(f); render();
+      var f=load(), n=loadN(), t=r.getAttribute('data-t'), co=r.getAttribute('data-co'), i=f.indexOf(t);
+      if(i>-1){ f.splice(i,1); save(f); render(); say('Du följer inte längre '+co+'.'); }
+      else { f.push(t); n[t]=co; save(f); saveN(n); render(); say('Du följer '+co+'. Dina bolag samlas högst upp.'); }
     });
   });
   render();
@@ -355,23 +443,30 @@ const js = String.raw`
 
   let calRows = (idag && Array.isArray(idag.calendar) && idag.calendar.length) ? idag.calendar : [];
   if (!calRows.length && calB) calRows = calB.split(/,\s*(?=\d)/).map(s => { const m = s.match(/^(\d+(?:[–-]\d+)?\s+\S+)\s+(.*)$/); return m ? { d: m[1], t: m[2], tickers: [] } : null; }).filter(Boolean);
-  const GLOSS = [
-    [/\bfed\b|fomc/i, 'Fed är USA:s centralbank. På mötet bestäms styrräntan, som påverkar lånekostnader och hur aktier värderas över hela världen.'],
-    [/\becb\b/i, 'ECB är eurozonens centralbank. Räntebeskedet påverkar bland annat europeiska banker och bolag med mycket lån.'],
-    [/bank of japan|\bboj\b/i, 'Japans centralbank. Besked om räntan kan flytta valutan yen och internationella investerares pengar.'],
-    [/riksbank/i, 'Sveriges centralbank. Räntan styr bolåne- och företagslån och slår särskilt mot banker och fastighetsbolag.'],
-    [/bank of england|\bboe\b/i, 'Storbritanniens centralbank. Räntebeskedet påverkar pundet och brittiska banker.'],
-    [/opec/i, 'Oljeproducerande länder som bestämmer hur mycket olja som pumpas upp. Det styr oljepriset och därmed energibolag och industrins kostnader.'],
-    [/mellanårsval|mellanval|midterm/i, 'Val i USA halvvägs in i presidentperioden. Utfallet avgör vem som styr kongressen, vilket kan påverka skatter, tullar och regleringar.'],
-    [/arbetsmarknadsrapport|jobbrapport|nonfarm/i, 'Visar hur många jobb som tillkom i USA. Starka siffror kan göra att räntan hålls hög längre.'],
-    [/inflation|\bkpi\b/i, 'Visar hur snabbt priserna stiger. Det styr centralbankernas räntebeslut.'],
-    [/kapitalmarknadsdag/i, 'Bolaget går igenom mål och strategi för investerare. Brukar ge besked om framtida ambitioner.'],
-    [/rapporterar|delårsrapport|kvartalsrapport|niomånaders|bokslut/i, 'Bolaget redovisar hur det gått. Aktien rör sig ofta kraftigt om siffrorna avviker från förväntningarna.'],
-    [/börsnotering|\bipo\b/i, 'Ett bolag börjar handlas på börsen för första gången.']
-  ];
   const explain = e => { if (e.x) return txt(e.x); const hit = GLOSS.filter(g => g[0].test(e.t)).slice(0, 2).map(g => g[1]); return hit.join(' '); };
   const calHtml = calRows.map(e => '<li><span class="cd">' + esc(e.d) + '</span><div><span>' + esc(e.t) + '</span>' + (explain(e) ? '<p class="cx">' + esc(explain(e)) + '</p>' : '') +
     ((e.tickers || []).filter(t => tickers.indexOf(t) > -1).length ? '<div class="berors"><span>Berörs:</span>' + e.tickers.filter(t => tickers.indexOf(t) > -1).map(t => '<a class="chip2" href="#c-' + attr(t) + '">' + nameOf(t) + '</a>').join('') + '</div>' : '') + '</div></li>').join('');
+
+  /* sparade händelser och utfall */
+  const evPath = path.join(opt.repo, 'data', 'events.json'), afPath = path.join(opt.repo, 'data', 'after.json');
+  const evs = (readJson(evPath, { events: [] }).events || []).filter(e => e.iso >= addDays(date, -14));
+  calRows.forEach(e => {
+    const iso = isoFromD(e.d, date); if (!iso) return;
+    const key = evKey(iso, e.t);
+    if (!evs.some(x => evKey(x.iso, x.t) === key)) evs.push({ iso, d: txt(e.d), t: txt(e.t), tickers: (e.tickers || []).filter(t => tickers.indexOf(t) > -1) });
+  });
+  evs.sort((a, b) => a.iso.localeCompare(b.iso));
+  let afItems = (readJson(afPath, { items: [] }).items || []).filter(a => a.iso >= addDays(date, -14));
+  if (idag && Array.isArray(idag.after)) idag.after.forEach(a => {
+    const iso = a && a.d && a.t && a.s ? isoFromD(a.d, date) : null; if (!iso) return;
+    const key = evKey(iso, a.t);
+    afItems = afItems.filter(x => x.key !== key);
+    afItems.push({ key, iso, d: txt(a.d), t: txt(a.t), s: txt(a.s), tickers: (a.tickers || []).filter(t => tickers.indexOf(t) > -1), added: date });
+  });
+  const shownAfter = afItems.filter(a => { const age = daysBetween(a.iso, date); return age >= 1 && age <= 3; }).sort((a, b) => b.iso.localeCompare(a.iso));
+  const berorsOf = tk => (tk || []).filter(t => tickers.indexOf(t) > -1).length ? '<div class="berors"><span>Berörs:</span>' + tk.filter(t => tickers.indexOf(t) > -1).map(t => '<a class="chip2" href="#c-' + attr(t) + '">' + nameOf(t) + '</a>').join('') + '</div>' : '';
+  const afterHtml = shownAfter.length ? '<section class="week"><h2>Det som hände</h2><p class="gsum">Utfallet av de senaste händelserna i kalendern. Visas i några dagar.</p><ul class="cal">' +
+    shownAfter.map(a => '<li><span class="cd">' + esc(a.d) + '</span><div><span>' + esc(a.t) + '</span><p class="cx out">' + esc(a.s) + '</p>' + berorsOf(a.tickers) + '</div></li>').join('') + '</ul></section>\n' : '';
 
   const wishHtml = (idag && idag.wish && idag.wish.by && idag.wish.q && idag.wish.a)
     ? '<section class="wishnow"><p class="eyebrow">Dagens önskemål</p><h2>' + esc(idag.wish.q) + '</h2><p class="gsum">Önskat av ' + esc(idag.wish.by) + '</p>' +
@@ -403,14 +498,14 @@ const js = String.raw`
     '<div class="edition"><span>' + dayLabel + '</span><span>' + candidates.length + ' bolag</span><span><b>' + nya + ' nya</b> sedan sist</span><span>ca ' + mins + ' min läsning</span></div></header>\n' +
     '<section class="lead"><p class="eyebrow">Dagens läge</p><h1>' + esc(lead) + '</h1></section>\n' +
     '<div class="glance">' + glanceRows.map(g => '<div class="g"><span class="gl">' + esc(g.l) + '</span><span class="gt">' + esc(g.t) + '</span></div>').join('') + '</div>\n' +
-    '<div class="mine" id="mine"></div>\n' +
+    '<div class="mine" id="mine"></div>\n' + afterHtml +
     '<section class="week"><h2>Veckan framåt</h2><p class="gsum">Händelser som kan svänga marknaden, och bolagen i dagens lista som är känsliga för dem.</p><ul class="cal">' + calHtml + '</ul>' +
     '<p class="legend">Kopplingarna är vår bedömning av vilka bolag som är känsliga, inte en prognos.</p></section>\n' + wishHtml +
     '<p class="legend" style="margin-top:34px">Trend visar hur kursen betett sig mot sina 50- och 200-dagars medelvärden. Det är historik, inte en prognos eller en rekommendation.</p>\n' +
     groupHtml + '\n' + readTool('onskemal.html') + '\n' +
     '<details class="back"><summary>Så togs dagens läge fram</summary>' + radarHtml + '</details>\n' +
-    '<footer><p>' + footerHtml + '</p><p class="more"><a href="/klassisk/">Visa den utförliga versionen med alla skift</a></p></footer>\n</div>\n' +
-    '<script>' + js + '</script>\n' + readTool('onskemal.js') + '\n</body></html>\n';
+    '<footer><p>' + footerHtml + '</p><p class="more">Sidan hämtar typsnitt från Google Fonts och skickar önskemål via Formspree.' + (gcCode ? ' Besök räknas anonymt med GoatCounter, utan cookies.' : '') + ' Dina följda bolag sparas bara i din egen webbläsare.</p><p class="more"><a href="/klassisk/">Visa den utförliga versionen med alla skift</a></p></footer>\n</div>\n' +
+    '<script>' + js + '</script>\n' + readTool('onskemal.js') + '\n' + (gcCode ? '<script data-goatcounter="https://' + gcCode + '.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>\n' : '') + '</body></html>\n';
 
   /* sista kontroller innan något skrivs */
   const bad = [];
@@ -426,5 +521,7 @@ const js = String.raw`
   days.push({ d: date, t: tickers });
   days.sort((a, b) => a.d.localeCompare(b.d));
   fs.writeFileSync(histPath, JSON.stringify({ days: days.slice(-40) }, null, 1) + '\n', 'utf8');
+  fs.writeFileSync(evPath, JSON.stringify({ events: evs }, null, 1) + '\n', 'utf8');
+  fs.writeFileSync(afPath, JSON.stringify({ items: afItems }, null, 1) + '\n', 'utf8');
   console.log('ok index.html ' + html.length + ' tecken, ' + candidates.length + ' kort, ' + groups.length + ' grupper, trend ' + got + '/' + candidates.length + ', nya ' + nya + (errors.length ? ', reservlösningar används (' + errors.length + ' valideringsfel)' : ''));
 })();

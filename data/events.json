@@ -1,0 +1,65 @@
+{
+ "events": [
+  {
+   "iso": "2026-10-28",
+   "d": "28 okt",
+   "t": "Fed lämnar räntebesked (FOMC).",
+   "tickers": [
+    "ORCL",
+    "TSM"
+   ]
+  },
+  {
+   "iso": "2026-10-29",
+   "d": "29 okt",
+   "t": "Boliden rapporterar niomånaders. ECB lämnar räntebesked.",
+   "tickers": [
+    "BOL"
+   ]
+  },
+  {
+   "iso": "2026-10-30",
+   "d": "30 okt",
+   "t": "Bank of Japan lämnar räntebesked.",
+   "tickers": []
+  },
+  {
+   "iso": "2026-11-01",
+   "d": "1 nov",
+   "t": "OPEC+ har möte om novemberproduktionen.",
+   "tickers": [
+    "BOL"
+   ]
+  },
+  {
+   "iso": "2026-11-03",
+   "d": "3 nov",
+   "t": "USA:s mellanårsval.",
+   "tickers": []
+  },
+  {
+   "iso": "2026-11-04",
+   "d": "4 nov",
+   "t": "Riksbankens räntebesked.",
+   "tickers": [
+    "NDA-SE",
+    "SHB-A",
+    "SWED-A"
+   ]
+  },
+  {
+   "iso": "2026-11-06",
+   "d": "6 nov",
+   "t": "Amerikansk arbetsmarknadsrapport för oktober.",
+   "tickers": []
+  },
+  {
+   "iso": "2026-11-17",
+   "d": "17 nov",
+   "t": "SKF Vertevo håller kapitalmarknadsdag inför börsnoteringen.",
+   "tickers": [
+    "SKF-B"
+   ]
+  }
+ ]
+}
