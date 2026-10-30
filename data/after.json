@@ -1,3 +1,13 @@
 {
- "items": []
+ "items": [
+  {
+   "key": "2026-10-28|k0",
+   "iso": "2026-10-28",
+   "d": "28 okt",
+   "t": "Fed lämnar räntebesked (FOMC).",
+   "s": "Fed höll styrräntan oförändrad på 3,75–4,00 procent, men med en ovanligt hökaktig splittring (10–2) där två ledamöter röstade för en höjning.",
+   "tickers": [],
+   "added": "2026-10-30"
+  }
+ ]
 }
