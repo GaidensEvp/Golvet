@@ -25,9 +25,9 @@ def insert_before(text, anchor, block):
 h = open(src, encoding="utf-8").read()
 if 'id="wishForm"' in h:
     raise SystemExit("önskemålsblocket finns redan i sidan")
-h = insert_before(h, "</style>\n\n<div class=\"wrap\">", read("onskemal.css"))
+h = insert_before(h, "</style>\n<div class=\"wrap\">", read("onskemal.css"))
 # efter lower-grid, innan Skrivbordsvyn stänger
-h = insert_before(h, "  </div>\n\n\n  <div id=\"viewOrg\"", read("onskemal.html"))
+h = insert_before(h, "  </div>\n\n  <div id=\"viewOrg\"", read("onskemal.html"))
 h = insert_before(h, "</body></html>", read("onskemal.js"))
 
 for needed in ('id="wishForm"', "formspree.io/f/", ".wish-grid"):

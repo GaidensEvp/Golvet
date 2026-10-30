@@ -28,7 +28,7 @@ h = sub1(r"</head><body>\s*<title>Golvet EVP</title>",
 h = sub1(r'\s*<span class="status-pill" id="dbStatus">.*?</span></span>', "", h, re.S)
 h = sub1(r'\s*<section class="panel">\s*<h3>Rekommendationshistorik</h3>.*?</section>', "", h, re.S)
 h = sub1(r"(\.lower-grid\{ display:grid; grid-template-columns:)repeat\(3,1fr\)", r"\1repeat(2,1fr)", h)
-h = sub1(r"  // ---------- DB-backed recommendation history.*?(?=  // ---------- tabs ----------)", "", h, re.S)
+h = sub1(r"  // ---------- databas \(rekommendationshistorik\) ----------.*?(?=  // ---------- tabs ----------)", "", h, re.S)
 
 if "Golvet EVP" not in h:
     raise SystemExit("förväntade 'Golvet EVP' i mallen")
