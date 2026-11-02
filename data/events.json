@@ -48,6 +48,12 @@
    ]
   },
   {
+   "iso": "2026-11-05",
+   "d": "5 nov",
+   "t": "Rapporter från Skanska och Sinch.",
+   "tickers": []
+  },
+  {
    "iso": "2026-11-06",
    "d": "6 nov",
    "t": "Amerikansk arbetsmarknadsrapport för oktober.",
@@ -59,6 +65,20 @@
    "t": "SKF Vertevo håller kapitalmarknadsdag inför börsnoteringen.",
    "tickers": [
     "SKF-B"
+   ]
+  },
+  {
+   "iso": "2026-11-19",
+   "d": "19 nov",
+   "t": "Yubico håller kapitalmarknadsdag.",
+   "tickers": []
+  },
+  {
+   "iso": "2026-11-29",
+   "d": "29 nov",
+   "t": "OPEC+-gruppens fullständiga ministermöte.",
+   "tickers": [
+    "BP"
    ]
   }
  ]
