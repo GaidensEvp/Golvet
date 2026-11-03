@@ -38,6 +38,14 @@
    "tickers": []
   },
   {
+   "iso": "2026-11-03",
+   "d": "3 nov",
+   "t": "AMD rapporterar sitt tredje kvartal efter börsens stängning.",
+   "tickers": [
+    "AMD"
+   ]
+  },
+  {
    "iso": "2026-11-04",
    "d": "4 nov",
    "t": "Riksbankens räntebesked.",
@@ -51,6 +59,12 @@
    "iso": "2026-11-05",
    "d": "5 nov",
    "t": "Rapporter från Skanska och Sinch.",
+   "tickers": []
+  },
+  {
+   "iso": "2026-11-05",
+   "d": "5 nov",
+   "t": "Sinch rapporterar niomånaders.",
    "tickers": []
   },
   {
@@ -80,6 +94,12 @@
    "tickers": [
     "BP"
    ]
+  },
+  {
+   "iso": "2026-12-09",
+   "d": "9 dec",
+   "t": "Federal Reserves nästa räntebesked.",
+   "tickers": []
   }
  ]
 }
