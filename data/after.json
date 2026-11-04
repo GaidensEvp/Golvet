@@ -17,6 +17,17 @@
    "s": "Banken höll räntan oförändrad på 1,25 procent, med röstetalet 8–1, enligt uppgifter. Samtidigt meddelade banken att den snabbar på försäljningen av sitt innehav i börshandlade fonder.",
    "tickers": [],
    "added": "2026-11-02"
+  },
+  {
+   "key": "2026-11-03|amd rapporterar sitt tredje ",
+   "iso": "2026-11-03",
+   "d": "3 nov",
+   "t": "AMD rapporterar sitt tredje kvartal efter börsens stängning.",
+   "s": "AMD slog förväntningarna med en omsättningsökning på drygt 35 procent, men aktien föll ändå initialt eftersom marknaden fokuserade på marginaler och efterfrågesignaler snarare än själva siffrorna, enligt rapportering 3–4 november. Aktien vände sedan upp 3,65 procent onsdagen den 4 november.",
+   "tickers": [
+    "AMD"
+   ],
+   "added": "2026-11-04"
   }
  ]
 }
