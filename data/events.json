@@ -80,6 +80,24 @@
    "tickers": []
   },
   {
+   "iso": "2026-11-10",
+   "d": "10 nov (preliminärt)",
+   "t": "Tilltänkta fredssamtal om Ukraina i Abu Dhabi.",
+   "tickers": [
+    "SAAB-B"
+   ]
+  },
+  {
+   "iso": "2026-11-11",
+   "d": "11 nov",
+   "t": "Riksbankens räntehöjning till 2,00 procent träder i kraft.",
+   "tickers": [
+    "NDA-SE",
+    "SHB-A",
+    "SWED-A"
+   ]
+  },
+  {
    "iso": "2026-11-17",
    "d": "17 nov",
    "t": "SKF Vertevo håller kapitalmarknadsdag inför börsnoteringen.",
@@ -91,6 +109,12 @@
    "iso": "2026-11-19",
    "d": "19 nov",
    "t": "Yubico håller kapitalmarknadsdag.",
+   "tickers": []
+  },
+  {
+   "iso": "2026-11-23",
+   "d": "23 nov",
+   "t": "Bolidens extra bolagsstämma om Nexa Resources-förvärvet.",
    "tickers": []
   },
   {
@@ -106,6 +130,16 @@
    "d": "9 dec",
    "t": "Federal Reserves nästa räntebesked.",
    "tickers": []
+  },
+  {
+   "iso": "2026-12-16",
+   "d": "16 dec",
+   "t": "Riksbankens nästa penningpolitiska rapport.",
+   "tickers": [
+    "NDA-SE",
+    "SHB-A",
+    "SWED-A"
+   ]
   }
  ]
 }

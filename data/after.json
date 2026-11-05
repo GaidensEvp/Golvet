@@ -28,6 +28,28 @@
     "AMD"
    ],
    "added": "2026-11-04"
+  },
+  {
+   "key": "2026-11-03|k6",
+   "iso": "2026-11-03",
+   "d": "3 nov",
+   "t": "USA:s mellanårsval.",
+   "s": "Demokraterna tog kontroll över representanthuset och sannolikt även senaten, enligt flera mediers sammanställningar av utropade val natten mot 4 november — en utveckling som beskrivits som en blå våg. Flera tidigare säkra republikanska delstater, bland dem Texas och Ohio, föll till demokraterna.",
+   "tickers": [],
+   "added": "2026-11-05"
+  },
+  {
+   "key": "2026-11-04|k3",
+   "iso": "2026-11-04",
+   "d": "4 nov",
+   "t": "Riksbankens räntebesked.",
+   "s": "Riksbanken höjde styrräntan 0,25 enheter till 2,00 procent, i linje med samtliga tillfrågade analytikers prognoser, med verkan från 11 november. Banken signalerade att fler höjningar kan följa om inflationsutsikten håller, enligt Riksbankens pressmeddelande 4 november.",
+   "tickers": [
+    "NDA-SE",
+    "SHB-A",
+    "SWED-A"
+   ],
+   "added": "2026-11-05"
   }
  ]
 }
