@@ -106,6 +106,14 @@
    ]
   },
   {
+   "iso": "2026-11-17",
+   "d": "17 nov",
+   "t": "Nvidia rapporterar nästa kvartal.",
+   "tickers": [
+    "NVDA"
+   ]
+  },
+  {
    "iso": "2026-11-19",
    "d": "19 nov",
    "t": "Yubico håller kapitalmarknadsdag.",
@@ -115,6 +123,12 @@
    "iso": "2026-11-23",
    "d": "23 nov",
    "t": "Bolidens extra bolagsstämma om Nexa Resources-förvärvet.",
+   "tickers": []
+  },
+  {
+   "iso": "2026-11-27",
+   "d": "27 nov",
+   "t": "EU:s beslutsdeadline för Deutsche Börses uppköp av Allfunds.",
    "tickers": []
   },
   {
