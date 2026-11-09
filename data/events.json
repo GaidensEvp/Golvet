@@ -88,6 +88,18 @@
    ]
   },
   {
+   "iso": "2026-11-10",
+   "d": "10 nov",
+   "t": "Tullvapenvilan mellan USA och Kina samt Kinas pausade exportkontroller av sällsynta jordartsmetaller löper ut.",
+   "tickers": []
+  },
+  {
+   "iso": "2026-11-10",
+   "d": "10 nov (preliminärt)",
+   "t": "Tilltänkta Ukraina-samtal i Abu Dhabi.",
+   "tickers": []
+  },
+  {
    "iso": "2026-11-11",
    "d": "11 nov",
    "t": "Riksbankens räntehöjning till 2,00 procent träder i kraft.",
@@ -111,6 +123,24 @@
    "t": "Nvidia rapporterar nästa kvartal.",
    "tickers": [
     "NVDA"
+   ]
+  },
+  {
+   "iso": "2026-11-17",
+   "d": "17 nov",
+   "t": "Nästa stora kvartalsrapport i halvledarsektorn väntas.",
+   "tickers": [
+    "AMD",
+    "NVDA",
+    "MRVL"
+   ]
+  },
+  {
+   "iso": "2026-11-18",
+   "d": "18 nov",
+   "t": "Alfa Lavals kapitalmarknadsdag, med fokus på bland annat datacenterrelaterade affärer.",
+   "tickers": [
+    "ALFA"
    ]
   },
   {
