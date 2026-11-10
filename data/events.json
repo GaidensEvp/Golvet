@@ -100,6 +100,12 @@
    "tickers": []
   },
   {
+   "iso": "2026-11-10",
+   "d": "10 nov",
+   "t": "Amerikanskt KPI för oktober publiceras, och Kinas paus för sällsynta jordartsmetaller samt den amerikansk-kinesiska tullvapenvilan löper ut.",
+   "tickers": []
+  },
+  {
    "iso": "2026-11-11",
    "d": "11 nov",
    "t": "Riksbankens räntehöjning till 2,00 procent träder i kraft.",
@@ -107,6 +113,22 @@
     "NDA-SE",
     "SHB-A",
     "SWED-A"
+   ]
+  },
+  {
+   "iso": "2026-11-11",
+   "d": "10–11 nov",
+   "t": "Trilaterala säkerhetssamtal om Ukraina inleds i Abu Dhabi mellan USA, Ukraina och Ryssland.",
+   "tickers": [
+    "SAAB-B"
+   ]
+  },
+  {
+   "iso": "2026-11-16",
+   "d": "16 nov",
+   "t": "Avstämningsdag för Equinors utdelning.",
+   "tickers": [
+    "EQNR"
    ]
   },
   {
@@ -133,6 +155,15 @@
     "AMD",
     "NVDA",
     "MRVL"
+   ]
+  },
+  {
+   "iso": "2026-11-17",
+   "d": "17 nov",
+   "t": "Nvidia rapporterar sitt tredje kvartal, och SKF håller kapitalmarknadsdag för avknoppningen SKF Vertevo.",
+   "tickers": [
+    "NVDA",
+    "SKF-B"
    ]
   },
   {
@@ -167,6 +198,14 @@
    "t": "OPEC+-gruppens fullständiga ministermöte.",
    "tickers": [
     "BP"
+   ]
+  },
+  {
+   "iso": "2026-12-01",
+   "d": "1 dec",
+   "t": "SKF Vertevo särnoteras på Nasdaq Stockholm.",
+   "tickers": [
+    "SKF-B"
    ]
   },
   {
