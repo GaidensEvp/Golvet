@@ -124,6 +124,20 @@
    ]
   },
   {
+   "iso": "2026-11-12",
+   "d": "12 nov",
+   "t": "Sista dag för Sveriges budgetproposition för 2027 om ingen ny regering tillträtt.",
+   "tickers": []
+  },
+  {
+   "iso": "2026-11-13",
+   "d": "13 nov",
+   "t": "Avstämningsdag för Equinors utdelning i Oslo.",
+   "tickers": [
+    "EQNR"
+   ]
+  },
+  {
    "iso": "2026-11-16",
    "d": "16 nov",
    "t": "Avstämningsdag för Equinors utdelning.",
@@ -167,6 +181,14 @@
    ]
   },
   {
+   "iso": "2026-11-17",
+   "d": "17 nov",
+   "t": "Nvidia väntas rapportera sitt tredje kvartal.",
+   "tickers": [
+    "NVDA"
+   ]
+  },
+  {
    "iso": "2026-11-18",
    "d": "18 nov",
    "t": "Alfa Lavals kapitalmarknadsdag, med fokus på bland annat datacenterrelaterade affärer.",
@@ -181,10 +203,26 @@
    "tickers": []
   },
   {
+   "iso": "2026-11-20",
+   "d": "20 nov",
+   "t": "Equinor meddelar utdelningsbeloppet i lokal valuta.",
+   "tickers": [
+    "EQNR"
+   ]
+  },
+  {
    "iso": "2026-11-23",
    "d": "23 nov",
    "t": "Bolidens extra bolagsstämma om Nexa Resources-förvärvet.",
    "tickers": []
+  },
+  {
+   "iso": "2026-11-25",
+   "d": "25 nov",
+   "t": "Equinor betalar ut sin utdelning.",
+   "tickers": [
+    "EQNR"
+   ]
   },
   {
    "iso": "2026-11-27",
@@ -212,6 +250,12 @@
    "iso": "2026-12-09",
    "d": "9 dec",
    "t": "Federal Reserves nästa räntebesked.",
+   "tickers": []
+  },
+  {
+   "iso": "2026-12-09",
+   "d": "9 dec",
+   "t": "Federal Reserve lämnar sitt nästa räntebesked.",
    "tickers": []
   },
   {
