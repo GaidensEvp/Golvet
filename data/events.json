@@ -1,15 +1,6 @@
 {
  "events": [
   {
-   "iso": "2026-10-28",
-   "d": "28 okt",
-   "t": "Fed lämnar räntebesked (FOMC).",
-   "tickers": [
-    "ORCL",
-    "TSM"
-   ]
-  },
-  {
    "iso": "2026-10-29",
    "d": "29 okt",
    "t": "Boliden rapporterar niomånaders. ECB lämnar räntebesked.",
@@ -189,6 +180,16 @@
    ]
   },
   {
+   "iso": "2026-11-17",
+   "d": "17 nov",
+   "t": "Kvartalsrapport väntas från en stor halvledaraktör.",
+   "tickers": [
+    "AMD",
+    "MRVL",
+    "NVDA"
+   ]
+  },
+  {
    "iso": "2026-11-18",
    "d": "18 nov",
    "t": "Alfa Lavals kapitalmarknadsdag, med fokus på bland annat datacenterrelaterade affärer.",
@@ -257,6 +258,15 @@
    "d": "9 dec",
    "t": "Federal Reserve lämnar sitt nästa räntebesked.",
    "tickers": []
+  },
+  {
+   "iso": "2026-12-11",
+   "d": "11 dec",
+   "t": "Den amerikanska tillfälliga budgetlagen löper ut.",
+   "tickers": [
+    "RHM",
+    "AIR"
+   ]
   },
   {
    "iso": "2026-12-16",

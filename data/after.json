@@ -1,15 +1,6 @@
 {
  "items": [
   {
-   "key": "2026-10-28|k0",
-   "iso": "2026-10-28",
-   "d": "28 okt",
-   "t": "Fed lämnar räntebesked (FOMC).",
-   "s": "Fed höll styrräntan oförändrad på 3,75–4,00 procent, men med en ovanligt hökaktig splittring (10–2) där två ledamöter röstade för en höjning.",
-   "tickers": [],
-   "added": "2026-10-30"
-  },
-  {
    "key": "2026-10-30|k2",
    "iso": "2026-10-30",
    "d": "30 okt",
@@ -97,6 +88,18 @@
    "s": "USA:s konsumentprisindex för oktober kom in varmare än väntat, enligt CNBC och Axios 10 nov: kärn-KPI steg 0,3 procent för tredje månaden i rad, över väntade 0,2 procent, utan att en årstakt kunde publiceras på grund av saknad oktober 2025-data efter förra årets myndighetsstängning. Samma dag bekräftade Kina en förlängning av sin jordartspaus och den bredare tullvapenvilan till omkring 10 januari 2027.",
    "tickers": [],
    "added": "2026-11-11"
+  },
+  {
+   "key": "2026-11-11|k3",
+   "iso": "2026-11-11",
+   "d": "11 nov",
+   "t": "Riksbankens räntehöjning till 2,00 procent träder i kraft.",
+   "s": "Riksbanken höjde styrräntan med 0,25 procentenheter till 2,00 procent, enligt Riksbankens egen notis. Banken motiverar höjningen med starkare konjunktur och väntade kostnadsökningar, och flaggar för fler höjningar under det kommande året om trycket håller i sig. Reaktionen bland bankerna blev dock splittrad snarare än enhetlig dagen efter.",
+   "tickers": [
+    "NDA-SE",
+    "SHB-A"
+   ],
+   "added": "2026-11-12"
   }
  ]
 }
