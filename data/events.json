@@ -1,14 +1,6 @@
 {
  "events": [
   {
-   "iso": "2026-10-29",
-   "d": "29 okt",
-   "t": "Boliden rapporterar niomånaders. ECB lämnar räntebesked.",
-   "tickers": [
-    "BOL"
-   ]
-  },
-  {
    "iso": "2026-10-30",
    "d": "30 okt",
    "t": "Bank of Japan lämnar räntebesked.",
@@ -190,6 +182,16 @@
    ]
   },
   {
+   "iso": "2026-11-17",
+   "d": "17 nov",
+   "t": "Nvidia rapporterar för tredje kvartalet.",
+   "tickers": [
+    "AMD",
+    "NVDA",
+    "MRVL"
+   ]
+  },
+  {
    "iso": "2026-11-18",
    "d": "18 nov",
    "t": "Alfa Lavals kapitalmarknadsdag, med fokus på bland annat datacenterrelaterade affärer.",
@@ -226,10 +228,26 @@
    ]
   },
   {
+   "iso": "2026-11-25",
+   "d": "25 nov",
+   "t": "Equinor betalar ut sin kvartalsutdelning.",
+   "tickers": [
+    "EQNR"
+   ]
+  },
+  {
    "iso": "2026-11-27",
    "d": "27 nov",
    "t": "EU:s beslutsdeadline för Deutsche Börses uppköp av Allfunds.",
    "tickers": []
+  },
+  {
+   "iso": "2026-11-27",
+   "d": "26–27 nov",
+   "t": "Rheinmetall håller kapitalmarknadsdag.",
+   "tickers": [
+    "RHM"
+   ]
   },
   {
    "iso": "2026-11-29",
