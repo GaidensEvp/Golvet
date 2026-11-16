@@ -1,15 +1,6 @@
 {
  "items": [
   {
-   "key": "2026-10-30|k2",
-   "iso": "2026-10-30",
-   "d": "30 okt",
-   "t": "Bank of Japan lämnar räntebesked.",
-   "s": "Banken höll räntan oförändrad på 1,25 procent, med röstetalet 8–1, enligt uppgifter. Samtidigt meddelade banken att den snabbar på försäljningen av sitt innehav i börshandlade fonder.",
-   "tickers": [],
-   "added": "2026-11-02"
-  },
-  {
    "key": "2026-11-03|amd rapporterar sitt tredje ",
    "iso": "2026-11-03",
    "d": "3 nov",
@@ -109,6 +100,15 @@
    "s": "Samtalen pågick den 10–11 november och beskrevs av USA:s utrikesminister Rubio som \"mycket produktiva\", men utan konkret genombrott, enligt Reuters-rapportering. Ryssland avvisade en direkt vapenvila och ville hålla europeiska representanter utanför förhandlingarna.",
    "tickers": [],
    "added": "2026-11-13"
+  },
+  {
+   "key": "2026-11-13|avstämningsdag för equinors ",
+   "iso": "2026-11-13",
+   "d": "13 nov",
+   "t": "Avstämningsdag för Equinors utdelning i Oslo.",
+   "s": "Utdelningen på 0,39 dollar per aktie löper enligt Equinors egen plan: Oslo-aktien handlades exklusive utdelning 13 november, det norska kronbeloppet väntas offentliggöras 20 november, och utbetalning sker 25 november, enligt Equinor (22/7).",
+   "tickers": [],
+   "added": "2026-11-16"
   }
  ]
 }

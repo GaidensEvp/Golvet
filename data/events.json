@@ -1,20 +1,6 @@
 {
  "events": [
   {
-   "iso": "2026-10-30",
-   "d": "30 okt",
-   "t": "Bank of Japan lämnar räntebesked.",
-   "tickers": []
-  },
-  {
-   "iso": "2026-11-01",
-   "d": "1 nov",
-   "t": "OPEC+ har möte om novemberproduktionen.",
-   "tickers": [
-    "BOL"
-   ]
-  },
-  {
    "iso": "2026-11-03",
    "d": "3 nov",
    "t": "USA:s mellanårsval.",
@@ -192,6 +178,12 @@
    ]
   },
   {
+   "iso": "2026-11-17",
+   "d": "17 nov",
+   "t": "Home Depot rapporterar kvartalssiffror.",
+   "tickers": []
+  },
+  {
    "iso": "2026-11-18",
    "d": "18 nov",
    "t": "Alfa Lavals kapitalmarknadsdag, med fokus på bland annat datacenterrelaterade affärer.",
@@ -203,6 +195,12 @@
    "iso": "2026-11-19",
    "d": "19 nov",
    "t": "Yubico håller kapitalmarknadsdag.",
+   "tickers": []
+  },
+  {
+   "iso": "2026-11-19",
+   "d": "18–19 nov",
+   "t": "Target och Walmart rapporterar kvartalssiffror.",
    "tickers": []
   },
   {
@@ -248,6 +246,12 @@
    "tickers": [
     "RHM"
    ]
+  },
+  {
+   "iso": "2026-11-27",
+   "d": "26–27 nov",
+   "t": "EU:s stats- och regeringschefer möts om unionens långtidsbudget.",
+   "tickers": []
   },
   {
    "iso": "2026-11-29",
