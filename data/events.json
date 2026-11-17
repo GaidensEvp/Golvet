@@ -184,12 +184,29 @@
    "tickers": []
   },
   {
+   "iso": "2026-11-17",
+   "d": "17 nov",
+   "t": "Nvidia rapporterar kvartalsresultat efter börsens stängning.",
+   "tickers": [
+    "AMD",
+    "NVDA",
+    "MRVL",
+    "LITE"
+   ]
+  },
+  {
    "iso": "2026-11-18",
    "d": "18 nov",
    "t": "Alfa Lavals kapitalmarknadsdag, med fokus på bland annat datacenterrelaterade affärer.",
    "tickers": [
     "ALFA"
    ]
+  },
+  {
+   "iso": "2026-11-18",
+   "d": "18 nov",
+   "t": "Target rapporterar kvartalsresultat.",
+   "tickers": []
   },
   {
    "iso": "2026-11-19",
@@ -201,6 +218,12 @@
    "iso": "2026-11-19",
    "d": "18–19 nov",
    "t": "Target och Walmart rapporterar kvartalssiffror.",
+   "tickers": []
+  },
+  {
+   "iso": "2026-11-19",
+   "d": "19 nov",
+   "t": "Walmart rapporterar kvartalsresultat under sin nya vd.",
    "tickers": []
   },
   {
@@ -231,6 +254,14 @@
    "t": "Equinor betalar ut sin kvartalsutdelning.",
    "tickers": [
     "EQNR"
+   ]
+  },
+  {
+   "iso": "2026-11-25",
+   "d": "24–25 nov",
+   "t": "Sandvik håller kapitalmarknadsdag i Tammerfors, Finland.",
+   "tickers": [
+    "SAND"
    ]
   },
   {

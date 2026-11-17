@@ -109,6 +109,17 @@
    "s": "Utdelningen på 0,39 dollar per aktie löper enligt Equinors egen plan: Oslo-aktien handlades exklusive utdelning 13 november, det norska kronbeloppet väntas offentliggöras 20 november, och utbetalning sker 25 november, enligt Equinor (22/7).",
    "tickers": [],
    "added": "2026-11-16"
+  },
+  {
+   "key": "2026-11-16|avstämningsdag för equinors ",
+   "iso": "2026-11-16",
+   "d": "16 nov",
+   "t": "Avstämningsdag för Equinors utdelning.",
+   "s": "Avstämningsdagen passerade som planerat den 16 november. Utdelningen betalas ut den 25 november 2026, enligt Equinors tidigare offentliggjorda utdelningsschema.",
+   "tickers": [
+    "EQNR"
+   ],
+   "added": "2026-11-17"
   }
  ]
 }
