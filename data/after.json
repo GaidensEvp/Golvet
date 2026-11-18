@@ -1,26 +1,6 @@
 {
  "items": [
   {
-   "key": "2026-11-03|amd rapporterar sitt tredje ",
-   "iso": "2026-11-03",
-   "d": "3 nov",
-   "t": "AMD rapporterar sitt tredje kvartal efter börsens stängning.",
-   "s": "AMD slog förväntningarna med en omsättningsökning på drygt 35 procent, men aktien föll ändå initialt eftersom marknaden fokuserade på marginaler och efterfrågesignaler snarare än själva siffrorna, enligt rapportering 3–4 november. Aktien vände sedan upp 3,65 procent onsdagen den 4 november.",
-   "tickers": [
-    "AMD"
-   ],
-   "added": "2026-11-04"
-  },
-  {
-   "key": "2026-11-03|k6",
-   "iso": "2026-11-03",
-   "d": "3 nov",
-   "t": "USA:s mellanårsval.",
-   "s": "Demokraterna tog kontroll över representanthuset och sannolikt även senaten, enligt flera mediers sammanställningar av utropade val natten mot 4 november — en utveckling som beskrivits som en blå våg. Flera tidigare säkra republikanska delstater, bland dem Texas och Ohio, föll till demokraterna.",
-   "tickers": [],
-   "added": "2026-11-05"
-  },
-  {
    "key": "2026-11-04|k3",
    "iso": "2026-11-04",
    "d": "4 nov",
@@ -120,6 +100,104 @@
     "EQNR"
    ],
    "added": "2026-11-17"
+  },
+  {
+   "key": "2026-11-17|skf vertevo håller kapitalma",
+   "iso": "2026-11-17",
+   "d": "17 nov",
+   "t": "SKF Vertevo håller kapitalmarknadsdag inför börsnoteringen.",
+   "s": "SKF höll kapitalmarknadsdagen i Stockholm den 17 november som planerat, inför börsnoteringen av bilverksamheten SKF Vertevo den 1 december. Aktien föll ändå dagen efter, ett mönster av svag kursreaktion på goda nyheter som upprepats sedan bolagets Q3-rapport.",
+   "tickers": [
+    "SKF-B"
+   ],
+   "added": "2026-11-18"
+  },
+  {
+   "key": "2026-11-17|nvidia rapporterar nästa kva",
+   "iso": "2026-11-17",
+   "d": "17 nov",
+   "t": "Nvidia rapporterar nästa kvartal.",
+   "s": "Nvidia rapporterade efter börsens stängning den 17 november och slog förväntningarna rejält: omsättningen blev 115,8 miljarder dollar (+103 procent å/å) och guidningen för nästa kvartal höjdes till 130 miljarder dollar. Aktien steg omkring 4,5 procent i efterhandeln, enligt CNBC och Investing.com (18/11).",
+   "tickers": [
+    "NVDA"
+   ],
+   "added": "2026-11-18"
+  },
+  {
+   "key": "2026-11-17|nästa stora kvartalsrapport ",
+   "iso": "2026-11-17",
+   "d": "17 nov",
+   "t": "Nästa stora kvartalsrapport i halvledarsektorn väntas.",
+   "s": "Rapporten kom från Nvidia efter börsens stängning den 17 november och blev klart starkare än väntat, med en omsättningsökning på 103 procent och en höjd prognos. Marvell och AMD, som båda fallit kraftigt inför rapporten, reste sig delvis redan under tisdagens handel enligt Yahoo Finance.",
+   "tickers": [
+    "AMD",
+    "NVDA",
+    "MRVL"
+   ],
+   "added": "2026-11-18"
+  },
+  {
+   "key": "2026-11-17|nvidia rapporterar sitt tred",
+   "iso": "2026-11-17",
+   "d": "17 nov",
+   "t": "Nvidia rapporterar sitt tredje kvartal, och SKF håller kapitalmarknadsdag för avknoppningen SKF Vertevo.",
+   "s": "Båda händelserna genomfördes som planerat den 17 november. Nvidia slog förväntningarna rejält och steg i efterhandeln, medan SKF höll sin kapitalmarknadsdag men såg aktien falla dagen efter, enligt CNBC (18/11).",
+   "tickers": [
+    "NVDA",
+    "SKF-B"
+   ],
+   "added": "2026-11-18"
+  },
+  {
+   "key": "2026-11-17|nvidia väntas rapportera sit",
+   "iso": "2026-11-17",
+   "d": "17 nov",
+   "t": "Nvidia väntas rapportera sitt tredje kvartal.",
+   "s": "Nvidia rapporterade som väntat efter börsens stängning den 17 november. Omsättningen blev 115,8 miljarder dollar, upp 103 procent mot året innan, och bolaget höjde sin guidning för fjärde kvartalet klart över analytikernas förväntningar, enligt Benzinga och Investing.com.",
+   "tickers": [
+    "NVDA"
+   ],
+   "added": "2026-11-18"
+  },
+  {
+   "key": "2026-11-17|kvartalsrapport väntas från ",
+   "iso": "2026-11-17",
+   "d": "17 nov",
+   "t": "Kvartalsrapport väntas från en stor halvledaraktör.",
+   "s": "Rapporten kom från Nvidia, som redovisade ett rekordkvartal med 103 procents omsättningstillväxt och en kraftigt höjd prognos för fjärde kvartalet. AMD och Marvell, som handlas i sympati med Nvidia, visade en första stabilisering redan under tisdagens handel.",
+   "tickers": [
+    "AMD",
+    "MRVL",
+    "NVDA"
+   ],
+   "added": "2026-11-18"
+  },
+  {
+   "key": "2026-11-17|nvidia rapporterar för tredj",
+   "iso": "2026-11-17",
+   "d": "17 nov",
+   "t": "Nvidia rapporterar för tredje kvartalet.",
+   "s": "Nvidia redovisade den 17 november en omsättning på 115,8 miljarder dollar (+103 procent å/å) och höjde guidningen för fjärde kvartalet till 130 miljarder dollar, klart över konsensus. Aktien steg omkring 4,5 procent i efterhandeln, enligt CNBC (18/11).",
+   "tickers": [
+    "AMD",
+    "NVDA",
+    "MRVL"
+   ],
+   "added": "2026-11-18"
+  },
+  {
+   "key": "2026-11-17|nvidia rapporterar kvartalsr",
+   "iso": "2026-11-17",
+   "d": "17 nov",
+   "t": "Nvidia rapporterar kvartalsresultat efter börsens stängning.",
+   "s": "Nvidia redovisade ett rekordkvartal efter börsens stängning den 17 november, med en omsättning på 115,8 miljarder dollar och en höjd prognos för fjärde kvartalet. Rapporten var den första sedan bolagets vd-skifte den 12 november, enligt CNBC och Benzinga.",
+   "tickers": [
+    "AMD",
+    "NVDA",
+    "MRVL",
+    "LITE"
+   ],
+   "added": "2026-11-18"
   }
  ]
 }

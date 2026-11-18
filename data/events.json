@@ -1,20 +1,6 @@
 {
  "events": [
   {
-   "iso": "2026-11-03",
-   "d": "3 nov",
-   "t": "USA:s mellanårsval.",
-   "tickers": []
-  },
-  {
-   "iso": "2026-11-03",
-   "d": "3 nov",
-   "t": "AMD rapporterar sitt tredje kvartal efter börsens stängning.",
-   "tickers": [
-    "AMD"
-   ]
-  },
-  {
    "iso": "2026-11-04",
    "d": "4 nov",
    "t": "Riksbankens räntebesked.",
@@ -209,6 +195,12 @@
    "tickers": []
   },
   {
+   "iso": "2026-11-18",
+   "d": "18 nov",
+   "t": "Target rapporterar.",
+   "tickers": []
+  },
+  {
    "iso": "2026-11-19",
    "d": "19 nov",
    "t": "Yubico håller kapitalmarknadsdag.",
@@ -224,6 +216,12 @@
    "iso": "2026-11-19",
    "d": "19 nov",
    "t": "Walmart rapporterar kvartalsresultat under sin nya vd.",
+   "tickers": []
+  },
+  {
+   "iso": "2026-11-19",
+   "d": "19 nov",
+   "t": "Walmart rapporterar.",
    "tickers": []
   },
   {
@@ -285,6 +283,14 @@
    "tickers": []
   },
   {
+   "iso": "2026-11-27",
+   "d": "27 nov",
+   "t": "Avstämningsdag för SKF:s utdelning av bilverksamheten Vertevo.",
+   "tickers": [
+    "SKF-B"
+   ]
+  },
+  {
    "iso": "2026-11-29",
    "d": "29 nov",
    "t": "OPEC+-gruppens fullständiga ministermöte.",
@@ -301,6 +307,23 @@
    ]
   },
   {
+   "iso": "2026-12-01",
+   "d": "1 dec",
+   "t": "SKF Vertevo noteras på Nasdaq Stockholm.",
+   "tickers": [
+    "SKF-B"
+   ]
+  },
+  {
+   "iso": "2026-12-04",
+   "d": "4 dec",
+   "t": "USA:s nya tilläggstull på polysilikon och solceller träder i kraft.",
+   "tickers": [
+    "ENPH",
+    "FSLR"
+   ]
+  },
+  {
    "iso": "2026-12-09",
    "d": "9 dec",
    "t": "Federal Reserves nästa räntebesked.",
@@ -310,6 +333,12 @@
    "iso": "2026-12-09",
    "d": "9 dec",
    "t": "Federal Reserve lämnar sitt nästa räntebesked.",
+   "tickers": []
+  },
+  {
+   "iso": "2026-12-09",
+   "d": "8–9 dec",
+   "t": "Fed lämnar sitt nästa räntebesked.",
    "tickers": []
   },
   {
