@@ -1,19 +1,6 @@
 {
  "items": [
   {
-   "key": "2026-11-04|k3",
-   "iso": "2026-11-04",
-   "d": "4 nov",
-   "t": "Riksbankens räntebesked.",
-   "s": "Riksbanken höjde styrräntan 0,25 enheter till 2,00 procent, i linje med samtliga tillfrågade analytikers prognoser, med verkan från 11 november. Banken signalerade att fler höjningar kan följa om inflationsutsikten håller, enligt Riksbankens pressmeddelande 4 november.",
-   "tickers": [
-    "NDA-SE",
-    "SHB-A",
-    "SWED-A"
-   ],
-   "added": "2026-11-05"
-  },
-  {
    "key": "2026-11-06|k7",
    "iso": "2026-11-06",
    "d": "6 nov",
@@ -198,6 +185,24 @@
     "LITE"
    ],
    "added": "2026-11-18"
+  },
+  {
+   "key": "2026-11-18|target rapporterar kvartalsr",
+   "iso": "2026-11-18",
+   "d": "18 nov",
+   "t": "Target rapporterar kvartalsresultat.",
+   "s": "Target redovisade enligt Chartmills sammanställning av rapporten en omsättning som missade analytikernas förväntningar, men en vinst per aktie som slog dem. Aktien steg omkring 4 procent i efterföljande handel.",
+   "tickers": [],
+   "added": "2026-11-19"
+  },
+  {
+   "key": "2026-11-18|target rapporterar",
+   "iso": "2026-11-18",
+   "d": "18 nov",
+   "t": "Target rapporterar.",
+   "s": "Target redovisade enligt Chartmills sammanställning av rapporten en omsättning som missade analytikernas förväntningar, men en vinst per aktie som slog dem. Aktien steg omkring 4 procent i efterföljande handel.",
+   "tickers": [],
+   "added": "2026-11-19"
   }
  ]
 }

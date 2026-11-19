@@ -1,16 +1,6 @@
 {
  "events": [
   {
-   "iso": "2026-11-04",
-   "d": "4 nov",
-   "t": "Riksbankens räntebesked.",
-   "tickers": [
-    "NDA-SE",
-    "SHB-A",
-    "SWED-A"
-   ]
-  },
-  {
    "iso": "2026-11-05",
    "d": "5 nov",
    "t": "Rapporter från Skanska och Sinch.",
@@ -239,6 +229,12 @@
    "tickers": []
   },
   {
+   "iso": "2026-11-24",
+   "d": "24 nov",
+   "t": "Best Buy rapporterar kvartalssiffror.",
+   "tickers": []
+  },
+  {
    "iso": "2026-11-25",
    "d": "25 nov",
    "t": "Equinor betalar ut sin utdelning.",
@@ -261,6 +257,12 @@
    "tickers": [
     "SAND"
    ]
+  },
+  {
+   "iso": "2026-11-26",
+   "d": "26 nov",
+   "t": "Sista dag med rätt till SKF Vertevo-aktier.",
+   "tickers": []
   },
   {
    "iso": "2026-11-27",
@@ -291,6 +293,14 @@
    ]
   },
   {
+   "iso": "2026-11-27",
+   "d": "27 nov",
+   "t": "Tyska förbundsdagen röstar om en föreslagen extraskatt på vapentillverkare.",
+   "tickers": [
+    "RHM"
+   ]
+  },
+  {
    "iso": "2026-11-29",
    "d": "29 nov",
    "t": "OPEC+-gruppens fullständiga ministermöte.",
@@ -315,6 +325,14 @@
    ]
   },
   {
+   "iso": "2026-12-01",
+   "d": "1 dec",
+   "t": "Marvell väntas rapportera sitt kvartal.",
+   "tickers": [
+    "MRVL"
+   ]
+  },
+  {
    "iso": "2026-12-04",
    "d": "4 dec",
    "t": "USA:s nya tilläggstull på polysilikon och solceller träder i kraft.",
@@ -322,6 +340,12 @@
     "ENPH",
     "FSLR"
    ]
+  },
+  {
+   "iso": "2026-12-04",
+   "d": "4 dec",
+   "t": "USA:s tilläggstull på polysilikon och solceller träder i kraft.",
+   "tickers": []
   },
   {
    "iso": "2026-12-09",
