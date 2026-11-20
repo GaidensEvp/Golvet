@@ -1,24 +1,6 @@
 {
  "events": [
   {
-   "iso": "2026-11-05",
-   "d": "5 nov",
-   "t": "Rapporter från Skanska och Sinch.",
-   "tickers": []
-  },
-  {
-   "iso": "2026-11-05",
-   "d": "5 nov",
-   "t": "Sinch rapporterar niomånaders.",
-   "tickers": []
-  },
-  {
-   "iso": "2026-11-05",
-   "d": "5 nov",
-   "t": "Sinchs niomånadersrapport.",
-   "tickers": []
-  },
-  {
    "iso": "2026-11-06",
    "d": "6 nov",
    "t": "Amerikansk arbetsmarknadsrapport för oktober.",
@@ -235,6 +217,12 @@
    "tickers": []
   },
   {
+   "iso": "2026-11-24",
+   "d": "24 nov",
+   "t": "Best Buy rapporterar sitt tredje kvartal.",
+   "tickers": []
+  },
+  {
    "iso": "2026-11-25",
    "d": "25 nov",
    "t": "Equinor betalar ut sin utdelning.",
@@ -306,6 +294,14 @@
    "t": "OPEC+-gruppens fullständiga ministermöte.",
    "tickers": [
     "BP"
+   ]
+  },
+  {
+   "iso": "2026-11-30",
+   "d": "30 nov",
+   "t": "MSCI utesluter Strategy ur sina globala index.",
+   "tickers": [
+    "MSTR"
    ]
   },
   {

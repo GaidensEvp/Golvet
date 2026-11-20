@@ -203,6 +203,60 @@
    "s": "Target redovisade enligt Chartmills sammanställning av rapporten en omsättning som missade analytikernas förväntningar, men en vinst per aktie som slog dem. Aktien steg omkring 4 procent i efterföljande handel.",
    "tickers": [],
    "added": "2026-11-19"
+  },
+  {
+   "key": "2026-11-17|home depot rapporterar kvart",
+   "iso": "2026-11-17",
+   "d": "17 nov",
+   "t": "Home Depot rapporterar kvartalssiffror.",
+   "s": "Home Depot slog förväntningarna på omsättning och jämförbar försäljning (+4,9 respektive +2,2 procent) men snävade in vinstprognosen för helåret något, enligt bolagets rapport 17 november. Samtidigt meddelades att cfo Richard McPhail tar över som vd den 23 november efter Ted Decker.",
+   "tickers": [],
+   "added": "2026-11-20"
+  },
+  {
+   "key": "2026-11-18|alfa lavals kapitalmarknadsd",
+   "iso": "2026-11-18",
+   "d": "18 nov",
+   "t": "Alfa Lavals kapitalmarknadsdag, med fokus på bland annat datacenterrelaterade affärer.",
+   "s": "Alfa Laval bekräftade enligt uppgifter sitt mål om 100 miljarder kronor i årsomsättning till 2030 och fick ett upprepat köpråd av Handelsbanken efteråt. Inga nya förvärv eller affärer tillkännagavs på själva dagen, enligt tillgängliga källor.",
+   "tickers": [],
+   "added": "2026-11-20"
+  },
+  {
+   "key": "2026-11-19|yubico håller kapitalmarknad",
+   "iso": "2026-11-19",
+   "d": "19 nov",
+   "t": "Yubico håller kapitalmarknadsdag.",
+   "s": "Yubico sänkte sina långsiktiga finansiella mål till 15–20 procents årlig tillväxt och en ebit-marginal nära 20 procent till 2031, ner från tidigare mål. Aktien vände ned och stängde enligt uppgifter cirka 1,2 procent lägre samma dag.",
+   "tickers": [],
+   "added": "2026-11-20"
+  },
+  {
+   "key": "2026-11-19|target och walmart rapporter",
+   "iso": "2026-11-19",
+   "d": "18–19 nov",
+   "t": "Target och Walmart rapporterar kvartalssiffror.",
+   "s": "Target slog förväntningarna rejält — omsättningen steg 7,1 procent och aktien steg enligt CNBC omkring 7 procent på rapportdagen 18 november. Walmart slog också förväntningarna (omsättning 188,8 miljarder dollar) och höjde sin helårsguidning 19 november, men dagsrörelsen i aktien går inte att bekräfta.",
+   "tickers": [],
+   "added": "2026-11-20"
+  },
+  {
+   "key": "2026-11-19|walmart rapporterar kvartals",
+   "iso": "2026-11-19",
+   "d": "19 nov",
+   "t": "Walmart rapporterar kvartalsresultat under sin nya vd.",
+   "s": "Walmart slog förväntningarna med en omsättning på 188,8 miljarder dollar och höjde sin helårsguidning för tillväxt och vinst. Rapporten var den första stora kvartalsrapporten under vd John Furner, som tillträdde i februari 2026.",
+   "tickers": [],
+   "added": "2026-11-20"
+  },
+  {
+   "key": "2026-11-19|walmart rapporterar",
+   "iso": "2026-11-19",
+   "d": "19 nov",
+   "t": "Walmart rapporterar.",
+   "s": "Walmart redovisade ett starkt tredje kvartal 19 november, med omsättning och justerad vinst per aktie över analytikernas förväntningar, och höjde samtidigt sin prognos för helåret.",
+   "tickers": [],
+   "added": "2026-11-20"
   }
  ]
 }
