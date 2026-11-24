@@ -333,6 +333,15 @@
    ]
   },
   {
+   "iso": "2026-12-01",
+   "d": "1 dec",
+   "t": "SKF Vertevo noteras separat på Nasdaq Stockholm, och Marvell rapporterar tredje kvartalet.",
+   "tickers": [
+    "SKF-B",
+    "MRVL"
+   ]
+  },
+  {
    "iso": "2026-12-04",
    "d": "4 dec",
    "t": "USA:s nya tilläggstull på polysilikon och solceller träder i kraft.",
@@ -363,6 +372,12 @@
    "iso": "2026-12-09",
    "d": "8–9 dec",
    "t": "Fed lämnar sitt nästa räntebesked.",
+   "tickers": []
+  },
+  {
+   "iso": "2026-12-09",
+   "d": "9 dec",
+   "t": "Federal Reserve lämnar nästa räntebesked.",
    "tickers": []
   },
   {
