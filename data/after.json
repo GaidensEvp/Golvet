@@ -1,44 +1,6 @@
 {
  "items": [
   {
-   "key": "2026-11-10|tilltänkta fredssamtal om uk",
-   "iso": "2026-11-10",
-   "d": "10 nov (preliminärt)",
-   "t": "Tilltänkta fredssamtal om Ukraina i Abu Dhabi.",
-   "s": "Första samtalsdagen beskrevs av Ukrainas president Volodymyr Zelenskyj som konstruktiv och substantiell, med fokus på humanitära frågor och säkerhetsgarantier snarare än ett slutgiltigt avtal, enligt Al Jazeera och NBC News 10 nov. Inget genombrott nåddes, och utfallet av en andra samtalsdag var fortsatt okänt vid skrivande stund.",
-   "tickers": [
-    "SAAB-B"
-   ],
-   "added": "2026-11-11"
-  },
-  {
-   "key": "2026-11-10|tullvapenvilan mellan usa oc",
-   "iso": "2026-11-10",
-   "d": "10 nov",
-   "t": "Tullvapenvilan mellan USA och Kina samt Kinas pausade exportkontroller av sällsynta jordartsmetaller löper ut.",
-   "s": "Kina bekräftade den 10 november, enligt handelsministeriet MOFCOM och tulldirektoratet GACC (rapporterat av Shanghai Metals Market och TechTimes), att uppehållet i de skärpta exportkontrollerna för sällsynta jordartsmetaller förlängs till 10 januari 2027, i linje med en motsvarande förlängning av den bredare tullvapenvilan med USA.",
-   "tickers": [],
-   "added": "2026-11-11"
-  },
-  {
-   "key": "2026-11-10|tilltänkta ukraina samtal i ",
-   "iso": "2026-11-10",
-   "d": "10 nov (preliminärt)",
-   "t": "Tilltänkta Ukraina-samtal i Abu Dhabi.",
-   "s": "Enligt Al Jazeera och NBC News (10 nov) beskrevs första samtalsdagen i Abu Dhabi som konstruktiv av Ukrainas president Zelenskyj, utan att något genombrott nåddes. Utfallet av en andra samtalsdag var fortsatt okänt vid skrivande stund.",
-   "tickers": [],
-   "added": "2026-11-11"
-  },
-  {
-   "key": "2026-11-10|k8",
-   "iso": "2026-11-10",
-   "d": "10 nov",
-   "t": "Amerikanskt KPI för oktober publiceras, och Kinas paus för sällsynta jordartsmetaller samt den amerikansk-kinesiska tullvapenvilan löper ut.",
-   "s": "USA:s konsumentprisindex för oktober kom in varmare än väntat, enligt CNBC och Axios 10 nov: kärn-KPI steg 0,3 procent för tredje månaden i rad, över väntade 0,2 procent, utan att en årstakt kunde publiceras på grund av saknad oktober 2025-data efter förra årets myndighetsstängning. Samma dag bekräftade Kina en förlängning av sin jordartspaus och den bredare tullvapenvilan till omkring 10 januari 2027.",
-   "tickers": [],
-   "added": "2026-11-11"
-  },
-  {
    "key": "2026-11-11|k3",
    "iso": "2026-11-11",
    "d": "11 nov",
@@ -194,6 +156,17 @@
    "s": "Target redovisade enligt Chartmills sammanställning av rapporten en omsättning som missade analytikernas förväntningar, men en vinst per aktie som slog dem. Aktien steg omkring 4 procent i efterföljande handel.",
    "tickers": [],
    "added": "2026-11-19"
+  },
+  {
+   "key": "2026-11-23|bolidens extra bolagsstämma ",
+   "iso": "2026-11-23",
+   "d": "23 nov",
+   "t": "Bolidens extra bolagsstämma om Nexa Resources-förvärvet.",
+   "s": "Stämman godkände enligt PR Newswire och TipRanks (23/11) styrelsens bemyndigande att emittera cirka 21,4 miljoner nya aktier som vederlag till Votorantim, samt en styrelseplats för Votorantims kandidat. Affären kräver fortsatt regulatoriska godkännanden och väntas slutföras under första kvartalet 2027.",
+   "tickers": [
+    "BOL"
+   ],
+   "added": "2026-11-25"
   }
  ]
 }
