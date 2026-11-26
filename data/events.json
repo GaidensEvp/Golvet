@@ -1,24 +1,6 @@
 {
  "events": [
   {
-   "iso": "2026-11-11",
-   "d": "11 nov",
-   "t": "Riksbankens räntehöjning till 2,00 procent träder i kraft.",
-   "tickers": [
-    "NDA-SE",
-    "SHB-A",
-    "SWED-A"
-   ]
-  },
-  {
-   "iso": "2026-11-11",
-   "d": "10–11 nov",
-   "t": "Trilaterala säkerhetssamtal om Ukraina inleds i Abu Dhabi mellan USA, Ukraina och Ryssland.",
-   "tickers": [
-    "SAAB-B"
-   ]
-  },
-  {
    "iso": "2026-11-12",
    "d": "12 nov",
    "t": "Sista dag för Sveriges budgetproposition för 2027 om ingen ny regering tillträtt.",
@@ -264,6 +246,14 @@
    "t": "Tyska förbundsdagen röstar om en föreslagen extraskatt på vapentillverkare.",
    "tickers": [
     "RHM"
+   ]
+  },
+  {
+   "iso": "2026-11-27",
+   "d": "27 nov",
+   "t": "Avstämningsdag för SKF Vertevo, och fredagens förkortade amerikanska handelssession efter Thanksgiving.",
+   "tickers": [
+    "SKF-B"
    ]
   },
   {

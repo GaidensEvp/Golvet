@@ -1,27 +1,6 @@
 {
  "items": [
   {
-   "key": "2026-11-11|k3",
-   "iso": "2026-11-11",
-   "d": "11 nov",
-   "t": "Riksbankens räntehöjning till 2,00 procent träder i kraft.",
-   "s": "Riksbanken höjde styrräntan med 0,25 procentenheter till 2,00 procent, enligt Riksbankens egen notis. Banken motiverar höjningen med starkare konjunktur och väntade kostnadsökningar, och flaggar för fler höjningar under det kommande året om trycket håller i sig. Reaktionen bland bankerna blev dock splittrad snarare än enhetlig dagen efter.",
-   "tickers": [
-    "NDA-SE",
-    "SHB-A"
-   ],
-   "added": "2026-11-12"
-  },
-  {
-   "key": "2026-11-11|trilaterala säkerhetssamtal ",
-   "iso": "2026-11-11",
-   "d": "10–11 nov",
-   "t": "Trilaterala säkerhetssamtal om Ukraina inleds i Abu Dhabi mellan USA, Ukraina och Ryssland.",
-   "s": "Samtalen pågick den 10–11 november och beskrevs av USA:s utrikesminister Rubio som \"mycket produktiva\", men utan konkret genombrott, enligt Reuters-rapportering. Ryssland avvisade en direkt vapenvila och ville hålla europeiska representanter utanför förhandlingarna.",
-   "tickers": [],
-   "added": "2026-11-13"
-  },
-  {
    "key": "2026-11-13|avstämningsdag för equinors ",
    "iso": "2026-11-13",
    "d": "13 nov",
@@ -167,6 +146,59 @@
     "BOL"
    ],
    "added": "2026-11-25"
+  },
+  {
+   "key": "2026-11-24|best buy rapporterar kvartal",
+   "iso": "2026-11-24",
+   "d": "24 nov",
+   "t": "Best Buy rapporterar kvartalssiffror.",
+   "s": "Best Buy slog förväntningarna rejält enligt CNBC 24 november: justerad vinst per aktie blev 1,62 dollar mot väntade 1,49, och omsättningen 10,24 miljarder dollar mot väntade 9,9 miljarder. Jämförbar försäljning steg 6,1 procent, den starkaste ökningen på fem år, och bolaget höjde sin helårsprognos.",
+   "tickers": [],
+   "added": "2026-11-26"
+  },
+  {
+   "key": "2026-11-25|equinor betalar ut sin utdel",
+   "iso": "2026-11-25",
+   "d": "25 nov",
+   "t": "Equinor betalar ut sin utdelning.",
+   "s": "Utdelningen om 0,39 dollar per aktie betalades ut som planerat den 25 november, enligt Equinors eget pressmeddelande. Inga avvikelser från tidigare besked.",
+   "tickers": [
+    "EQNR"
+   ],
+   "added": "2026-11-26"
+  },
+  {
+   "key": "2026-11-25|equinor betalar ut sin kvart",
+   "iso": "2026-11-25",
+   "d": "25 nov",
+   "t": "Equinor betalar ut sin kvartalsutdelning.",
+   "s": "Utdelningen om 0,39 dollar per aktie betalades ut som planerat den 25 november, enligt Equinors eget pressmeddelande. Inga avvikelser från tidigare besked.",
+   "tickers": [
+    "EQNR"
+   ],
+   "added": "2026-11-26"
+  },
+  {
+   "key": "2026-11-25|sandvik håller kapitalmarkna",
+   "iso": "2026-11-25",
+   "d": "24–25 nov",
+   "t": "Sandvik håller kapitalmarknadsdag i Tammerfors, Finland.",
+   "s": "Sandvik bekräftade sina befintliga finansiella mål för strategiperioden 2025–2030 vid mötet, utan nya mål. SB1 Markets hade höjt sin riktkurs till 450 kronor inför mötet, men aktien föll ändå i linje med den breda verkstadsnedgången.",
+   "tickers": [
+    "SAND"
+   ],
+   "added": "2026-11-26"
+  },
+  {
+   "key": "2026-11-25|sista dag för handel i skf m",
+   "iso": "2026-11-25",
+   "d": "25 nov",
+   "t": "Sista dag för handel i SKF med rätt till Vertevo-aktier.",
+   "s": "SKF handlades sista dagen med rätt till Vertevo-aktier den 25 november som planerat. Avstämningsdagen för Vertevo-aktierna fastställdes till 27 november inför noteringen på Nasdaq Stockholm 1 december.",
+   "tickers": [
+    "SKF-B"
+   ],
+   "added": "2026-11-26"
   }
  ]
 }
