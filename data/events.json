@@ -1,12 +1,6 @@
 {
  "events": [
   {
-   "iso": "2026-11-12",
-   "d": "12 nov",
-   "t": "Sista dag för Sveriges budgetproposition för 2027 om ingen ny regering tillträtt.",
-   "tickers": []
-  },
-  {
    "iso": "2026-11-13",
    "d": "13 nov",
    "t": "Avstämningsdag för Equinors utdelning i Oslo.",
@@ -322,6 +316,14 @@
    ]
   },
   {
+   "iso": "2026-12-03",
+   "d": "1-3 dec",
+   "t": "Nvidias tidigare vd väntas höras av den amerikanska kongressen.",
+   "tickers": [
+    "NVDA"
+   ]
+  },
+  {
    "iso": "2026-12-04",
    "d": "4 dec",
    "t": "USA:s nya tilläggstull på polysilikon och solceller träder i kraft.",
@@ -334,6 +336,12 @@
    "iso": "2026-12-04",
    "d": "4 dec",
    "t": "USA:s tilläggstull på polysilikon och solceller träder i kraft.",
+   "tickers": []
+  },
+  {
+   "iso": "2026-12-04",
+   "d": "4 dec",
+   "t": "USA:s arbetsmarknadsrapport för november publiceras.",
    "tickers": []
   },
   {
